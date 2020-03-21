@@ -5,7 +5,7 @@ toc: true
 badges: true
 comments: true
 categories: [tutorial]
-image: ![]({{site.baseurl}}/images/chart-preview.jpg)
+image: {{site.baseurl}}/images/chart-preview.jpg
 nb_path: _notebooks/2020-02-20-test.ipynb
 layout: notebook
 ---
