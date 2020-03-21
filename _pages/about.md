@@ -4,10 +4,6 @@ title: About Me
 permalink: /about/
 ---
 
-This is where you put the contents of your *About* page. Like all your pages, it's in [Markdown](https://guides.github.com/features/mastering-markdown/) format.
-
-This website is powered by **[fastpages](https://github.com/fastai/fastpages)** [^1].
-
-
-
-[^1]:a blogging platform that natively supports Jupyter notebooks in addition to other formats.
+I have been working as Data Scientist at MTI Technology Vietnam since 2018 and my journey in AI field started since 2017.   
+In here, I mainly work with OCR (optical charcter recognition) projects where we not only have to extract texts from documents
+but also classify it into some specific fields defined by clients.  
