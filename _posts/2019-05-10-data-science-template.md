@@ -5,7 +5,7 @@ comments: true
 layout: post
 image: images/explore-refactor_loop.png
 description: A workflow recommended for data science.
-categories: [tutorial]
+categories: [work]
 ---
 Repository of this workflow is stored [here](https://github.com/phucnsp/production_data_science_template)   
 

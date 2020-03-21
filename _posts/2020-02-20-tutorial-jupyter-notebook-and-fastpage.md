@@ -4,8 +4,8 @@ title: Tutorial jupyter notebooks and fastpage
 toc: true 
 badges: true
 comments: true
-categories: [jupyter]
-image: images/chart-preview.png
+categories: [tutorial]
+image: ![]({{site.baseurl}}/images/chart-preview.jpg)
 nb_path: _notebooks/2020-02-20-test.ipynb
 layout: notebook
 ---
