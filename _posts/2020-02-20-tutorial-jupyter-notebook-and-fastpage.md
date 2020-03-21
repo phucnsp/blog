@@ -1,7 +1,6 @@
 ---
-keywords: fastai
-description: A tutorial of fastpages for Jupyter notebooks.
-title: Tutorial of fastpages for jupyter notebooks
+description: A tutorial Jupyter notebook with fastpage
+title: Tutorial jupyter notebooks and fastpage
 toc: true 
 badges: true
 comments: true

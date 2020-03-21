@@ -1,11 +1,7 @@
 ---
-layout: post  
-title: Singapore, quan sát và suy ngẫm    
-categories: deep_thinking  
-
-
 title: "Singapore, quan sát và suy ngẫm"
 summary: "Bài viết này nói về cảm nhận của mình khi lần đầu được đi Singapore..."
+layout: post  
 toc: false
 comments: true
 image: images/singapore_trip/changi_waterfall.jpg

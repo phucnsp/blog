@@ -1,5 +1,5 @@
 ---
-title: Tutorial markdown with fastpage
+title: Tutorial markdown and fastpage
 toc: true
 comments: true
 image: images/diagram.png
