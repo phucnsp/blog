@@ -10,7 +10,7 @@ categories: [travel]
 <!-- metadata_key2: metadata_value2 -->
 ---
 
-Đợt tháng mười vừa rồi tôi có dịp đi dạo quanh anh hàng xóm Singapore. Cũng hơn hai năm rồi tôi mới có dịp đi ra khỏi Vietnam,
+Đợt tháng mười vừa rồi tôi có dịp đi dạo quanh anh hàng xóm Singapore. Cũng lâu rồi tôi mới có dịp đi ra khỏi Vietnam,
 tôi thích cái cảm giác được bay, được transit ở một sân bay nào đó, ngồi ngắm những người xa lạ rảo bước qua lại, cô đơn 
 nhưng thú vị. Singapore nổi tiếng bởi sự hiện đại, bởi những tòa nhà chọc trời, bởi Universal Studio...nhưng đối với tôi 
 thì những cái đó chả có ý nghĩa gì cả. Khi bạn đã từng ngồi cafe ở đại lộ danh vọng Hollywood, đã đi loanh quanh ở quảng 
