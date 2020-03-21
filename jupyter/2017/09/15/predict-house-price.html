@@ -1,0 +1,3501 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Predict house price in America | Phuc Ng. Su</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Predict house price in America" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Analyse and predict on house price dataset." />
+<meta property="og:description" content="Analyse and predict on house price dataset." />
+<link rel="canonical" href="https://phucnsp.github.io/blog/jupyter/2017/09/15/predict-house-price.html" />
+<meta property="og:url" content="https://phucnsp.github.io/blog/jupyter/2017/09/15/predict-house-price.html" />
+<meta property="og:site_name" content="Phuc Ng. Su" />
+<meta property="og:image" content="https://phucnsp.github.io/blog/images/chart-preview.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-09-15T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Analyse and predict on house price dataset.","@type":"BlogPosting","headline":"Predict house price in America","dateModified":"2017-09-15T00:00:00-05:00","datePublished":"2017-09-15T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/chart-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/jupyter/2017/09/15/predict-house-price.html"},"url":"https://phucnsp.github.io/blog/jupyter/2017/09/15/predict-house-price.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://phucnsp.github.io/blog/feed.xml" title="Phuc Ng. Su" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Predict house price in America | Phuc Ng. Su</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Predict house price in America" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Analyse and predict on house price dataset." />
+<meta property="og:description" content="Analyse and predict on house price dataset." />
+<link rel="canonical" href="https://phucnsp.github.io/blog/jupyter/2017/09/15/predict-house-price.html" />
+<meta property="og:url" content="https://phucnsp.github.io/blog/jupyter/2017/09/15/predict-house-price.html" />
+<meta property="og:site_name" content="Phuc Ng. Su" />
+<meta property="og:image" content="https://phucnsp.github.io/blog/images/chart-preview.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-09-15T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Analyse and predict on house price dataset.","@type":"BlogPosting","headline":"Predict house price in America","dateModified":"2017-09-15T00:00:00-05:00","datePublished":"2017-09-15T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/chart-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/jupyter/2017/09/15/predict-house-price.html"},"url":"https://phucnsp.github.io/blog/jupyter/2017/09/15/predict-house-price.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://phucnsp.github.io/blog/feed.xml" title="Phuc Ng. Su" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">Phuc Ng. Su</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Predict house price in America</h1><p class="page-description">Analyse and predict on house price dataset.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2017-09-15T00:00:00-05:00" itemprop="datePublished">
+        Sep 15, 2017
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      20 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#jupyter">jupyter</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/phucnsp/blog/tree/master/_notebooks/2017-09-15-predict-house-price.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/phucnsp/blog/master?filepath=_notebooks%2F2017-09-15-predict-house-price.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/phucnsp/blog/blob/master/_notebooks/2017-09-15-predict-house-price.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Introduction">Introduction </a></li>
+<li class="toc-entry toc-h1"><a href="#Feature-Engineering">Feature Engineering </a></li>
+<li class="toc-entry toc-h1"><a href="#Feature-Selection">Feature Selection </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2017-09-15-predict-house-price.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Introduction">
+<a class="anchor" href="#Introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction<a class="anchor-link" href="#Introduction"> </a>
+</h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_columns</span> <span class="o">=</span> <span class="mi">999</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"AmesHousing.tsv"</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_features</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="k">def</span> <span class="nf">select_features</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[[</span><span class="s2">"Gr Liv Area"</span><span class="p">,</span> <span class="s2">"SalePrice"</span><span class="p">]]</span>
+
+<span class="k">def</span> <span class="nf">train_and_test</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>  
+    <span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="mi">1460</span><span class="p">]</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="mi">1460</span><span class="p">:]</span>
+    
+    <span class="c1">## You can use `pd.DataFrame.select_dtypes()` to specify column types</span>
+    <span class="c1">## and return only those columns as a data frame.</span>
+    <span class="n">numeric_train</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'integer'</span><span class="p">,</span> <span class="s1">'float'</span><span class="p">])</span>
+    <span class="n">numeric_test</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'integer'</span><span class="p">,</span> <span class="s1">'float'</span><span class="p">])</span>
+    
+    <span class="c1">## You can use `pd.Series.drop()` to drop a value.</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">numeric_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"SalePrice"</span><span class="p">)</span>
+    <span class="n">lr</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">()</span>
+    <span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">features</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">])</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">features</span><span class="p">])</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">],</span> <span class="n">predictions</span><span class="p">)</span>
+    <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">rmse</span>
+
+<span class="n">transform_df</span> <span class="o">=</span> <span class="n">transform_features</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">filtered_df</span> <span class="o">=</span> <span class="n">select_features</span><span class="p">(</span><span class="n">transform_df</span><span class="p">)</span>
+<span class="n">rmse</span> <span class="o">=</span> <span class="n">train_and_test</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">)</span>
+
+<span class="n">rmse</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>57088.251612639091</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Feature-Engineering">
+<a class="anchor" href="#Feature-Engineering" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature Engineering<a class="anchor-link" href="#Feature-Engineering"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Handle missing values:<br>
+All columns:<br>
+Drop any with 5% or more missing values for now.<br>
+Text columns:<br>
+Drop any with 1 or more missing values for now.<br>
+Numerical columns:<br>
+For columns with missing values, fill in with the most common value in that column</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>1: All columns: Drop any with 5% or more missing values for now.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Series object: column name -&gt; number of missing values</span>
+<span class="n">num_missing</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Filter Series to columns containing &gt;5% missing values</span>
+<span class="n">drop_missing_cols</span> <span class="o">=</span> <span class="n">num_missing</span><span class="p">[(</span><span class="n">num_missing</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+
+<span class="c1"># Drop those columns from the data frame. Note the use of the .index accessor</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_missing_cols</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Series object: column name -&gt; number of missing values</span>
+<span class="n">text_mv_counts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'object'</span><span class="p">])</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1">## Filter Series to columns containing *any* missing values</span>
+<span class="n">drop_missing_cols_2</span> <span class="o">=</span> <span class="n">text_mv_counts</span><span class="p">[</span><span class="n">text_mv_counts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_missing_cols_2</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Compute column-wise missing value counts</span>
+<span class="n">num_missing</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'int'</span><span class="p">,</span> <span class="s1">'float'</span><span class="p">])</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">fixable_numeric_cols</span> <span class="o">=</span> <span class="n">num_missing</span><span class="p">[(</span><span class="n">num_missing</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">num_missing</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+<span class="n">fixable_numeric_cols</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>BsmtFin SF 1       1
+BsmtFin SF 2       1
+Bsmt Unf SF        1
+Total Bsmt SF      1
+Garage Cars        1
+Garage Area        1
+Bsmt Full Bath     2
+Bsmt Half Bath     2
+Mas Vnr Area      23
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Compute the most common value for each column in `fixable_nmeric_missing_cols`.</span>
+<span class="n">replacement_values_dict</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">fixable_numeric_cols</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">'records'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">replacement_values_dict</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{'Bsmt Full Bath': 0.0,
+ 'Bsmt Half Bath': 0.0,
+ 'Bsmt Unf SF': 0.0,
+ 'BsmtFin SF 1': 0.0,
+ 'BsmtFin SF 2': 0.0,
+ 'Garage Area': 0.0,
+ 'Garage Cars': 2.0,
+ 'Mas Vnr Area': 0.0,
+ 'Total Bsmt SF': 0.0}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Use `pd.DataFrame.fillna()` to replace missing values.</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">replacement_values_dict</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Verify that every column has 0 missing values</span>
+<span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0    64
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">years_sold</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Yr Sold'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Year Built'</span><span class="p">]</span>
+<span class="n">years_sold</span><span class="p">[</span><span class="n">years_sold</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2180   -1
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">years_since_remod</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Yr Sold'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Year Remod/Add'</span><span class="p">]</span>
+<span class="n">years_since_remod</span><span class="p">[</span><span class="n">years_since_remod</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1702   -1
+2180   -2
+2181   -1
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Create new columns</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'Years Before Sale'</span><span class="p">]</span> <span class="o">=</span> <span class="n">years_sold</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'Years Since Remod'</span><span class="p">]</span> <span class="o">=</span> <span class="n">years_since_remod</span>
+
+<span class="c1">## Drop rows with negative values for both of these new features</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="mi">1702</span><span class="p">,</span> <span class="mi">2180</span><span class="p">,</span> <span class="mi">2181</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1">## No longer need original year columns</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"Year Built"</span><span class="p">,</span> <span class="s2">"Year Remod/Add"</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Drop columns that:<br>
+a. that aren't useful for ML<br>
+b. leak data about the final sale</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Drop columns that aren't useful for ML</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"PID"</span><span class="p">,</span> <span class="s2">"Order"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">## Drop columns that leak info about the final sale</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"Mo Sold"</span><span class="p">,</span> <span class="s2">"Sale Condition"</span><span class="p">,</span> <span class="s2">"Sale Type"</span><span class="p">,</span> <span class="s2">"Yr Sold"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's update transform_features()</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_features</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">num_missing</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">drop_missing_cols</span> <span class="o">=</span> <span class="n">num_missing</span><span class="p">[(</span><span class="n">num_missing</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_missing_cols</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">text_mv_counts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'object'</span><span class="p">])</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">drop_missing_cols_2</span> <span class="o">=</span> <span class="n">text_mv_counts</span><span class="p">[</span><span class="n">text_mv_counts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_missing_cols_2</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">num_missing</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'int'</span><span class="p">,</span> <span class="s1">'float'</span><span class="p">])</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">fixable_numeric_cols</span> <span class="o">=</span> <span class="n">num_missing</span><span class="p">[(</span><span class="n">num_missing</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">num_missing</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+    <span class="n">replacement_values_dict</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">fixable_numeric_cols</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">'records'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">replacement_values_dict</span><span class="p">)</span>
+    
+    <span class="n">years_sold</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Yr Sold'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Year Built'</span><span class="p">]</span>
+    <span class="n">years_since_remod</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Yr Sold'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Year Remod/Add'</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'Years Before Sale'</span><span class="p">]</span> <span class="o">=</span> <span class="n">years_sold</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'Years Since Remod'</span><span class="p">]</span> <span class="o">=</span> <span class="n">years_since_remod</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="mi">1702</span><span class="p">,</span> <span class="mi">2180</span><span class="p">,</span> <span class="mi">2181</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"PID"</span><span class="p">,</span> <span class="s2">"Order"</span><span class="p">,</span> <span class="s2">"Mo Sold"</span><span class="p">,</span> <span class="s2">"Sale Condition"</span><span class="p">,</span> <span class="s2">"Sale Type"</span><span class="p">,</span> <span class="s2">"Year Built"</span><span class="p">,</span> <span class="s2">"Year Remod/Add"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="k">def</span> <span class="nf">select_features</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[[</span><span class="s2">"Gr Liv Area"</span><span class="p">,</span> <span class="s2">"SalePrice"</span><span class="p">]]</span>
+
+<span class="k">def</span> <span class="nf">train_and_test</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>  
+    <span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="mi">1460</span><span class="p">]</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="mi">1460</span><span class="p">:]</span>
+    
+    <span class="c1">## You can use `pd.DataFrame.select_dtypes()` to specify column types</span>
+    <span class="c1">## and return only those columns as a data frame.</span>
+    <span class="n">numeric_train</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'integer'</span><span class="p">,</span> <span class="s1">'float'</span><span class="p">])</span>
+    <span class="n">numeric_test</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'integer'</span><span class="p">,</span> <span class="s1">'float'</span><span class="p">])</span>
+    
+    <span class="c1">## You can use `pd.Series.drop()` to drop a value.</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">numeric_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"SalePrice"</span><span class="p">)</span>
+    <span class="n">lr</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">()</span>
+    <span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">features</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">])</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">features</span><span class="p">])</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">],</span> <span class="n">predictions</span><span class="p">)</span>
+    <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">rmse</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"AmesHousing.tsv"</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">transform_df</span> <span class="o">=</span> <span class="n">transform_features</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">filtered_df</span> <span class="o">=</span> <span class="n">select_features</span><span class="p">(</span><span class="n">transform_df</span><span class="p">)</span>
+<span class="n">rmse</span> <span class="o">=</span> <span class="n">train_and_test</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">)</span>
+
+<span class="n">rmse</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>55275.367312413066</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Feature-Selection">
+<a class="anchor" href="#Feature-Selection" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature Selection<a class="anchor-link" href="#Feature-Selection"> </a>
+</h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">numerical_df</span> <span class="o">=</span> <span class="n">transform_df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'int'</span><span class="p">,</span> <span class="s1">'float'</span><span class="p">])</span>
+<span class="n">numerical_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MS SubClass</th>
+      <th>Lot Area</th>
+      <th>Overall Qual</th>
+      <th>Overall Cond</th>
+      <th>Mas Vnr Area</th>
+      <th>BsmtFin SF 1</th>
+      <th>BsmtFin SF 2</th>
+      <th>Bsmt Unf SF</th>
+      <th>Total Bsmt SF</th>
+      <th>1st Flr SF</th>
+      <th>2nd Flr SF</th>
+      <th>Low Qual Fin SF</th>
+      <th>Gr Liv Area</th>
+      <th>Bsmt Full Bath</th>
+      <th>Bsmt Half Bath</th>
+      <th>Full Bath</th>
+      <th>Half Bath</th>
+      <th>Bedroom AbvGr</th>
+      <th>Kitchen AbvGr</th>
+      <th>TotRms AbvGrd</th>
+      <th>Fireplaces</th>
+      <th>Garage Cars</th>
+      <th>Garage Area</th>
+      <th>Wood Deck SF</th>
+      <th>Open Porch SF</th>
+      <th>Enclosed Porch</th>
+      <th>3Ssn Porch</th>
+      <th>Screen Porch</th>
+      <th>Pool Area</th>
+      <th>Misc Val</th>
+      <th>Yr Sold</th>
+      <th>SalePrice</th>
+      <th>Years Before Sale</th>
+      <th>Years Since Remod</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>20</td>
+      <td>31770</td>
+      <td>6</td>
+      <td>5</td>
+      <td>112.0</td>
+      <td>639.0</td>
+      <td>0.0</td>
+      <td>441.0</td>
+      <td>1080.0</td>
+      <td>1656</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1656</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>7</td>
+      <td>2</td>
+      <td>2.0</td>
+      <td>528.0</td>
+      <td>210</td>
+      <td>62</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>215000</td>
+      <td>50</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>20</td>
+      <td>11622</td>
+      <td>5</td>
+      <td>6</td>
+      <td>0.0</td>
+      <td>468.0</td>
+      <td>144.0</td>
+      <td>270.0</td>
+      <td>882.0</td>
+      <td>896</td>
+      <td>0</td>
+      <td>0</td>
+      <td>896</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>1.0</td>
+      <td>730.0</td>
+      <td>140</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>120</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>105000</td>
+      <td>49</td>
+      <td>49</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>20</td>
+      <td>14267</td>
+      <td>6</td>
+      <td>6</td>
+      <td>108.0</td>
+      <td>923.0</td>
+      <td>0.0</td>
+      <td>406.0</td>
+      <td>1329.0</td>
+      <td>1329</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1329</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>0</td>
+      <td>1.0</td>
+      <td>312.0</td>
+      <td>393</td>
+      <td>36</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>12500</td>
+      <td>2010</td>
+      <td>172000</td>
+      <td>52</td>
+      <td>52</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>20</td>
+      <td>11160</td>
+      <td>7</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>1065.0</td>
+      <td>0.0</td>
+      <td>1045.0</td>
+      <td>2110.0</td>
+      <td>2110</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2110</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>8</td>
+      <td>2</td>
+      <td>2.0</td>
+      <td>522.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>244000</td>
+      <td>42</td>
+      <td>42</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>60</td>
+      <td>13830</td>
+      <td>5</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>791.0</td>
+      <td>0.0</td>
+      <td>137.0</td>
+      <td>928.0</td>
+      <td>928</td>
+      <td>701</td>
+      <td>0</td>
+      <td>1629</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>482.0</td>
+      <td>212</td>
+      <td>34</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>189900</td>
+      <td>13</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>60</td>
+      <td>9978</td>
+      <td>6</td>
+      <td>6</td>
+      <td>20.0</td>
+      <td>602.0</td>
+      <td>0.0</td>
+      <td>324.0</td>
+      <td>926.0</td>
+      <td>926</td>
+      <td>678</td>
+      <td>0</td>
+      <td>1604</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>7</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>470.0</td>
+      <td>360</td>
+      <td>36</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>195500</td>
+      <td>12</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>120</td>
+      <td>4920</td>
+      <td>8</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>616.0</td>
+      <td>0.0</td>
+      <td>722.0</td>
+      <td>1338.0</td>
+      <td>1338</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1338</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>582.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>170</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>213500</td>
+      <td>9</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>120</td>
+      <td>5005</td>
+      <td>8</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>263.0</td>
+      <td>0.0</td>
+      <td>1017.0</td>
+      <td>1280.0</td>
+      <td>1280</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1280</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>506.0</td>
+      <td>0</td>
+      <td>82</td>
+      <td>0</td>
+      <td>0</td>
+      <td>144</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>191500</td>
+      <td>18</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>120</td>
+      <td>5389</td>
+      <td>8</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>1180.0</td>
+      <td>0.0</td>
+      <td>415.0</td>
+      <td>1595.0</td>
+      <td>1616</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1616</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>608.0</td>
+      <td>237</td>
+      <td>152</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>236500</td>
+      <td>15</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>60</td>
+      <td>7500</td>
+      <td>7</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>994.0</td>
+      <td>994.0</td>
+      <td>1028</td>
+      <td>776</td>
+      <td>0</td>
+      <td>1804</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>7</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>442.0</td>
+      <td>140</td>
+      <td>60</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>189000</td>
+      <td>11</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>60</td>
+      <td>10000</td>
+      <td>6</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>763.0</td>
+      <td>763.0</td>
+      <td>763</td>
+      <td>892</td>
+      <td>0</td>
+      <td>1655</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>7</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>440.0</td>
+      <td>157</td>
+      <td>84</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>175900</td>
+      <td>17</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>20</td>
+      <td>7980</td>
+      <td>6</td>
+      <td>7</td>
+      <td>0.0</td>
+      <td>935.0</td>
+      <td>0.0</td>
+      <td>233.0</td>
+      <td>1168.0</td>
+      <td>1187</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1187</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>420.0</td>
+      <td>483</td>
+      <td>21</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>500</td>
+      <td>2010</td>
+      <td>185000</td>
+      <td>18</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>60</td>
+      <td>8402</td>
+      <td>6</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>789.0</td>
+      <td>789.0</td>
+      <td>789</td>
+      <td>676</td>
+      <td>0</td>
+      <td>1465</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>7</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>393.0</td>
+      <td>0</td>
+      <td>75</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>180400</td>
+      <td>12</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>20</td>
+      <td>10176</td>
+      <td>7</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>637.0</td>
+      <td>0.0</td>
+      <td>663.0</td>
+      <td>1300.0</td>
+      <td>1341</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1341</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>506.0</td>
+      <td>192</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>171500</td>
+      <td>20</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>120</td>
+      <td>6820</td>
+      <td>8</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>368.0</td>
+      <td>1120.0</td>
+      <td>0.0</td>
+      <td>1488.0</td>
+      <td>1502</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1502</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>528.0</td>
+      <td>0</td>
+      <td>54</td>
+      <td>0</td>
+      <td>0</td>
+      <td>140</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>212000</td>
+      <td>25</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>60</td>
+      <td>53504</td>
+      <td>8</td>
+      <td>5</td>
+      <td>603.0</td>
+      <td>1416.0</td>
+      <td>0.0</td>
+      <td>234.0</td>
+      <td>1650.0</td>
+      <td>1690</td>
+      <td>1589</td>
+      <td>0</td>
+      <td>3279</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>12</td>
+      <td>1</td>
+      <td>3.0</td>
+      <td>841.0</td>
+      <td>503</td>
+      <td>36</td>
+      <td>0</td>
+      <td>0</td>
+      <td>210</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>538000</td>
+      <td>7</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>50</td>
+      <td>12134</td>
+      <td>8</td>
+      <td>7</td>
+      <td>0.0</td>
+      <td>427.0</td>
+      <td>0.0</td>
+      <td>132.0</td>
+      <td>559.0</td>
+      <td>1080</td>
+      <td>672</td>
+      <td>0</td>
+      <td>1752</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>8</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>492.0</td>
+      <td>325</td>
+      <td>12</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>164000</td>
+      <td>22</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>20</td>
+      <td>11394</td>
+      <td>9</td>
+      <td>2</td>
+      <td>350.0</td>
+      <td>1445.0</td>
+      <td>0.0</td>
+      <td>411.0</td>
+      <td>1856.0</td>
+      <td>1856</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1856</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>8</td>
+      <td>1</td>
+      <td>3.0</td>
+      <td>834.0</td>
+      <td>113</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>394432</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>20</td>
+      <td>19138</td>
+      <td>4</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>120.0</td>
+      <td>0.0</td>
+      <td>744.0</td>
+      <td>864.0</td>
+      <td>864</td>
+      <td>0</td>
+      <td>0</td>
+      <td>864</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>4</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>400.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>141000</td>
+      <td>59</td>
+      <td>59</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>20</td>
+      <td>13175</td>
+      <td>6</td>
+      <td>6</td>
+      <td>119.0</td>
+      <td>790.0</td>
+      <td>163.0</td>
+      <td>589.0</td>
+      <td>1542.0</td>
+      <td>2073</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2073</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>7</td>
+      <td>2</td>
+      <td>2.0</td>
+      <td>500.0</td>
+      <td>349</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>210000</td>
+      <td>32</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>20</td>
+      <td>11751</td>
+      <td>6</td>
+      <td>6</td>
+      <td>480.0</td>
+      <td>705.0</td>
+      <td>0.0</td>
+      <td>1139.0</td>
+      <td>1844.0</td>
+      <td>1844</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1844</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>7</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>546.0</td>
+      <td>0</td>
+      <td>122</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>190000</td>
+      <td>33</td>
+      <td>33</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>85</td>
+      <td>10625</td>
+      <td>7</td>
+      <td>6</td>
+      <td>81.0</td>
+      <td>885.0</td>
+      <td>168.0</td>
+      <td>0.0</td>
+      <td>1053.0</td>
+      <td>1173</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1173</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>2</td>
+      <td>2.0</td>
+      <td>528.0</td>
+      <td>0</td>
+      <td>120</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>170000</td>
+      <td>36</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>60</td>
+      <td>7500</td>
+      <td>7</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>533.0</td>
+      <td>0.0</td>
+      <td>281.0</td>
+      <td>814.0</td>
+      <td>814</td>
+      <td>860</td>
+      <td>0</td>
+      <td>1674</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>7</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>663.0</td>
+      <td>0</td>
+      <td>96</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>216000</td>
+      <td>10</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>20</td>
+      <td>11241</td>
+      <td>6</td>
+      <td>7</td>
+      <td>180.0</td>
+      <td>578.0</td>
+      <td>0.0</td>
+      <td>426.0</td>
+      <td>1004.0</td>
+      <td>1004</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1004</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>480.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>700</td>
+      <td>2010</td>
+      <td>149000</td>
+      <td>40</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>20</td>
+      <td>12537</td>
+      <td>5</td>
+      <td>6</td>
+      <td>0.0</td>
+      <td>734.0</td>
+      <td>0.0</td>
+      <td>344.0</td>
+      <td>1078.0</td>
+      <td>1078</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1078</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>500.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>149900</td>
+      <td>39</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>20</td>
+      <td>8450</td>
+      <td>5</td>
+      <td>6</td>
+      <td>0.0</td>
+      <td>775.0</td>
+      <td>0.0</td>
+      <td>281.0</td>
+      <td>1056.0</td>
+      <td>1056</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1056</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>304.0</td>
+      <td>0</td>
+      <td>85</td>
+      <td>184</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>142000</td>
+      <td>42</td>
+      <td>42</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>20</td>
+      <td>8400</td>
+      <td>4</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>804.0</td>
+      <td>78.0</td>
+      <td>0.0</td>
+      <td>882.0</td>
+      <td>882</td>
+      <td>0</td>
+      <td>0</td>
+      <td>882</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>4</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>525.0</td>
+      <td>240</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>126000</td>
+      <td>40</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>20</td>
+      <td>10500</td>
+      <td>4</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>432.0</td>
+      <td>0.0</td>
+      <td>432.0</td>
+      <td>864.0</td>
+      <td>864</td>
+      <td>0</td>
+      <td>0</td>
+      <td>864</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>115000</td>
+      <td>39</td>
+      <td>39</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>120</td>
+      <td>5858</td>
+      <td>7</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>1051.0</td>
+      <td>0.0</td>
+      <td>354.0</td>
+      <td>1405.0</td>
+      <td>1337</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1337</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>511.0</td>
+      <td>203</td>
+      <td>68</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>184000</td>
+      <td>11</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>160</td>
+      <td>1680</td>
+      <td>6</td>
+      <td>5</td>
+      <td>504.0</td>
+      <td>156.0</td>
+      <td>0.0</td>
+      <td>327.0</td>
+      <td>483.0</td>
+      <td>483</td>
+      <td>504</td>
+      <td>0</td>
+      <td>987</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>1.0</td>
+      <td>264.0</td>
+      <td>275</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2010</td>
+      <td>96000</td>
+      <td>39</td>
+      <td>39</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2900</th>
+      <td>20</td>
+      <td>13618</td>
+      <td>8</td>
+      <td>5</td>
+      <td>198.0</td>
+      <td>1350.0</td>
+      <td>0.0</td>
+      <td>378.0</td>
+      <td>1728.0</td>
+      <td>1960</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1960</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>8</td>
+      <td>2</td>
+      <td>3.0</td>
+      <td>714.0</td>
+      <td>172</td>
+      <td>38</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>320000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2901</th>
+      <td>20</td>
+      <td>11443</td>
+      <td>8</td>
+      <td>5</td>
+      <td>208.0</td>
+      <td>1460.0</td>
+      <td>0.0</td>
+      <td>408.0</td>
+      <td>1868.0</td>
+      <td>2028</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2028</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>7</td>
+      <td>2</td>
+      <td>3.0</td>
+      <td>880.0</td>
+      <td>326</td>
+      <td>66</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>369900</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2902</th>
+      <td>20</td>
+      <td>11577</td>
+      <td>9</td>
+      <td>5</td>
+      <td>382.0</td>
+      <td>1455.0</td>
+      <td>0.0</td>
+      <td>383.0</td>
+      <td>1838.0</td>
+      <td>1838</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1838</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>9</td>
+      <td>1</td>
+      <td>3.0</td>
+      <td>682.0</td>
+      <td>161</td>
+      <td>225</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>359900</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2903</th>
+      <td>20</td>
+      <td>31250</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1600</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1600</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>0</td>
+      <td>1.0</td>
+      <td>270.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>135</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>81500</td>
+      <td>55</td>
+      <td>55</td>
+    </tr>
+    <tr>
+      <th>2904</th>
+      <td>90</td>
+      <td>7020</td>
+      <td>7</td>
+      <td>5</td>
+      <td>200.0</td>
+      <td>1243.0</td>
+      <td>0.0</td>
+      <td>45.0</td>
+      <td>1288.0</td>
+      <td>1368</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1368</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>8</td>
+      <td>0</td>
+      <td>4.0</td>
+      <td>784.0</td>
+      <td>0</td>
+      <td>48</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>215000</td>
+      <td>9</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2905</th>
+      <td>120</td>
+      <td>4500</td>
+      <td>6</td>
+      <td>5</td>
+      <td>116.0</td>
+      <td>897.0</td>
+      <td>0.0</td>
+      <td>319.0</td>
+      <td>1216.0</td>
+      <td>1216</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1216</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>402.0</td>
+      <td>0</td>
+      <td>125</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>164000</td>
+      <td>8</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2906</th>
+      <td>120</td>
+      <td>4500</td>
+      <td>6</td>
+      <td>5</td>
+      <td>443.0</td>
+      <td>1201.0</td>
+      <td>0.0</td>
+      <td>36.0</td>
+      <td>1237.0</td>
+      <td>1337</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1337</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>405.0</td>
+      <td>0</td>
+      <td>199</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>153500</td>
+      <td>8</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2907</th>
+      <td>20</td>
+      <td>17217</td>
+      <td>5</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1140.0</td>
+      <td>1140.0</td>
+      <td>1140</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1140</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>36</td>
+      <td>56</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>84500</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2908</th>
+      <td>160</td>
+      <td>2665</td>
+      <td>5</td>
+      <td>6</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>264.0</td>
+      <td>264.0</td>
+      <td>616</td>
+      <td>688</td>
+      <td>0</td>
+      <td>1304</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>5</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>336.0</td>
+      <td>141</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>104500</td>
+      <td>29</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>2909</th>
+      <td>160</td>
+      <td>2665</td>
+      <td>5</td>
+      <td>6</td>
+      <td>0.0</td>
+      <td>548.0</td>
+      <td>173.0</td>
+      <td>36.0</td>
+      <td>757.0</td>
+      <td>925</td>
+      <td>550</td>
+      <td>0</td>
+      <td>1475</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>6</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>336.0</td>
+      <td>104</td>
+      <td>26</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>127000</td>
+      <td>29</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>2910</th>
+      <td>160</td>
+      <td>3964</td>
+      <td>6</td>
+      <td>4</td>
+      <td>0.0</td>
+      <td>837.0</td>
+      <td>0.0</td>
+      <td>105.0</td>
+      <td>942.0</td>
+      <td>1291</td>
+      <td>1230</td>
+      <td>0</td>
+      <td>2521</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>1</td>
+      <td>10</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>576.0</td>
+      <td>728</td>
+      <td>20</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>151400</td>
+      <td>33</td>
+      <td>33</td>
+    </tr>
+    <tr>
+      <th>2911</th>
+      <td>20</td>
+      <td>10172</td>
+      <td>5</td>
+      <td>7</td>
+      <td>0.0</td>
+      <td>441.0</td>
+      <td>0.0</td>
+      <td>423.0</td>
+      <td>864.0</td>
+      <td>874</td>
+      <td>0</td>
+      <td>0</td>
+      <td>874</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>1.0</td>
+      <td>288.0</td>
+      <td>0</td>
+      <td>120</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>126500</td>
+      <td>38</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2912</th>
+      <td>90</td>
+      <td>11836</td>
+      <td>5</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>149.0</td>
+      <td>0.0</td>
+      <td>1503.0</td>
+      <td>1652.0</td>
+      <td>1652</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1652</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+      <td>8</td>
+      <td>0</td>
+      <td>3.0</td>
+      <td>928.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>146500</td>
+      <td>36</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>2913</th>
+      <td>180</td>
+      <td>1470</td>
+      <td>4</td>
+      <td>6</td>
+      <td>0.0</td>
+      <td>522.0</td>
+      <td>0.0</td>
+      <td>108.0</td>
+      <td>630.0</td>
+      <td>630</td>
+      <td>0</td>
+      <td>0</td>
+      <td>630</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>73000</td>
+      <td>36</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>2914</th>
+      <td>160</td>
+      <td>1484</td>
+      <td>4</td>
+      <td>4</td>
+      <td>0.0</td>
+      <td>252.0</td>
+      <td>0.0</td>
+      <td>294.0</td>
+      <td>546.0</td>
+      <td>546</td>
+      <td>546</td>
+      <td>0</td>
+      <td>1092</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>1.0</td>
+      <td>253.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>79400</td>
+      <td>34</td>
+      <td>34</td>
+    </tr>
+    <tr>
+      <th>2915</th>
+      <td>20</td>
+      <td>13384</td>
+      <td>5</td>
+      <td>5</td>
+      <td>194.0</td>
+      <td>119.0</td>
+      <td>344.0</td>
+      <td>641.0</td>
+      <td>1104.0</td>
+      <td>1360</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1360</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>8</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>336.0</td>
+      <td>160</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>140000</td>
+      <td>37</td>
+      <td>27</td>
+    </tr>
+    <tr>
+      <th>2916</th>
+      <td>180</td>
+      <td>1533</td>
+      <td>5</td>
+      <td>7</td>
+      <td>0.0</td>
+      <td>553.0</td>
+      <td>0.0</td>
+      <td>77.0</td>
+      <td>630.0</td>
+      <td>630</td>
+      <td>0</td>
+      <td>0</td>
+      <td>630</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>92000</td>
+      <td>36</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>2917</th>
+      <td>160</td>
+      <td>1533</td>
+      <td>4</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>408.0</td>
+      <td>0.0</td>
+      <td>138.0</td>
+      <td>546.0</td>
+      <td>546</td>
+      <td>546</td>
+      <td>0</td>
+      <td>1092</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>1.0</td>
+      <td>286.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>87550</td>
+      <td>36</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>2918</th>
+      <td>160</td>
+      <td>1526</td>
+      <td>4</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>546.0</td>
+      <td>546.0</td>
+      <td>546</td>
+      <td>546</td>
+      <td>0</td>
+      <td>1092</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>34</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>79500</td>
+      <td>36</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>2919</th>
+      <td>160</td>
+      <td>1936</td>
+      <td>4</td>
+      <td>7</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>546.0</td>
+      <td>546.0</td>
+      <td>546</td>
+      <td>546</td>
+      <td>0</td>
+      <td>1092</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>90500</td>
+      <td>36</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>2920</th>
+      <td>160</td>
+      <td>1894</td>
+      <td>4</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>252.0</td>
+      <td>0.0</td>
+      <td>294.0</td>
+      <td>546.0</td>
+      <td>546</td>
+      <td>546</td>
+      <td>0</td>
+      <td>1092</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>0</td>
+      <td>1.0</td>
+      <td>286.0</td>
+      <td>0</td>
+      <td>24</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>71000</td>
+      <td>36</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>2921</th>
+      <td>90</td>
+      <td>12640</td>
+      <td>6</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>936.0</td>
+      <td>396.0</td>
+      <td>396.0</td>
+      <td>1728.0</td>
+      <td>1728</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1728</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+      <td>8</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>574.0</td>
+      <td>40</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>150900</td>
+      <td>30</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>2922</th>
+      <td>90</td>
+      <td>9297</td>
+      <td>5</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>1606.0</td>
+      <td>0.0</td>
+      <td>122.0</td>
+      <td>1728.0</td>
+      <td>1728</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1728</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+      <td>8</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>560.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>188000</td>
+      <td>30</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>2923</th>
+      <td>20</td>
+      <td>17400</td>
+      <td>5</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>936.0</td>
+      <td>0.0</td>
+      <td>190.0</td>
+      <td>1126.0</td>
+      <td>1126</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1126</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>5</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>484.0</td>
+      <td>295</td>
+      <td>41</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>160000</td>
+      <td>29</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>2924</th>
+      <td>20</td>
+      <td>20000</td>
+      <td>5</td>
+      <td>7</td>
+      <td>0.0</td>
+      <td>1224.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1224.0</td>
+      <td>1224</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1224</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>7</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>576.0</td>
+      <td>474</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>131000</td>
+      <td>46</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>2925</th>
+      <td>80</td>
+      <td>7937</td>
+      <td>6</td>
+      <td>6</td>
+      <td>0.0</td>
+      <td>819.0</td>
+      <td>0.0</td>
+      <td>184.0</td>
+      <td>1003.0</td>
+      <td>1003</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1003</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>588.0</td>
+      <td>120</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>142500</td>
+      <td>22</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>2926</th>
+      <td>20</td>
+      <td>8885</td>
+      <td>5</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>301.0</td>
+      <td>324.0</td>
+      <td>239.0</td>
+      <td>864.0</td>
+      <td>902</td>
+      <td>0</td>
+      <td>0</td>
+      <td>902</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>2.0</td>
+      <td>484.0</td>
+      <td>164</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>131000</td>
+      <td>23</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>2927</th>
+      <td>85</td>
+      <td>10441</td>
+      <td>5</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>337.0</td>
+      <td>0.0</td>
+      <td>575.0</td>
+      <td>912.0</td>
+      <td>970</td>
+      <td>0</td>
+      <td>0</td>
+      <td>970</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>80</td>
+      <td>32</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>700</td>
+      <td>2006</td>
+      <td>132000</td>
+      <td>14</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>2928</th>
+      <td>20</td>
+      <td>10010</td>
+      <td>5</td>
+      <td>5</td>
+      <td>0.0</td>
+      <td>1071.0</td>
+      <td>123.0</td>
+      <td>195.0</td>
+      <td>1389.0</td>
+      <td>1389</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1389</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>6</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>418.0</td>
+      <td>240</td>
+      <td>38</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>170000</td>
+      <td>32</td>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>2929</th>
+      <td>60</td>
+      <td>9627</td>
+      <td>7</td>
+      <td>5</td>
+      <td>94.0</td>
+      <td>758.0</td>
+      <td>0.0</td>
+      <td>238.0</td>
+      <td>996.0</td>
+      <td>996</td>
+      <td>1004</td>
+      <td>0</td>
+      <td>2000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>9</td>
+      <td>1</td>
+      <td>3.0</td>
+      <td>650.0</td>
+      <td>190</td>
+      <td>48</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2006</td>
+      <td>188000</td>
+      <td>13</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
+<p>2927 rows × 34 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abs_corr_coeffs</span> <span class="o">=</span> <span class="n">numerical_df</span><span class="o">.</span><span class="n">corr</span><span class="p">()[</span><span class="s1">'SalePrice'</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+<span class="n">abs_corr_coeffs</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>BsmtFin SF 2         0.006127
+Misc Val             0.019273
+Yr Sold              0.030358
+3Ssn Porch           0.032268
+Bsmt Half Bath       0.035875
+Low Qual Fin SF      0.037629
+Pool Area            0.068438
+MS SubClass          0.085128
+Overall Cond         0.101540
+Screen Porch         0.112280
+Kitchen AbvGr        0.119760
+Enclosed Porch       0.128685
+Bedroom AbvGr        0.143916
+Bsmt Unf SF          0.182751
+Lot Area             0.267520
+2nd Flr SF           0.269601
+Bsmt Full Bath       0.276258
+Half Bath            0.284871
+Open Porch SF        0.316262
+Wood Deck SF         0.328183
+BsmtFin SF 1         0.439284
+Fireplaces           0.474831
+TotRms AbvGrd        0.498574
+Mas Vnr Area         0.506983
+Years Since Remod    0.534985
+Full Bath            0.546118
+Years Before Sale    0.558979
+1st Flr SF           0.635185
+Garage Area          0.641425
+Total Bsmt SF        0.644012
+Garage Cars          0.648361
+Gr Liv Area          0.717596
+Overall Qual         0.801206
+SalePrice            1.000000
+Name: SalePrice, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Let's only keep columns with a correlation coefficient of larger than 0.4 (arbitrary, worth experimenting later!)</span>
+<span class="n">abs_corr_coeffs</span><span class="p">[</span><span class="n">abs_corr_coeffs</span> <span class="o">&gt;</span> <span class="mf">0.4</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>BsmtFin SF 1         0.439284
+Fireplaces           0.474831
+TotRms AbvGrd        0.498574
+Mas Vnr Area         0.506983
+Years Since Remod    0.534985
+Full Bath            0.546118
+Years Before Sale    0.558979
+1st Flr SF           0.635185
+Garage Area          0.641425
+Total Bsmt SF        0.644012
+Garage Cars          0.648361
+Gr Liv Area          0.717596
+Overall Qual         0.801206
+SalePrice            1.000000
+Name: SalePrice, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Drop columns with less than 0.4 correlation with SalePrice</span>
+<span class="n">transform_df</span> <span class="o">=</span> <span class="n">transform_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">abs_corr_coeffs</span><span class="p">[</span><span class="n">abs_corr_coeffs</span> <span class="o">&lt;</span> <span class="mf">0.4</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Which categorical columns should we keep?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Create a list of column names from documentation that are *meant* to be categorical</span>
+<span class="n">nominal_features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"PID"</span><span class="p">,</span> <span class="s2">"MS SubClass"</span><span class="p">,</span> <span class="s2">"MS Zoning"</span><span class="p">,</span> <span class="s2">"Street"</span><span class="p">,</span> <span class="s2">"Alley"</span><span class="p">,</span> <span class="s2">"Land Contour"</span><span class="p">,</span> <span class="s2">"Lot Config"</span><span class="p">,</span> <span class="s2">"Neighborhood"</span><span class="p">,</span> 
+                    <span class="s2">"Condition 1"</span><span class="p">,</span> <span class="s2">"Condition 2"</span><span class="p">,</span> <span class="s2">"Bldg Type"</span><span class="p">,</span> <span class="s2">"House Style"</span><span class="p">,</span> <span class="s2">"Roof Style"</span><span class="p">,</span> <span class="s2">"Roof Matl"</span><span class="p">,</span> <span class="s2">"Exterior 1st"</span><span class="p">,</span> 
+                    <span class="s2">"Exterior 2nd"</span><span class="p">,</span> <span class="s2">"Mas Vnr Type"</span><span class="p">,</span> <span class="s2">"Foundation"</span><span class="p">,</span> <span class="s2">"Heating"</span><span class="p">,</span> <span class="s2">"Central Air"</span><span class="p">,</span> <span class="s2">"Garage Type"</span><span class="p">,</span> 
+                    <span class="s2">"Misc Feature"</span><span class="p">,</span> <span class="s2">"Sale Type"</span><span class="p">,</span> <span class="s2">"Sale Condition"</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Which columns are currently numerical but need to be encoded as categorical instead (because the numbers don't have any semantic meaning)?<br>
+If a categorical column has hundreds of unique values (or categories), should we keep it? When we dummy code this column, hundreds of columns will need to be added back to the data frame.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Which categorical columns have we still carried with us? We'll test tehse </span>
+<span class="n">transform_cat_cols</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">nominal_features</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">transform_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">transform_cat_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+
+<span class="c1">## How many unique values in each categorical column?</span>
+<span class="n">uniqueness_counts</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">[</span><span class="n">transform_cat_cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">col</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()))</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+<span class="c1">## Aribtrary cutoff of 10 unique values (worth experimenting)</span>
+<span class="n">drop_nonuniq_cols</span> <span class="o">=</span> <span class="n">uniqueness_counts</span><span class="p">[</span><span class="n">uniqueness_counts</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">transform_df</span> <span class="o">=</span> <span class="n">transform_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_nonuniq_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Select just the remaining text columns and convert to categorical</span>
+<span class="n">text_cols</span> <span class="o">=</span> <span class="n">transform_df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'object'</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">text_cols</span><span class="p">:</span>
+    <span class="n">transform_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+    
+<span class="c1">## Create dummy columns and add back to the dataframe!</span>
+<span class="n">transform_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+    <span class="n">transform_df</span><span class="p">,</span> 
+    <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">transform_df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'category'</span><span class="p">]))</span>
+<span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Update select_features()</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_features</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">num_missing</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">drop_missing_cols</span> <span class="o">=</span> <span class="n">num_missing</span><span class="p">[(</span><span class="n">num_missing</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_missing_cols</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">text_mv_counts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'object'</span><span class="p">])</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">drop_missing_cols_2</span> <span class="o">=</span> <span class="n">text_mv_counts</span><span class="p">[</span><span class="n">text_mv_counts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_missing_cols_2</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">num_missing</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'int'</span><span class="p">,</span> <span class="s1">'float'</span><span class="p">])</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">fixable_numeric_cols</span> <span class="o">=</span> <span class="n">num_missing</span><span class="p">[(</span><span class="n">num_missing</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">num_missing</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+    <span class="n">replacement_values_dict</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">fixable_numeric_cols</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">'records'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">replacement_values_dict</span><span class="p">)</span>
+    
+    <span class="n">years_sold</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Yr Sold'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Year Built'</span><span class="p">]</span>
+    <span class="n">years_since_remod</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Yr Sold'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Year Remod/Add'</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'Years Before Sale'</span><span class="p">]</span> <span class="o">=</span> <span class="n">years_sold</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'Years Since Remod'</span><span class="p">]</span> <span class="o">=</span> <span class="n">years_since_remod</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="mi">1702</span><span class="p">,</span> <span class="mi">2180</span><span class="p">,</span> <span class="mi">2181</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"PID"</span><span class="p">,</span> <span class="s2">"Order"</span><span class="p">,</span> <span class="s2">"Mo Sold"</span><span class="p">,</span> <span class="s2">"Sale Condition"</span><span class="p">,</span> <span class="s2">"Sale Type"</span><span class="p">,</span> <span class="s2">"Year Built"</span><span class="p">,</span> <span class="s2">"Year Remod/Add"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="k">def</span> <span class="nf">select_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">coeff_threshold</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">uniq_threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">numerical_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'int'</span><span class="p">,</span> <span class="s1">'float'</span><span class="p">])</span>
+    <span class="n">abs_corr_coeffs</span> <span class="o">=</span> <span class="n">numerical_df</span><span class="o">.</span><span class="n">corr</span><span class="p">()[</span><span class="s1">'SalePrice'</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">abs_corr_coeffs</span><span class="p">[</span><span class="n">abs_corr_coeffs</span> <span class="o">&lt;</span> <span class="n">coeff_threshold</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">nominal_features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"PID"</span><span class="p">,</span> <span class="s2">"MS SubClass"</span><span class="p">,</span> <span class="s2">"MS Zoning"</span><span class="p">,</span> <span class="s2">"Street"</span><span class="p">,</span> <span class="s2">"Alley"</span><span class="p">,</span> <span class="s2">"Land Contour"</span><span class="p">,</span> <span class="s2">"Lot Config"</span><span class="p">,</span> <span class="s2">"Neighborhood"</span><span class="p">,</span> 
+                    <span class="s2">"Condition 1"</span><span class="p">,</span> <span class="s2">"Condition 2"</span><span class="p">,</span> <span class="s2">"Bldg Type"</span><span class="p">,</span> <span class="s2">"House Style"</span><span class="p">,</span> <span class="s2">"Roof Style"</span><span class="p">,</span> <span class="s2">"Roof Matl"</span><span class="p">,</span> <span class="s2">"Exterior 1st"</span><span class="p">,</span> 
+                    <span class="s2">"Exterior 2nd"</span><span class="p">,</span> <span class="s2">"Mas Vnr Type"</span><span class="p">,</span> <span class="s2">"Foundation"</span><span class="p">,</span> <span class="s2">"Heating"</span><span class="p">,</span> <span class="s2">"Central Air"</span><span class="p">,</span> <span class="s2">"Garage Type"</span><span class="p">,</span> 
+                    <span class="s2">"Misc Feature"</span><span class="p">,</span> <span class="s2">"Sale Type"</span><span class="p">,</span> <span class="s2">"Sale Condition"</span><span class="p">]</span>
+    
+    <span class="n">transform_cat_cols</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">nominal_features</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">transform_cat_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+
+    <span class="n">uniqueness_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">transform_cat_cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">col</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()))</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+    <span class="n">drop_nonuniq_cols</span> <span class="o">=</span> <span class="n">uniqueness_counts</span><span class="p">[</span><span class="n">uniqueness_counts</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_nonuniq_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">text_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'object'</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">text_cols</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'category'</span><span class="p">]))],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="k">def</span> <span class="nf">train_and_test</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">numeric_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'integer'</span><span class="p">,</span> <span class="s1">'float'</span><span class="p">])</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">numeric_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"SalePrice"</span><span class="p">)</span>
+    <span class="n">lr</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="mi">1460</span><span class="p">]</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="mi">1460</span><span class="p">:]</span>
+
+        <span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">features</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">])</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">features</span><span class="p">])</span>
+        <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">],</span> <span class="n">predictions</span><span class="p">)</span>
+        <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rmse</span>
+    
+    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Randomize *all* rows (frac=1) from `df` and return</span>
+        <span class="n">shuffled_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="p">)</span>
+        <span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="mi">1460</span><span class="p">]</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="mi">1460</span><span class="p">:]</span>
+        
+        <span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">features</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">])</span>
+        <span class="n">predictions_one</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">features</span><span class="p">])</span>        
+        
+        <span class="n">mse_one</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">],</span> <span class="n">predictions_one</span><span class="p">)</span>
+        <span class="n">rmse_one</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mse_one</span><span class="p">)</span>
+        
+        <span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">features</span><span class="p">],</span> <span class="n">test</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">])</span>
+        <span class="n">predictions_two</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">features</span><span class="p">])</span>        
+       
+        <span class="n">mse_two</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">],</span> <span class="n">predictions_two</span><span class="p">)</span>
+        <span class="n">rmse_two</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mse_two</span><span class="p">)</span>
+        
+        <span class="n">avg_rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">rmse_one</span><span class="p">,</span> <span class="n">rmse_two</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">rmse_one</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">rmse_two</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">avg_rmse</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">rmse_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span><span class="p">,</span> <span class="ow">in</span> <span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+            <span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_index</span><span class="p">]</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_index</span><span class="p">]</span>
+            <span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">features</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">])</span>
+            <span class="n">predictions</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">features</span><span class="p">])</span>
+            <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">],</span> <span class="n">predictions</span><span class="p">)</span>
+            <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
+            <span class="n">rmse_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rmse</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">rmse_values</span><span class="p">)</span>
+        <span class="n">avg_rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">rmse_values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">avg_rmse</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"AmesHousing.tsv"</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">transform_df</span> <span class="o">=</span> <span class="n">transform_features</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">filtered_df</span> <span class="o">=</span> <span class="n">select_features</span><span class="p">(</span><span class="n">transform_df</span><span class="p">)</span>
+<span class="n">rmse</span> <span class="o">=</span> <span class="n">train_and_test</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">rmse</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[25761.875549560471, 36527.812968130842, 24956.485193881424, 28486.738135675929]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>28933.227961812168</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="phucnsp/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/jupyter/2017/09/15/predict-house-price.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>This blog contains my personal view about everything either in work and life.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/phucnsp" title="phucnsp"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/Phuc_Nguyen_Su" title="Phuc_Nguyen_Su"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

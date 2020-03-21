@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Data Science workflow recommendation | Phuc Ng. Su</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Data Science workflow recommendation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A workflow recommended for data science." />
+<meta property="og:description" content="A workflow recommended for data science." />
+<link rel="canonical" href="https://phucnsp.github.io/blog/tutorial/2019/05/10/data-science-template.html" />
+<meta property="og:url" content="https://phucnsp.github.io/blog/tutorial/2019/05/10/data-science-template.html" />
+<meta property="og:site_name" content="Phuc Ng. Su" />
+<meta property="og:image" content="https://phucnsp.github.io/blog/images/explore-refactor_loop.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-05-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"A workflow recommended for data science.","@type":"BlogPosting","headline":"Data Science workflow recommendation","dateModified":"2019-05-10T00:00:00-05:00","datePublished":"2019-05-10T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/explore-refactor_loop.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/tutorial/2019/05/10/data-science-template.html"},"url":"https://phucnsp.github.io/blog/tutorial/2019/05/10/data-science-template.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://phucnsp.github.io/blog/feed.xml" title="Phuc Ng. Su" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Data Science workflow recommendation | Phuc Ng. Su</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Data Science workflow recommendation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A workflow recommended for data science." />
+<meta property="og:description" content="A workflow recommended for data science." />
+<link rel="canonical" href="https://phucnsp.github.io/blog/tutorial/2019/05/10/data-science-template.html" />
+<meta property="og:url" content="https://phucnsp.github.io/blog/tutorial/2019/05/10/data-science-template.html" />
+<meta property="og:site_name" content="Phuc Ng. Su" />
+<meta property="og:image" content="https://phucnsp.github.io/blog/images/explore-refactor_loop.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-05-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"A workflow recommended for data science.","@type":"BlogPosting","headline":"Data Science workflow recommendation","dateModified":"2019-05-10T00:00:00-05:00","datePublished":"2019-05-10T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/explore-refactor_loop.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/tutorial/2019/05/10/data-science-template.html"},"url":"https://phucnsp.github.io/blog/tutorial/2019/05/10/data-science-template.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://phucnsp.github.io/blog/feed.xml" title="Phuc Ng. Su" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">Phuc Ng. Su</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Data Science workflow recommendation</h1><p class="page-description">A workflow recommended for data science.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2019-05-10T00:00:00-05:00" itemprop="datePublished">
+        May 10, 2019
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#tutorial">tutorial</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#production-data-science-template">Production data science template</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#how-to-setup-a-new-repository---for-maintainer">How to setup a new repository - for maintainer</a></li>
+<li class="toc-entry toc-h2"><a href="#how-to-contribute---for-developers">How to contribute - for developers</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#setup-first-time">Setup first time</a></li>
+<li class="toc-entry toc-h4"><a href="#returning-to-work">Returning to work</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#notes">Notes</a></li>
+<li class="toc-entry toc-h2"><a href="#how-to-use-the-package---for-users">How to use the package - for users</a></li>
+<li class="toc-entry toc-h2"><a href="#leisure-read">Leisure read</a></li>
+</ul>
+</li>
+</ul><p>Repository of this workflow is stored <a href="https://github.com/phucnsp/production_data_science_template">here</a></p>
+
+<h1 id="production-data-science-template">
+<a class="anchor" href="#production-data-science-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Production data science template</h1>
+
+<p>The template of this repository follows <a href="https://github.com/Satalia/production-data-science/tree/master/tutorial/a-setup">production-data-science workflow</a>, 
+ which focuses on productionizing data scientist’s work, make the analysis or research to be reusable, applicable to
+production.<br>
+The workflow is separated into 2 phases:</p>
+<ul>
+  <li>
+<code class="highlighter-rouge">exploration phase</code> is where data scientist explores the project, mainly work with jupyter notebook. All the work in
+this phase will be stored in <code class="highlighter-rouge">exploration</code> folder.</li>
+  <li>
+<code class="highlighter-rouge">production phase</code> is where data scientists’ works are refactored into packages so it can be reuse, imported. All the 
+work in this phase will be stored in <code class="highlighter-rouge">your_package</code> folder.</li>
+</ul>
+
+<h2 id="how-to-setup-a-new-repository---for-maintainer">
+<a class="anchor" href="#how-to-setup-a-new-repository---for-maintainer" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to setup a new repository - for maintainer</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://gitlab.com/Phuc_Su/production_data_science_template.git
+git clone &lt;your_project_repository&gt;
+<span class="nb">cd</span> &lt;your_project_name&gt;
+git checkout <span class="nt">-b</span> product-initial-setup
+<span class="c"># open Finder, copy all content of production_data_science_template into your project repository, except .git and .idea folder </span>
+conda create <span class="nt">--name</span> &lt;environment_name&gt; <span class="nv">python</span><span class="o">=</span>3.6
+<span class="nb">source </span>activate &lt;environment_name&gt;
+pip <span class="nb">install </span>git-lfs
+<span class="c"># in case you want to add some large file extension other than .jpg, .pdf, .csv, .xlsx</span>
+git lfs track &lt;add large file path&gt;
+<span class="c"># rename &lt;your package&gt; folder and modify setup.py, most importance is require_packages. See example below</span>
+<span class="c"># write something about your project in README.md</span>
+pip <span class="nb">install</span> <span class="nt">-e</span> <span class="nb">.</span>
+pip freeze | <span class="nb">grep</span> <span class="nt">-v</span> &lt;package_name&gt; <span class="o">&gt;</span> requirements.txt
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"First commit"</span>
+git push <span class="nt">-u</span> origin HEAD
+</code></pre></div></div>
+
+<p>Example of <code class="highlighter-rouge">setup.py</code></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">'your_project'</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s">'v0.1'</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s">''</span><span class="p">,</span>
+    <span class="n">long_description</span><span class="o">=</span><span class="n">readme</span><span class="p">(),</span>
+    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span>
+        <span class="s">'Programming Language :: Python :: 3'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">url</span><span class="o">=</span><span class="s">'https://github.com/phucnsp/production_data_science_template'</span><span class="p">,</span>
+    <span class="n">author</span><span class="o">=</span><span class="s">'Phuc_Su'</span><span class="p">,</span>
+    <span class="n">author_email</span><span class="o">=</span><span class="s">''</span><span class="p">,</span>
+    <span class="n">license</span><span class="o">=</span><span class="s">''</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s">'your_package'</span><span class="p">],</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+        <span class="s">'pypandoc&gt;=1.4'</span><span class="p">,</span>
+        <span class="s">'watermark&gt;=1.5.0'</span><span class="p">,</span>
+        <span class="s">'pandas&gt;=0.20.3'</span><span class="p">,</span>
+        <span class="s">'scikit-learn&gt;=0.19.0'</span><span class="p">,</span>
+        <span class="s">'scipy&gt;=0.19.1'</span><span class="p">,</span>
+        <span class="s">'matplotlib&gt;=2.1.0'</span><span class="p">,</span>
+        <span class="s">'pytest&gt;=3.2.3'</span><span class="p">,</span>
+        <span class="s">'pytest-runner&gt;=2.12.1'</span><span class="p">,</span>
+        <span class="s">'click&gt;=6.7'</span>
+    <span class="p">],</span>
+    <span class="n">setup_requires</span><span class="o">=</span><span class="p">[</span><span class="s">'pytest-runner'</span><span class="p">],</span>
+    <span class="n">tests_require</span><span class="o">=</span><span class="p">[</span><span class="s">'pytest'</span><span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>and you are ready~! 🎉</p>
+
+<p>Note: if you want to setup notification on slack for merge request from gitlab, reference
+ <a href="https://docs.gitlab.com/ee/user/project/integrations/slack.html">here</a></p>
+
+<h2 id="how-to-contribute---for-developers">
+<a class="anchor" href="#how-to-contribute---for-developers" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to contribute - for developers</h2>
+<h4 id="setup-first-time">
+<a class="anchor" href="#setup-first-time" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup first time</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```bash
+conda create --name &lt;environment_name&gt; python=3.6
+source activate &lt;environment_name&gt;
+git clone  &lt;repository url&gt;
+cd to/the/project/directory
+pip install -r requirements.txt
+pip install -e .
+```
+</code></pre></div></div>
+
+<blockquote>
+  <p>For a private repository accessible only through an SSH authentication, substitute <code class="highlighter-rouge">https://github.com/</code> with <code class="highlighter-rouge">git@github.com:</code>.</p>
+</blockquote>
+
+<h4 id="returning-to-work">
+<a class="anchor" href="#returning-to-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>Returning to work</h4>
+
+<ul>
+  <li>Some rules:
+    <ul>
+      <li><code class="highlighter-rouge">1 branch/1 exploration/1 folder</code></li>
+      <li>branch-name convention: <code class="highlighter-rouge">explore-* for exploration, refactor-* for refactor</code>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout master
+git pull <span class="nt">--all</span> 
+<span class="c"># if you continue to work on old branch</span>
+git checkout &lt;branch&gt;
+<span class="c"># if you want to start a new exploration</span>
+git checkout <span class="nt">-b</span> &lt;new_branch&gt;
+<span class="c"># if your branch is far behind master and you want to merge </span>
+git merge master
+<span class="c">#####################</span>
+    Start working
+<span class="c">#####################</span>
+git add &lt;path_to_work_files/folder&gt;
+git commit <span class="nt">-m</span> <span class="s2">"some message"</span>
+git push <span class="nt">-u</span> origin HEAD
+</code></pre></div></div>
+
+<h2 id="notes">
+<a class="anchor" href="#notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes</h2>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">requirements.txt</code> helps to setup your virtual environment, to make sure all contributors working on the same environments.<br>
+So whenever you have a new libraries need to install, after installing you need to add it into <code class="highlighter-rouge">requirements.txt</code> by  <code class="highlighter-rouge">pip freeze | grep -v &lt;package_name&gt; &gt; requirements.txt</code>
+</li>
+  <li>
+<code class="highlighter-rouge">setup.py</code> allows you to create packages that you can redistribute. This script is meant to install your package on the end user’s system, not to prepare the development environment.
+    <ul>
+      <li>
+<code class="highlighter-rouge">packages</code> - in-house development packages.</li>
+      <li>
+<code class="highlighter-rouge">install_requires</code> - packages that our development packages dependence on.</li>
+      <li>
+<code class="highlighter-rouge">py_modules=['new_module']</code> - in-house development modules need to install (placed in root directory)</li>
+    </ul>
+  </li>
+  <li>
+<code class="highlighter-rouge">pip install -e . </code> - to install packages/modules from <code class="highlighter-rouge">setup.py</code>, in the editable mode.</li>
+  <li>If you want to add large file into working repository:
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  pip <span class="nb">install </span>git-lfs
+  git lfs <span class="nb">install</span>
+  <span class="c"># Tell LFS to track files with given path</span>
+      git lfs track <span class="s2">"path_to_large_file"</span>
+  <span class="c"># Tell LFS to track files with format "*.jpg"</span>
+      git lfs track <span class="s2">"*.jpg"</span>
+  <span class="c"># Tell LFS to track content of the whole directory</span>
+      git lfs track <span class="s2">"data/*"</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="how-to-use-the-package---for-users">
+<a class="anchor" href="#how-to-use-the-package---for-users" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use the package - for users</h2>
+
+<p>Install the library</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">--name</span> &lt;environment_name&gt; <span class="nv">python</span><span class="o">=</span>3.6
+<span class="nb">source </span>activate &lt;environment_name&gt;
+pip <span class="nb">install</span> <span class="nt">-e</span> <span class="s1">'git+https://github.com/phucnsp/production_data_science_template.git'</span>
+</code></pre></div></div>
+<blockquote>
+  <p>For a private repository accessible only through an SSH authentication, substitute <code class="highlighter-rouge">git+https://github.com</code> with <code class="highlighter-rouge">git+ssh://git@github.com</code>.<br>
+Note that <code class="highlighter-rouge">-e</code> argument above to make the installation editable.</p>
+</blockquote>
+
+<h2 id="leisure-read">
+<a class="anchor" href="#leisure-read" aria-hidden="true"><span class="octicon octicon-link"></span></a>Leisure read</h2>
+<ul>
+  <li><a href="https://github.com/Satalia/production-data-science">Production Data Science tutorial</a></li>
+  <li><a href="https://docs.python.org/3/distutils/setupscript.html">Writing a setup script</a></li>
+  <li><a href="https://python-packaging.readthedocs.io/en/latest/minimal.html">Minimum structure</a></li>
+  <li><a href="https://docs.gitlab.com/ee/user/project/integrations/slack.html">gitlab slack notification service</a></li>
+  <li><a href="https://gitlab.com/Phuc_Su/production_data_science_template/blob/master/GIT_STRATEGY.md">git strategy</a></li>
+</ul>
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="phucnsp/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/tutorial/2019/05/10/data-science-template.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>This blog contains my personal view about everything either in work and life.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/phucnsp" title="phucnsp"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/Phuc_Nguyen_Su" title="Phuc_Nguyen_Su"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
