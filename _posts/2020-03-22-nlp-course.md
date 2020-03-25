@@ -5,6 +5,7 @@ title: Self-taught NLP
 toc: true 
 badges: true
 comments: true
+hide: true
 categories: [self-learning]
 image: images/bone.jpeg
 nb_path: _notebooks/2020-03-22-nlp-course.ipynb
@@ -66,32 +67,8 @@ layout: notebook
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Why-do-we-need-a-good-initialization?">Why do we need a good initialization?<a class="anchor-link" href="#Why-do-we-need-a-good-initialization?"> </a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="/blog/images/copied_from_nb/my_icons/neuralnet_notation.png" alt=""></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="https://pouannes.github.io/blog/initialization/#mjx-eqn-eqfwd">https://pouannes.github.io/blog/initialization/#mjx-eqn-eqfwd</a><br>
-<a href="https://prateekvjoshi.com/2016/03/29/understanding-xavier-initialization-in-deep-neural-networks/">https://prateekvjoshi.com/2016/03/29/understanding-xavier-initialization-in-deep-neural-networks/</a><br>
-<a href="https://medium.com/a-paper-a-day-will-have-you-screaming-hurray/day-8-delving-deep-into-rectifiers-surpassing-human-level-performance-on-imagenet-classification-f449a886e604">https://medium.com/a-paper-a-day-will-have-you-screaming-hurray/day-8-delving-deep-into-rectifiers-surpassing-human-level-performance-on-imagenet-classification-f449a886e604</a></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li><strong>trace of matrix</strong>: deep learning page 44</li>
-<li><strong>expectation, variance and covariance</strong>: deep learning page 58</li>
-</ul>
+<h2 id="Exlain-Kaiming-initialization">Exlain Kaiming initialization<a class="anchor-link" href="#Exlain-Kaiming-initialization"> </a></h2><blockquote><p>please see the link</p>
+</blockquote>
 
 </div>
 </div>
