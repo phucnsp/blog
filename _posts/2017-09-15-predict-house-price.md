@@ -5,7 +5,7 @@ title: Predict house price in America
 toc: true 
 badges: true
 comments: true
-categories: [work]
+categories: [self-taught]
 image: images/chart-preview.png
 nb_path: _notebooks/2017-09-15-predict-house-price.ipynb
 layout: notebook

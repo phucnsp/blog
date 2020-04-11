@@ -4,7 +4,7 @@ summary: "Bài viết này nói về cảm nhận của mình khi lần đầu �
 layout: post  
 toc: false
 comments: true
-image: images/singapore_trip/changi_waterfall.jpg
+image: images/changi_waterfall.jpg
 categories: [travel]
 <!-- metadata_key1: metadata_value1 -->
 <!-- metadata_key2: metadata_value2 -->

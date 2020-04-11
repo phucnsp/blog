@@ -5,8 +5,8 @@ title: Kaggle competition - titanic machine learning from disaster
 toc: true 
 badges: true
 comments: true
-categories: [work]
-image: images/chart-preview.png
+categories: [kaggle]
+image: images/icon_kaggle.png
 nb_path: _notebooks/2017-08-20-kaggle-titanic-machine-learning-from-disaster.ipynb
 layout: notebook
 ---
