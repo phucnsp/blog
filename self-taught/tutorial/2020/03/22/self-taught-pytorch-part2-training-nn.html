@@ -3,12 +3,12 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Pytorch part 2 - basic training and debugging neural network | Phuc Ng. Su</title>
+<title>Pytorch part 2 - training neural net and analysing the result | Phuc Ng. Su</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Pytorch part 2 - basic training and debugging neural network" />
+<meta property="og:title" content="Pytorch part 2 - training neural net and analysing the result" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="This notebook covers basic neural net training and debugging pipeline" />
-<meta property="og:description" content="This notebook covers basic neural net training and debugging pipeline" />
+<meta name="description" content="This notebook covers basic neural net training steps and analysing its prediction of a classification problem." />
+<meta property="og:description" content="This notebook covers basic neural net training steps and analysing its prediction of a classification problem." />
 <link rel="canonical" href="https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html" />
 <meta property="og:url" content="https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html" />
 <meta property="og:site_name" content="Phuc Ng. Su" />
@@ -16,15 +16,15 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-03-22T00:00:00-05:00" />
 <script type="application/ld+json">
-{"description":"This notebook covers basic neural net training and debugging pipeline","@type":"BlogPosting","headline":"Pytorch part 2 - basic training and debugging neural network","dateModified":"2020-03-22T00:00:00-05:00","datePublished":"2020-03-22T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/pytorch_ava.png","url":"https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html"},"@context":"https://schema.org"}</script>
+{"description":"This notebook covers basic neural net training steps and analysing its prediction of a classification problem.","@type":"BlogPosting","headline":"Pytorch part 2 - training neural net and analysing the result","dateModified":"2020-03-22T00:00:00-05:00","datePublished":"2020-03-22T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/pytorch_ava.png","url":"https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://phucnsp.github.io/blog/feed.xml" title="Phuc Ng. Su" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Pytorch part 2 - basic training and debugging neural network | Phuc Ng. Su</title>
+<title>Pytorch part 2 - training neural net and analysing the result | Phuc Ng. Su</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Pytorch part 2 - basic training and debugging neural network" />
+<meta property="og:title" content="Pytorch part 2 - training neural net and analysing the result" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="This notebook covers basic neural net training and debugging pipeline" />
-<meta property="og:description" content="This notebook covers basic neural net training and debugging pipeline" />
+<meta name="description" content="This notebook covers basic neural net training steps and analysing its prediction of a classification problem." />
+<meta property="og:description" content="This notebook covers basic neural net training steps and analysing its prediction of a classification problem." />
 <link rel="canonical" href="https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html" />
 <meta property="og:url" content="https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html" />
 <meta property="og:site_name" content="Phuc Ng. Su" />
@@ -32,7 +32,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-03-22T00:00:00-05:00" />
 <script type="application/ld+json">
-{"description":"This notebook covers basic neural net training and debugging pipeline","@type":"BlogPosting","headline":"Pytorch part 2 - basic training and debugging neural network","dateModified":"2020-03-22T00:00:00-05:00","datePublished":"2020-03-22T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/pytorch_ava.png","url":"https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html"},"@context":"https://schema.org"}</script>
+{"description":"This notebook covers basic neural net training steps and analysing its prediction of a classification problem.","@type":"BlogPosting","headline":"Pytorch part 2 - training neural net and analysing the result","dateModified":"2020-03-22T00:00:00-05:00","datePublished":"2020-03-22T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/pytorch_ava.png","url":"https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/self-taught/tutorial/2020/03/22/self-taught-pytorch-part2-training-nn.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -103,13 +103,13 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Pytorch part 2 - basic training and debugging neural network</h1><p class="page-description">This notebook covers basic neural net training and debugging pipeline</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-03-22T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Pytorch part 2 - training neural net and analysing the result</h1><p class="page-description">This notebook covers basic neural net training steps and analysing its prediction of a classification problem.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-03-22T00:00:00-05:00" itemprop="datePublished">
         Mar 22, 2020
       </time>
        • <span class="read-time" title="Estimated read time">
     
     
-      36 min read
+      43 min read
     
 </span></p>
 
@@ -152,10 +152,23 @@ window.onload = wrap_img;
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#Data-and-Data-processing">Data and Data processing </a></li>
-<li class="toc-entry toc-h2"><a href="#Neural-Net-and-Pytorch-design">Neural Net and Pytorch design </a>
+<li class="toc-entry toc-h2"><a href="#Neural-Net-design-with-Pytorch">Neural Net design with Pytorch </a>
 <ul>
-<li class="toc-entry toc-h3"><a href="#Training-NN">Training NN </a></li>
-<li class="toc-entry toc-h3"><a href="#Analyze-the-model's-results">Analyze the model&#39;s results </a>
+<li class="toc-entry toc-h3"><a href="#Input-layer-1">Input layer 1 </a></li>
+<li class="toc-entry toc-h3"><a href="#Hidden-conv-layer-2">Hidden conv layer 2 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Convolution-Operation:">Convolution Operation: </a></li>
+<li class="toc-entry toc-h4"><a href="#Relu-operation:">Relu operation: </a></li>
+<li class="toc-entry toc-h4"><a href="#Max-pooling-operation:">Max pooling operation: </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Hidden-conv-layer-3">Hidden conv layer 3 </a></li>
+<li class="toc-entry toc-h3"><a href="#linear-layer-4,-5">linear layer 4, 5 </a></li>
+<li class="toc-entry toc-h3"><a href="#output-layer-6">output layer 6 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Training-NN">Training NN </a></li>
+<li class="toc-entry toc-h2"><a href="#Analyze-the-model's-results">Analyze the model&#39;s results </a>
 <ul>
 <li class="toc-entry toc-h5"><a href="#Analyse-classification-result-using-a-Confusion-Matrix">Analyse classification result using a Confusion Matrix </a></li>
 <li class="toc-entry toc-h5"><a href="#Analyse-training-loop-by-using-TensorBoard-with-PyTorch">Analyse training loop by using TensorBoard with PyTorch </a></li>
@@ -163,14 +176,17 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h5"><a href="#Speeding-up-the-training-process-by-increasing-num_workers">Speeding up the training process by increasing num_workers </a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-entry toc-h2"><a href="#Some-random-tricks">Some random tricks </a>
+<li class="toc-entry toc-h2"><a href="#Random-topics">Random topics </a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#Object-Oriented-Programming-and-Why-Pytorch-select-it.">Object Oriented Programming and Why Pytorch select it. </a></li>
+<li class="toc-entry toc-h3"><a href="#Neural-net-layer-parameters">Neural net layer parameters </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Parameter-Vs-Argument">Parameter Vs Argument </a></li>
+<li class="toc-entry toc-h4"><a href="#Types-Of-Parameters:">Types Of Parameters: </a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h3"><a href="#Stack-vs-Concat">Stack vs Concat </a></li>
 <li class="toc-entry toc-h3"><a href="#Disabling-PyTorch-Gradient-Tracking">Disabling PyTorch Gradient Tracking </a></li>
-<li class="toc-entry toc-h3"><a href="#Effective-Pytorch">Effective Pytorch </a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#Reference">Reference </a></li>
@@ -426,6 +442,30 @@ When we run the code below for the first time, the Fashion-MNIST dataset will be
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz to ./data/FashionMNIST/raw/train-images-idx3-ubyte.gz
+Extracting ./data/FashionMNIST/raw/train-images-idx3-ubyte.gz to ./data/FashionMNIST/raw
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz to ./data/FashionMNIST/raw/train-labels-idx1-ubyte.gz
+Extracting ./data/FashionMNIST/raw/train-labels-idx1-ubyte.gz to ./data/FashionMNIST/raw
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz to ./data/FashionMNIST/raw/t10k-images-idx3-ubyte.gz
+
+Extracting ./data/FashionMNIST/raw/t10k-images-idx3-ubyte.gz to ./data/FashionMNIST/raw
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz to ./data/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz
+Extracting ./data/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz to ./data/FashionMNIST/raw
+Processing...
+Done!
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     
 
@@ -478,7 +518,8 @@ When we run the code below for the first time, the Fashion-MNIST dataset will be
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The size of each dimention in the image tensor is defined as <code>(batch size, number of color channels, image height, image width)</code>.<br>
-So now, we have our desired dataset and dataloader in order to feed into the neural net. We can play around with the dataset to better understand it.</p>
+The labels tensor has a single axis with a shape of 4, which corresponds to the 4 images inside our batch. One label for each image.</p>
+<p>So now, we have our desired dataset and dataloader in order to feed into the neural net. We can play around with the dataset to better understand it.</p>
 
 </div>
 </div>
@@ -723,8 +764,8 @@ So now, we have our desired dataset and dataloader in order to feed into the neu
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Neural-Net-and-Pytorch-design">
-<a class="anchor" href="#Neural-Net-and-Pytorch-design" aria-hidden="true"><span class="octicon octicon-link"></span></a>Neural Net and Pytorch design<a class="anchor-link" href="#Neural-Net-and-Pytorch-design"> </a>
+<h2 id="Neural-Net-design-with-Pytorch">
+<a class="anchor" href="#Neural-Net-design-with-Pytorch" aria-hidden="true"><span class="octicon octicon-link"></span></a>Neural Net design with Pytorch<a class="anchor-link" href="#Neural-Net-design-with-Pytorch"> </a>
 </h2>
 <ol>
 <li>Prepare the data for training </li>
@@ -734,10 +775,6 @@ So now, we have our desired dataset and dataloader in order to feed into the neu
 <li>Train the model</li>
 <li>Analyze the model's results</li>
 </ol>
-<p>What we want our network to ultimately do is model or approximate a function that maps image inputs to the correct output class.</p>
-<p>To build neural networks in PyTorch, we use the torch.nn package, which is PyTorch’s neural network (nn) library. We typically import the package like so:</p>
-<p>The primary component we'll need to build a neural network is a layer, and so, as we might expect, PyTorch's neural network library contains classes that aid us in constructing layers.</p>
-<p>PyTorch's nn.Module Class</p>
 
 </div>
 </div>
@@ -745,16 +782,29 @@ So now, we have our desired dataset and dataloader in order to feed into the neu
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>Build PyTorch CNN - Object Oriented Neural Net-</li>
-<li>CNN Layers - Deep Neural Network Archite-</li>
-<li>CNN Weights - Learnable Parameters in Neural Net-</li>
-<li>Callable Neural Networks - Linear Layers in -</li>
-<li>CNN Forward Method - Deep Learning Implement-</li>
-<li>Forward Propagation Explained - Pass Image to PyTorch Neural Network</li>
-<li>Neural Network Batch Processing - Pass Image Batch to PyTorch CNN</li>
-<li>CNN Output Size Formula - Bonus Neural Network Debugging Session</li>
+<p>We’re building a CNN, so the two types of layers we'll use are linear layers and convolutional layers.<br>
+In order to build model using Pytorch, we have 3 essential steps:</p>
+<ol>
+<li>Create a neural network class that extends the nn.Module base class.<ul>
+<li>
+<code>torch.nn</code> is PyTorch’s neural network (nn) library which contains the primary components to construct network's layers.</li>
+<li>Within the <code>torch.nn</code> package, there is a class called <code>Module</code>, and it is the base class for all of neural network modules which includes layers. All of the layers in PyTorch need to extend this base class in order to inherit all of PyTorch’s built-in functionality within the nn.Module class.</li>
+<li>For each layer, there are two primary items encapsulated inside, a <code>forward</code> function definition and a <code>weight tensor</code> which is updated as the network learns during the training process. PyTorch's neural network <code>module class</code> keeps track of the weight tensors inside each layer as <code>learnable parameters</code> of our network. Take a look at <code>Random topics</code> section for more detail info about network parameters.</li>
 </ul>
+</li>
+<li>Define the network's layers as class attributes in the class constructor.<ul>
+<li>We have two convolutional layers, <code>self.conv1</code> and <code>self.conv2</code>, and three linear layers, <code>self.fc1</code>, <code>self.fc2</code>, <code>self.out</code>.</li>
+<li>We used the abbreviation <code>fc</code> in <code>fc1</code> and <code>fc2</code> because linear layers are also called fully connected layers or dense layer. So <code>linear</code> = <code>dense</code> = <code>fully connected.</code>
+</li>
+</ul>
+</li>
+<li>Define the network's forward method using the network's layer attributes as well nn.functional API operations.<ul>
+<li>Every Pytorch <code>nn.Module</code> has a <code>forward()</code> method and so when we are building layers and networks, we must provide an implementation of the forward() method. The forward method is the actual transformation.</li>
+<li>The tensor input is passed forward though each layer transformation until the tensor reaches the output layer. The composition of all the individual layer forward passes defines the overall forward pass transformation for the network. The goal of the overall transformation is to transform or map the input to the correct prediction output class, and during the training process, the layer weights (data) are updated in such a way that cause the mapping to adjust to make the output closer to the correct prediction.</li>
+<li>When we implement the forward() method of our nn.Module subclass, we will typically use functions from the <code>nn.functional</code> package. This package provides us with many neural network operations that we can use for building layers. In fact, many of the nn.Module layer classes use nn.functional functions to perform their operations.</li>
+</ul>
+</li>
+</ol>
 
 </div>
 </div>
@@ -762,50 +812,63 @@ So now, we have our desired dataset and dataloader in order to feed into the neu
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse-show</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
 
-<span class="k">class</span> <span class="nc">Network</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="k">class</span> <span class="nc">Network</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>    <span class="c1"># Extend the nn.Module base class.</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1"># Define layers as class attributes using pre-built layers from torch.nn</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>   <span class="c1"># Extend the nn.Module base class.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">12</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">12</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span> <span class="c1"># linear = dense = fc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>    <span class="c1"># Implement the forward() using network’s layer attributes and method from the nn.functional</span>
         <span class="c1"># (1) input layer</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tensor shape before input layer 1: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> 
         
         <span class="c1"># (2) hidden conv layer</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tensor shape before conv layer 2: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tensor shape after conv operation: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># out shape - bs x 6 x 12 x 12</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tensor shape after relu operation: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> 
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tensor shape after max_pool2d operation: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         
         <span class="c1"># (3) hidden conv layer</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tensor shape before conv layer 3: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># out shape - bs x 12 x 4 x 4</span>
-        
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> 
+
         <span class="c1"># (4) hidden linear layer</span>
-<span class="c1">#         import pdb; pdb.set_trace()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tensor shape before linear layer 4: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># x.reshape(-1, 12*4*4)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         
         <span class="c1"># (5) hidden linear layer</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tensor shape before linear layer 5: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         
         <span class="c1"># (6) output layer</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tensor shape before output layer 6: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="c1">#         x = F.softmax(x, dim=1)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tensor shape after output layer 6: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">x</span>
 </pre></div>
@@ -814,9 +877,18 @@ So now, we have our desired dataset and dataloader in order to feed into the neu
 </div>
 </div>
 
+    </details>
 </div>
     
 
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now let's feed a batch of images to our model and get its output.</p>
+
+</div>
+</div>
+</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -864,9 +936,8 @@ So now, we have our desired dataset and dataloader in order to feed into the neu
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">pred</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">prediction tensor:</span><span class="se">\n</span><span class="si">{</span><span class="n">preds</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -879,21 +950,211 @@ So now, we have our desired dataset and dataloader in order to feed into the neu
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>torch.Size([4, 10])
+<pre>tensor shape before input layer 1: torch.Size([4, 1, 28, 28])
+tensor shape before conv layer 2: torch.Size([4, 1, 28, 28])
+tensor shape after conv operation: torch.Size([4, 6, 24, 24])
+tensor shape after relu operation: torch.Size([4, 6, 24, 24])
+tensor shape after max_pool2d operation: torch.Size([4, 6, 12, 12])
+tensor shape before conv layer 3: torch.Size([4, 6, 12, 12])
+tensor shape before linear layer 4: torch.Size([4, 12, 4, 4])
+tensor shape before linear layer 5: torch.Size([4, 120])
+tensor shape before output layer 6: torch.Size([4, 60])
+tensor shape after output layer 6: torch.Size([4, 10])
+
+prediction tensor:
+tensor([[ 0.1019,  0.0483,  0.0173,  0.0009, -0.0897,  0.0271,  0.0504,  0.0375, -0.0684,  0.0975],
+        [ 0.1034,  0.0475,  0.0144,  0.0004, -0.0898,  0.0264,  0.0559,  0.0403, -0.0646,  0.0972],
+        [ 0.1083,  0.0468,  0.0131,  0.0014, -0.0858,  0.0244,  0.0559,  0.0406, -0.0670,  0.0975],
+        [ 0.1042,  0.0481,  0.0165, -0.0039, -0.0911,  0.0290,  0.0476,  0.0394, -0.0651,  0.0957]],
+       grad_fn=&lt;AddmmBackward&gt;)
 </pre>
 </div>
 </div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One thing to point out that Pytorch neural network modules are <code>callable Python objects</code> - we called the <code>Network</code> instance as if it were a function.
+What makes this possible is that PyTorch module classes implement a special Python function called <code>__call__()</code>. which will be invoked anytime the object instance is called. After the object instance is called, the <code>__call__()</code> method is invoked under the hood, and the <code>__call__()</code> in turn invokes the <code>forward()</code> method. Instead of calling the <code>forward()</code> method directly, we call the object instance. This applies to all PyTorch neural network modules, namely, networks and layers.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to access the model parameters, we can use <code>parameters()</code> or <code>named_parameters()</code> method.<br>
+To keep track of all the weight tensors inside the network. PyTorch has a special class called <code>Parameter</code>. The weight tensor inside every layer is an instance of this <code>Parameter</code> class. PyTorch’s <code>nn.Module</code> class is basically looking for any attributes whose values are instances of the <code>Parameter</code> class, and when it finds an instance of the parameter class, it keeps track of it.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([6, 1, 5, 5])
+torch.Size([6])
+torch.Size([12, 6, 5, 5])
+torch.Size([12])
+torch.Size([120, 192])
+torch.Size([120])
+torch.Size([60, 120])
+torch.Size([60])
+torch.Size([10, 60])
+torch.Size([10])
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>conv1.weight: torch.Size([6, 1, 5, 5])
+conv1.bias: torch.Size([6])
+conv2.weight: torch.Size([12, 6, 5, 5])
+conv2.bias: torch.Size([12])
+fc1.weight: torch.Size([120, 192])
+fc1.bias: torch.Size([120])
+fc2.weight: torch.Size([60, 120])
+fc2.bias: torch.Size([60])
+out.weight: torch.Size([10, 60])
+out.bias: torch.Size([10])
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ok so now, we will go through each layer in order to inspect, debug it. One basic technique is to inspect tensor shape at each layer. Remember, the shape of a tensor really encodes all the information we need to know about the tensor.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Input-layer-1">
+<a class="anchor" href="#Input-layer-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Input layer 1<a class="anchor-link" href="#Input-layer-1"> </a>
+</h3>
+<p><code>tensor shape before input layer 1: torch.Size([1, 1, 28, 28])</code><br>
+<code>tensor shape before conv layer 2: torch.Size([1, 1, 28, 28])</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This value in each of these dimensions represent the following values: <code>(batch size, color channels, height, width)</code>.<br>
+Since the input layer is just the identity function, the output shape doesn’t change.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Hidden-conv-layer-2">
+<a class="anchor" href="#Hidden-conv-layer-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hidden conv layer 2<a class="anchor-link" href="#Hidden-conv-layer-2"> </a>
+</h3>
+<p><code>tensor shape after relu operation: torch.Size([1, 6, 24, 24])</code><br>
+<code>tensor shape after max_pool2d operation: torch.Size([1, 6, 12, 12])</code>
+<img src="/blog/images/copied_from_nb/data/conv.gif" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Our convolution layer includes 3 operations: <code>convolution</code>, <code>relu</code> and <code>max_pooling 2d</code>. Now we will go through each operation. Be attention that the <code>batch_size</code> is fixed as we move though the entire forward pass.</p>
+<h4 id="Convolution-Operation:">
+<a class="anchor" href="#Convolution-Operation:" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Convolution Operation</code>:<a class="anchor-link" href="#Convolution-Operation:"> </a>
+</h4>
+<p><code>tensor shape before conv layer 2: torch.Size([1, 1, 28, 28])</code><br>
+<code>tensor shape after conv operation: torch.Size([1, 6, 24, 24])</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">conv1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
 
 <div class="output_area">
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor([[-0.0071,  0.0308,  0.1355,  0.1304, -0.1290,  0.0521,  0.0140, -0.0722,  0.0914, -0.0045],
-        [-0.0082,  0.0273,  0.1325,  0.1348, -0.1298,  0.0527,  0.0120, -0.0763,  0.0880, -0.0087],
-        [-0.0101,  0.0328,  0.1360,  0.1372, -0.1294,  0.0470,  0.0095, -0.0750,  0.0896, -0.0034],
-        [-0.0076,  0.0324,  0.1334,  0.1366, -0.1288,  0.0475,  0.0084, -0.0755,  0.0876, -0.0043]],
-       grad_fn=&lt;AddmmBackward&gt;)</pre>
+<pre>Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))</pre>
 </div>
 
 </div>
@@ -911,7 +1172,7 @@ So now, we have our desired dataset and dataloader in order to feed into the neu
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">conv1</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">conv1</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -923,64 +1184,10 @@ So now, we have our desired dataset and dataloader in order to feed into the neu
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages/ipykernel_launcher.py:1: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
-  """Entry point for launching an IPython kernel.
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor([[0.1184, 0.1070, 0.0941, 0.0892, 0.0883, 0.1071, 0.0939, 0.0983, 0.1142, 0.0895],
-        [0.1184, 0.1071, 0.0940, 0.0894, 0.0889, 0.1064, 0.0931, 0.0982, 0.1145, 0.0901],
-        [0.1180, 0.1080, 0.0937, 0.0892, 0.0888, 0.1061, 0.0936, 0.0980, 0.1144, 0.0902],
-        [0.1183, 0.1069, 0.0939, 0.0892, 0.0880, 0.1064, 0.0939, 0.0986, 0.1145, 0.0902]], grad_fn=&lt;SoftmaxBackward&gt;)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages/ipykernel_launcher.py:1: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
-  """Entry point for launching an IPython kernel.
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>tensor(0)</pre>
+<pre>(torch.Size([6, 1, 5, 5]), torch.Size([6]))</pre>
 </div>
 
 </div>
@@ -994,9 +1201,459 @@ So now, we have our desired dataset and dataloader in order to feed into the neu
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Training-NN">
-<a class="anchor" href="#Training-NN" aria-hidden="true"><span class="octicon octicon-link"></span></a>Training NN<a class="anchor-link" href="#Training-NN"> </a>
+<p>Some keynotes about this operation:</p>
+<ul>
+<li>This operation convolves the input tensor using 6 randomly initialized 5x5 layers, also known as <code>filters</code> or <code>kernels</code>, to produce 6 output channels. The stride tells the conv layer how far the filter should slide after each operation in the overall convolution. </li>
+<li>explain parameters of this operation:<ul>
+<li>kernel_size: Sets the filter size. The words kernel and filter are interchangeable.</li>
+<li>out_channels: Sets the number of filters. One filter produces one output channel.</li>
+<li>out_features: Sets the size of the output tensor.</li>
+</ul>
+</li>
+<li>The <code>weight tensor</code> is a rank-4 tensor and reflects <code>(nr of filters, depth, height, width)</code>.   </li>
+<li>
+<code>The filters have depth that accounts for the input channels</code>.  </li>
+<li>The parameter <code>out_channels</code> defined in <code>self.conv1</code> determines how many filters will be created. However, we dont actually have 6 distinct tensors but <code>all tensors are represented using a single weight tensor</code>.  </li>
+<li>After convolution, the output channels are generated which is also called <code>feature maps</code>. This is due to the fact that the pattern detection that emerges as the weights are updated represent features like edges and other more sophisticated patterns.</li>
+<li>One pattern that shows up quite often is that we increase our <code>out_channels</code> as we add additional conv layers, and after we switch to linear layers we shrink our out_features as we filter down to our number of output classes.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Relu-operation:">
+<a class="anchor" href="#Relu-operation:" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Relu operation</code>:<a class="anchor-link" href="#Relu-operation:"> </a>
+</h4>
+<p>This operation maps all negative values to 0. This means that all the values in the tensor are now positive. This function is pure operation and does not have weights. That's why we call them directly from the <code>nn.functional</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Max-pooling-operation:">
+<a class="anchor" href="#Max-pooling-operation:" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Max pooling operation</code>:<a class="anchor-link" href="#Max-pooling-operation:"> </a>
+</h4>
+<p>This operation extracts the max value from each 2x2 section of the fix feature maps that were created by the convolutions.<br>
+The same as <code>relu</code>, this operation does not have weight and is called directly from <code>nn.functional</code>. Sometimes we may see pooling operations referred to as pooling layers. However, what makes a layer distinct from an operation is that layers have weights. Since pooling operations and activation functions do not have weights, we will refer to them as operations and view them as being added to the collection of layer operations.</p>
+<p>Let's have a look at the formula for computing the output size of the tensor after performing convolutional and pooling operations.<br>
+Given $n_{h} \times n_{w}$ input, $f_{h} \times f_{w}$ filter, padding $p$ and stride $s$.
+The height, width of the output size $O_{h}$, $O_{w}$ is defined by this formular:</p>
+\begin{equation}
+O_{h}=\frac{n_{h}-f_{h}+2 p}{s}+1;    
+O_{w}=\frac{n_{w}-f_{w}+2 p}{s}+1
+\end{equation}
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Hidden-conv-layer-3">
+<a class="anchor" href="#Hidden-conv-layer-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hidden conv layer 3<a class="anchor-link" href="#Hidden-conv-layer-3"> </a>
 </h3>
+<p><code>tensor shape before conv layer 3: torch.Size([1, 6, 12, 12])</code><br>
+<code>tensor shape before linear layer 4: torch.Size([1, 12, 4, 4])</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">conv2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Conv2d(6, 12, kernel_size=(5, 5), stride=(1, 1))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">conv2</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">conv2</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(torch.Size([12, 6, 5, 5]), torch.Size([12]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This layer transforms the tensor in the same was as <code>self.conv1</code> and reduces the height and width dimensions further. However, each filter now has a depth of 6 which come from the 6 output channels from the first convolution layer. 
+The shape of the resulting output of <code>self.conv2</code> allows us to see why we reshape, also called <code>flattening</code>, the tensor using <code>12*4*4</code> before passing the tensor to the first linear layer, <code>self.fc1</code>. The resulting shape is <code>1x192</code>. The 1 in this case represents the batch size, and the 192 is the number of elements in the tensor that are now in the same dimension.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="linear-layer-4,-5">
+<a class="anchor" href="#linear-layer-4,-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>linear layer 4, 5<a class="anchor-link" href="#linear-layer-4,-5"> </a>
+</h3>
+<p><code>tensor shape before linear layer 4: torch.Size([1, 12, 4, 4])</code><br>
+<code>tensor shape before linear layer 5: torch.Size([1, 120])</code><br>
+<code>tensor shape before output layer 6: torch.Size([1, 60])</code><br>
+<code>tensor shape after output layer 6: torch.Size([1, 10])</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fc1</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fc1</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">fc1</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Linear(in_features=192, out_features=120, bias=True)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(torch.Size([120, 192]), torch.Size([120]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fc2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fc2</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">fc2</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Linear(in_features=120, out_features=60, bias=True)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(torch.Size([60, 120]), torch.Size([60]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">out</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Linear(in_features=60, out_features=10, bias=True)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(torch.Size([10, 60]), torch.Size([10]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, we just have a series of linear layers followed by non-linear activation function until we reach the output layer.
+<code>Linear layers</code> use matrix multiplication to transform their <code>in_features</code> to <code>out_features</code>. 
+For example <code>self.fc1</code> has in_feature's shape (1, 192) and out_feature's shape (1, 120). Its <code>weight matrix</code> will have the shape of (120,192). In general, the weight matrix defines a linear function that maps a 1-dimensional tensor with 192 elements to a 1-dimensional tensor that has 120 elements. The weight matrix is auto generated with randomly initizalized weights when we create an instance of linear layer class.</p>
+<p>Given $A$, $x$, $b$, $y$ are <code>Weight matrix tensor</code>, <code>Input tensor</code>, <code>Bias tensor</code> and <code>Output tensor</code>, respectively. Mathematical notation of the linear transformation is:
+\begin{equation}
+y=A x+b
+\end{equation}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="output-layer-6">
+<a class="anchor" href="#output-layer-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>output layer 6<a class="anchor-link" href="#output-layer-6"> </a>
+</h3>
+<p><code>tensor shape before output layer 6: torch.Size([1, 60])</code><br>
+<code>tensor shape after output layer 6: torch.Size([1, 10])</code></p>
+<p><code>prediction tensor:
+tensor([[-0.0197,  0.1284, -0.1158, -0.0096, -0.0135,  0.0599, -0.0663,  0.0724, -0.0030, -0.0063],
+        [-0.0270,  0.1266, -0.1168, -0.0085, -0.0073,  0.0600, -0.0675,  0.0805, -0.0065, -0.0103],
+        [-0.0255,  0.1297, -0.1183, -0.0134, -0.0149,  0.0569, -0.0709,  0.0623, -0.0059, -0.0065],
+        [-0.0316,  0.1310, -0.1178, -0.0057, -0.0064,  0.0585, -0.0710,  0.0796, -0.0054, -0.0063]],
+       grad_fn=&lt;AddmmBackward&gt;)</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The prediction tensor has a shape of (4, 10) which reflects <code>(batch_size, number of prediction classes)</code>. The <code>number of prediction classes</code> is 10 because we have 10 classes, each number is the assigned value of the specific output class.</p>
+<p>Inside the network we usually use <code>relu()</code> as our non-linear activation function, but for the output layer, we use <code>softmax()</code>. The softmax function returns a positive probability for each of the prediction classes, and the probabilities sum to 1. However, in our case, we won't use <code>softmax()</code> because the loss function that we'll use, <code>F.cross_entropy()</code>, implicitly performs the <code>softmax()</code> operation on its input, so we'll just return the result of the last linear transformation. (save one operation at inference^^)</p>
+<p>To check the predictions against the labels, we use the <code>argmax()</code> function to figure out which index contains the highest prediction value. Once we know which index has the highest prediction value, we can compare the index with the label to see if there is a match.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages/ipykernel_launcher.py:1: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  """Entry point for launching an IPython kernel.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[0.0976, 0.1131, 0.0886, 0.0986, 0.0982, 0.1057, 0.0931, 0.1070, 0.0992, 0.0989],
+        [0.0969, 0.1130, 0.0886, 0.0987, 0.0988, 0.1057, 0.0930, 0.1079, 0.0989, 0.0985],
+        [0.0973, 0.1137, 0.0887, 0.0985, 0.0984, 0.1057, 0.0930, 0.1063, 0.0993, 0.0992],
+        [0.0964, 0.1134, 0.0885, 0.0989, 0.0989, 0.1055, 0.0927, 0.1078, 0.0990, 0.0989]], grad_fn=&lt;SoftmaxBackward&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pred_after_argmax</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">preds</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pred_after_argmax</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages/ipykernel_launcher.py:1: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  """Entry point for launching an IPython kernel.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1, 1, 1, 1])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can compare the prediciton result against the label tensor by using <code>eq</code> operation which will do element-wise comparision between prediction tensor and label tensor. And then we will sum the correct prediction to see how many predictions are correct.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pred_after_argmax</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor(2)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Training-NN">
+<a class="anchor" href="#Training-NN" aria-hidden="true"><span class="octicon octicon-link"></span></a>Training NN<a class="anchor-link" href="#Training-NN"> </a>
+</h2>
 </div>
 </div>
 </div>
@@ -1118,9 +1775,9 @@ avg_acc : 85.75166666666667
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Analyze-the-model's-results">
+<h2 id="Analyze-the-model's-results">
 <a class="anchor" href="#Analyze-the-model's-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Analyze the model's results<a class="anchor-link" href="#Analyze-the-model's-results"> </a>
-</h3>
+</h2>
 </div>
 </div>
 </div>
@@ -1535,29 +2192,6 @@ To use tensorboard, PyTorch version 1.1.0 is required.</p>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Requirement already satisfied: tensorboard==1.15.0 in /Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages (1.15.0)
-Requirement already satisfied: six&gt;=1.10.0 in /Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages (from tensorboard==1.15.0) (1.14.0)
-Requirement already satisfied: markdown&gt;=2.6.8 in /Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages (from tensorboard==1.15.0) (3.2.1)
-Requirement already satisfied: absl-py&gt;=0.4 in /Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages (from tensorboard==1.15.0) (0.9.0)
-Requirement already satisfied: protobuf&gt;=3.6.0 in /Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages (from tensorboard==1.15.0) (3.11.3)
-Requirement already satisfied: numpy&gt;=1.12.0 in /Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages (from tensorboard==1.15.0) (1.18.1)
-Requirement already satisfied: setuptools&gt;=41.0.0 in /Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages (from tensorboard==1.15.0) (45.2.0.post20200210)
-Requirement already satisfied: grpcio&gt;=1.6.3 in /Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages (from tensorboard==1.15.0) (1.28.1)
-Requirement already satisfied: werkzeug&gt;=0.11.15 in /Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages (from tensorboard==1.15.0) (1.0.1)
-Requirement already satisfied: wheel&gt;=0.26; python_version &gt;= "3" in /Users/phucnsp/anaconda3/envs/fastai2/lib/python3.7/site-packages (from tensorboard==1.15.0) (0.34.2)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     
 
@@ -1693,32 +2327,6 @@ To launch TensorBoard, we have 2 ways:</p>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-
-      <iframe id="tensorboard-frame-3099573ceaef4d37" width="100%" height="800" frameborder="0">
-      </iframe>
-      <script>
-        (function() {
-          const frame = document.getElementById("tensorboard-frame-3099573ceaef4d37");
-          const url = new URL("/", window.location);
-          url.port = 6006;
-          frame.src = url;
-        })();
-      </script>
-  
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -2167,8 +2775,8 @@ If we add more batches to the queue doesn't mean the batches are being processes
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Some-random-tricks">
-<a class="anchor" href="#Some-random-tricks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Some random tricks<a class="anchor-link" href="#Some-random-tricks"> </a>
+<h2 id="Random-topics">
+<a class="anchor" href="#Random-topics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Random topics<a class="anchor-link" href="#Random-topics"> </a>
 </h2>
 </div>
 </div>
@@ -2231,6 +2839,70 @@ As we know, deep neural networks are built using multiple layers. This is what m
 <li>A collection of weights (data)</li>
 </ul>
 <p>Like many things in life, this fact makes layers great candidates to be represented as objects using Object Oriented Programming - OOP.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Neural-net-layer-parameters">
+<a class="anchor" href="#Neural-net-layer-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Neural net layer parameters<a class="anchor-link" href="#Neural-net-layer-parameters"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Parameter-Vs-Argument">
+<a class="anchor" href="#Parameter-Vs-Argument" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameter Vs Argument<a class="anchor-link" href="#Parameter-Vs-Argument"> </a>
+</h4>
+<p>Parameters are used in function definitions as place-holders while arguments are the actual values that are passed to the function. The parameters can be thought of as local variables that live inside a function.<br>
+In our network's case, the names are the parameters and the values that we have specified are the arguments.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Types-Of-Parameters:">
+<a class="anchor" href="#Types-Of-Parameters:" aria-hidden="true"><span class="octicon octicon-link"></span></a>Types Of Parameters:<a class="anchor-link" href="#Types-Of-Parameters:"> </a>
+</h4>
+<p>A lot of terms in deep learning are used loosely, and the word parameter is one of them. The goal of these particular categories is to help us remember how each parameter's value is decided.</p>
+<ul>
+<li>Hyperparameters:<ul>
+<li>hyperparameters are parameters whose values are picked arbitrarily. The hyperparameters are used to construct our network’s architecture and are mainly chosen based on trial and error.</li>
+<li>Convolutional layers have three parameters: <code>in_channels</code>, <code>out_channels</code>, <code>kernel_size</code>.</li>
+<li>Linear layers have 2 parameters: <code>in_features</code>, <code>out_features</code>.</li>
+<li>All of these parameters impact the network's architecture. Specifically, these parameters directly impact the weight tensors inside the layers. </li>
+</ul>
+</li>
+<li>
+<p>Data dependent hyperparameters.</p>
+<ul>
+<li>Data dependent hyperparameters are parameters whose values are dependent on data.</li>
+<li>Some candidates from network above are:<ul>
+<li>
+<code>in_channels</code> parameter of the conv layer: depend on the number of channels of previous layer.</li>
+<li>
+<code>in_features</code> parameter of the linear layer: depend on the data coming from previous layer. </li>
+<li>
+<code>out_features</code> parameter of the output layer: depend on the number of classes of our training set. </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Learnable Parameters</p>
+<ul>
+<li>Learnable parameters are parameters whose values are learned during the training process.</li>
+<li>With learnable parameters, we typically start out with a set of arbitrary values, and these values then get updated in an iterative fashion as the network learns. Appropriate values are values that minimize the loss function.</li>
+<li>The learnable parameters are the weights inside our network, and they live inside each layer.</li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
@@ -2508,442 +3180,6 @@ As we know, deep neural networks are built using multiple layers. This is what m
 <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
     <span class="n">prediction_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
     <span class="n">train_preds</span> <span class="o">=</span> <span class="n">get_all_preds</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">prediction_loader</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Effective-Pytorch">
-<a class="anchor" href="#Effective-Pytorch" aria-hidden="true"><span class="octicon octicon-link"></span></a>Effective Pytorch<a class="anchor-link" href="#Effective-Pytorch"> </a>
-</h3>
-<p><a href="https://github.com/vahidk/EffectivePyTorch?fbclid=IwAR1MhsjnjccWy6dIVtibFOCZbWhLtAj5pSTobnkUDxw_gHgfEswnVzqrKQ0#torchscript">https://github.com/vahidk/EffectivePyTorch?fbclid=IwAR1MhsjnjccWy6dIVtibFOCZbWhLtAj5pSTobnkUDxw_gHgfEswnVzqrKQ0#torchscript</a></p>
-<ul>
-<li>PyTorch is similar to NumPy, with the additional benefit that PyTorch allows you to perform your computations on CPUs, GPUs, and TPUs without any material change to your code. PyTorch also makes it easy to distribute your computation across multiple devices or machines. One of the most important features of PyTorch is automatic differentiation. It allows computing the gradients of your functions analytically in an efficient manner which is crucial for training machine learning models using gradient descent method</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>The first thing to learn about PyTorch is the concept of Tensors. Tensors are simply multidimensional arrays. A PyTorch Tensor is very similar to a NumPy array with some magical additional functionality.</li>
-</ul>
-
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># One of the most commonly used operations in machine learning applications is matrix multiplication</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
-
-<span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="nd">@y</span>
-<span class="n">z</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>tensor([[-1.9095e+00,  2.7157e+00,  3.0564e+00, -2.6597e+00, -3.5740e+00],
-        [ 5.7195e-01,  1.1266e+00, -2.7287e+00,  1.9540e+00,  2.5402e-03],
-        [ 2.6661e+00,  3.8373e+00, -3.7645e+00,  2.2918e-02, -1.5655e+00]])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># add 2 tensors</span>
-<span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># convert between torch and numpy</span>
-<span class="n">x</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Automatic Differentiation</span>
-<span class="c1"># The most important advantage of PyTorch over NumPy is its automatic differentiation functionality which is </span>
-<span class="c1"># very useful in optimization applications such as optimizing parameters of a neural network</span>
-<span class="c1"># Say you have a composite function which is a chain of two functions: g(u(x)). To compute the derivative of g </span>
-<span class="c1"># with respect to x we can use the chain rule which states that: dg/dx = dg/du * du/dx. PyTorch can analytically</span>
-<span class="c1"># compute the derivatives for us.</span>
-
-<span class="c1"># To compute the derivatives in PyTorch first we create a tensor and set its requires_grad to true. We can use </span>
-<span class="c1"># tensor operations to define our functions. We assume u is a quadratic function and g is a simple linear </span>
-<span class="c1"># function</span>
-
-<span class="c1"># In this case our composite function is g(u(x)) = -x*x. So its derivative with respect to x is -2x. At point</span>
-<span class="c1"># x=1, this is equal to -2.</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">u</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span>
-<span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">u</span><span class="p">):</span> <span class="k">return</span> <span class="o">-</span><span class="n">u</span>
-
-<span class="n">dgdx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">)</span>
-<span class="n">dgdx</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(tensor(-2.),)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>tensor([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10., 11., 12., 13.,
-        14., 15., 16., 17., 18., 19., 20., 21., 22., 23., 24., 25., 26., 27.,
-        28., 29., 30., 31., 32., 33., 34., 35., 36., 37., 38., 39., 40., 41.,
-        42., 43., 44., 45., 46., 47., 48., 49., 50., 51., 52., 53., 54., 55.,
-        56., 57., 58., 59., 60., 61., 62., 63., 64., 65., 66., 67., 68., 69.,
-        70., 71., 72., 73., 74., 75., 76., 77., 78., 79., 80., 81., 82., 83.,
-        84., 85., 86., 87., 88., 89., 90., 91., 92., 93., 94., 95., 96., 97.,
-        98., 99.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># There are some predefined modules that act as a container for other modules. The most commonly used container </span>
-<span class="c1"># module is torch.nn.Sequential. As its name implies it's used to to stack multiple modules (or layers) on top</span>
-<span class="c1"># of each other. For example to stack two Linear layers with a ReLU nonlinearity in between you can do:</span>
-
-<span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
-    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
-    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span>
-<span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># optimizing runtime with TorchScript</span>
-
-<span class="c1"># PyTorch is optimized to perform operations on large tensors. Doing many operations on small tensors is quite</span>
-<span class="c1"># inefficient in PyTorch. So, whenever possible you should rewrite your computations in batch form to reduce</span>
-<span class="c1"># overhead and improve performance. If there's no way you can manually batch your operations, using TorchScript</span>
-<span class="c1"># may improve your code's performance. TorchScript is simply a subset of Python functions that are recognized by</span>
-<span class="c1"># PyTorch. PyTorch can automatically optimize your TorchScript code using its just in time (jit) compiler and </span>
-<span class="c1"># reduce some overheads.</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">);</span> 
-
-<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
-<span class="k">def</span> <span class="nf">batch_gather_jit</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">indices</span><span class="p">):</span>
-<span class="c1">#     import pdb; pdb.set_trace()</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tensor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">]]]</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-
-<span class="c1"># %%timeit</span>
-<span class="c1"># %time</span>
-<span class="o">%</span><span class="k">time</span> batch_gather_jit(t, idx)
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 4.27 ms, sys: 739 µs, total: 5.01 ms
-Wall time: 3.99 ms
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>tensor([1., 3., 5.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">);</span> 
-
-<span class="c1"># @torch.jit.script</span>
-<span class="k">def</span> <span class="nf">batch_gather_jit</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">indices</span><span class="p">):</span>
-<span class="c1">#     import pdb; pdb.set_trace()</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tensor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">]]]</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-
-<span class="c1"># %%timeit</span>
-<span class="c1"># %time</span>
-<span class="o">%</span><span class="k">time</span> batch_gather_jit(t, idx)
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 237 µs, sys: 462 µs, total: 699 µs
-Wall time: 3.16 ms
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>tensor([1., 3., 5.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">);</span> 
-
-<span class="k">def</span> <span class="nf">batch_gather_vec</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">indices</span><span class="p">):</span>
-    <span class="n">shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="n">flat_first</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
-        <span class="n">tensor</span><span class="p">,</span> <span class="p">[</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
-    <span class="n">offset</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
-        <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-        <span class="p">[</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">flat_first</span><span class="p">[</span><span class="n">indices</span> <span class="o">+</span> <span class="n">offset</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">output</span>
-
-<span class="o">%</span><span class="k">time</span> batch_gather_vec(t, idx)
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 866 µs, sys: 2.32 ms, total: 3.19 ms
-Wall time: 8.97 ms
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>tensor([1., 3., 5.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># broadcasting: the good and the ugly</span>
 </pre></div>
 
     </div>
