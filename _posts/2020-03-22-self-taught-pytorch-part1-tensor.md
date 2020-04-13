@@ -322,6 +322,17 @@ For this reason, it’s often acceptable to simply use a CPU when just starting 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="GPGPU-Computing">GPGPU Computing<a class="anchor-link" href="#GPGPU-Computing"> </a></h3><p>In the beginning, the main tasks that were accelerated using GPUs were computer graphics. Hence the name graphics processing unit, but in recent years, many more varieties parallel tasks have emerged. One such task as we have seen is deep learning.</p>
+<p>Deep learning along with many other scientific computing tasks that use parallel programming techniques are leading to a new type of programming model called GPGPU or general purpose GPU computing.</p>
+<p>GPGPU computing is more commonly just called GPU computing or accelerated computing now that it's becoming more common to preform a wide variety of tasks on a GPU.
+GPU computing stack: GPU as the hardware on the bottom, CUDA as the software architecture on top of the GPU, and finally libraries like cuDNN on top of CUDA. Sitting on top of CUDA and cuDNN is PyTorch, which is the framework were we’ll be working that ultimately supports applications on top.</p>
+<p>This <a href="https://arxiv.org/abs/1408.6923">paper</a> takes a deep dive into GPU computing and CUDA, but it goes much deeper than we need. We will be working near the top of the stack here with PyTorch.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Section-2:-Introducing-Tensors">Section 2: Introducing Tensors<a class="anchor-link" href="#Section-2:-Introducing-Tensors"> </a></h2><p>This section we'll talk all about tensors.</p>
 
 </div>
