@@ -1,7 +1,7 @@
 ---
 keywords: fastai
-description: in progress
-title: Pytorch part 1 - basic tensor and Pytorch tensor
+description: This notebook covers the fundamental part of deep learning -tensor and overview of Pytorch as well.
+title: Pytorch part 1 - tensor and Pytorch tensor
 toc: true 
 badges: true
 comments: true
@@ -29,10 +29,434 @@ layout: notebook
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Section-1:-Introducing-Pytorch">Section 1: Introducing Pytorch<a class="anchor-link" href="#Section-1:-Introducing-Pytorch"> </a></h2><ul>
-<li>PyTorch Explained - Python Deep Learning Neural Network API</li>
-<li>PyTorch Install - Quick and Easy</li>
-<li>CUDA Explained - Why Deep Learning Uses GPUs</li>
+<h2 id="Section-1:-Introducing-Pytorch">Section 1: Introducing Pytorch<a class="anchor-link" href="#Section-1:-Introducing-Pytorch"> </a></h2><p>PyTorch is a <code>deep learning framework</code> and a <code>scientific computing package</code>.<br>
+The scientific computing aspect of PyTorch is primarily a result PyTorch’s tensor library and associated tensor operations.</p>
+<p>PyTorch tensors and their associated operations are very similar to numpy n-dimensional arrays. A tensor is actually an n-dimensional array. For example, PyTorch <code>torch.Tensor</code> objects that are created from numpy ndarray objects, share memory. This makes the transition between PyTorch and NumPy very cheap from a performance perspective.</p>
+<p>With PyTorch tensors, GPU support is built-in. It’s very easy with PyTorch to move tensors to and from a GPU if we have one installed on our system.
+Tensors are super important for deep learning and neural networks because they are the data structure that we ultimately use for building and training our neural networks.</p>
+<p>The initial release of PyTorch was in October of 2016, and before PyTorch was created, there was and still is, another framework called Torch which is also a machine learning framework but is based on the Lua programming language. The connection between PyTorch and this Lua version, called Torch, exists because many of the developers who maintain the Lua version are the individuals who created PyTorch.
+{% include note.html content='Facebook Created PyTorch' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These are the primary PyTorch components we’ll be learning about and using as we build neural networks in this series.</p>
+<table>
+<thead><tr>
+<th style="text-align:left">Package</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">torch</td>
+<td style="text-align:left">The top-level PyTorch package and tensor library.</td>
+</tr>
+<tr>
+<td style="text-align:left">torch.nn</td>
+<td style="text-align:left">A subpackage that contains modules and extensible classes for building neural networks.</td>
+</tr>
+<tr>
+<td style="text-align:left">torch.autograd</td>
+<td style="text-align:left">A subpackage that supports all the differentiable Tensor operations in PyTorch.</td>
+</tr>
+<tr>
+<td style="text-align:left">torch.nn.functional</td>
+<td style="text-align:left">A functional interface that contains typical operations used for building neural networks like loss functions, activation functions, and convolution operations.</td>
+</tr>
+<tr>
+<td style="text-align:left">torch.optim</td>
+<td style="text-align:left">A subpackage that contains standard optimization operations like SGD and Adam.</td>
+</tr>
+<tr>
+<td style="text-align:left">torch.utils</td>
+<td style="text-align:left">A subpackage that contains utility classes like data sets and data loaders that make data preprocessing easier.</td>
+</tr>
+<tr>
+<td style="text-align:left">torchvision</td>
+<td style="text-align:left">A package that provides access to popular datasets, model architectures, and image transformations for computer vision.</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Why-Use-PyTorch-For-Deep-Learning?">Why Use PyTorch For Deep Learning?<a class="anchor-link" href="#Why-Use-PyTorch-For-Deep-Learning?"> </a></h3><ul>
+<li>it is a thin framework, which makes it more likely that PyTorch will be capable of adapting to the rapidly evolving deep learning environment as things change over time.</li>
+<li>stays out of the way and this makes it so that we can focus on neural networks and less on the actual framework. When we build neural networks with PyTorch, we are super close to programming neural networks from scratch. When we write PyTorch code, we are just writing and extending standard Python classes, and when we debug PyTorch code, we are using the standard Python debugger.</li>
+</ul>
+<p>PyTorch's development is guided by the following list:</p>
+<ul>
+<li>Stay out of the way</li>
+<li>Cater to the impatient</li>
+<li>Promote linear code-flow</li>
+<li>Full interop with the Python ecosystem</li>
+<li>Be as fast as anything else</li>
+</ul>
+<p>PyTorch’s design is modern, Pythonic, and thin. The source code is easy to read for Python developers because it’s written mostly in Python, and only drops into C++ and CUDA code for operations that are performance bottlenecks.</p>
+<p>Overall, PyTorch is a great tool for deepening our understanding of deep learning and neural networks.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Why-PyTorch-is-great-for-deep-learning-research">Why PyTorch is great for deep learning research<a class="anchor-link" href="#Why-PyTorch-is-great-for-deep-learning-research"> </a></h3><p>The reason for this research suitability is that Pytorch use dynamic computational graph, in contrast with tensorfow which uses static computational graph, in order to calculate derivatives.</p>
+<p>Computational graphs are used to graph the function operations that occur on tensors inside neural networks.
+These graphs are then used to compute the derivatives needed to optimize the neural network. Dynamic computational graph means that the graph is generated on the fly as the operations are created. Static graphs that are fully determined before the actual operations occur.</p>
+<p>It just so happens that many of the cutting edge research topics in deep learning are requiring or benefiting greatly from dynamic graphs.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Installing-PyTorch">Installing PyTorch<a class="anchor-link" href="#Installing-PyTorch"> </a></h3><p>The recommended best option is to use the Anaconda Python package manager. With Anaconda, it's easy to get and manage Python, Jupyter Notebook, and other commonly used packages for scientific computing and data science, like PyTorch!</p>
+<p>Let’s go over the steps:</p>
+<ul>
+<li>Download and install <a href="https://www.anaconda.com/distribution/">Anaconda</a> (choose the latest Python version).</li>
+<li>Go to <a href="https://pytorch.org/">PyTorch's site</a> and find the get started locally section.</li>
+<li>Specify the appropriate configuration options for your particular environment.</li>
+<li>Run the presented command in the terminal to install PyTorch</li>
+</ul>
+<p>For the example: 
+<code>conda install pytorch torchvision cudatoolkit=10.0 -c pytorch</code></p>
+<p>Notice that we are installing both PyTorch and torchvision. Also, there is no need to install CUDA separately. The needed CUDA software comes installed with PyTorch if a CUDA version is selected in step (3). All we need to do is select a version of CUDA if we have a supported Nvidia GPU on our system.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>conda list torch
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre># packages in environment at /Users/phucnsp/anaconda3/envs/fastai2:
+#
+# Name                    Version                   Build  Channel
+pytorch                   1.4.0                   py3.7_0    pytorch
+torchsummary              1.5.1                    pypi_0    pypi
+torchvision               0.5.0                  py37_cpu    pytorch
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">__version__</span> <span class="c1"># to verify pytorch version</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;1.4.0&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="c1"># to verify our GPU capabilities</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="CUDA---Why-Deep-Learning-Uses-GPUs">CUDA - Why Deep Learning Uses GPUs<a class="anchor-link" href="#CUDA---Why-Deep-Learning-Uses-GPUs"> </a></h3><p>To understand CUDA, we need to have a working knowledge of graphics processing units (GPUs). A GPU is a processor that is good at handling specialized computations. This is in contrast to a central processing unit (CPU), which is a processor that is good at handling general computations. CPUs are the processors that power most of the typical computations on our electronic devices.</p>
+<p>A GPU can be much faster at computing than a CPU. However, this is not always the case. The speed of a GPU relative to a CPU depends on the type of computation being performed. The type of computation most suitable for a GPU is a computation that can be done in parallel.</p>
+<p>Parallel computing is a type of computation where by a particular computation is broken into independent smaller computations that can be carried out simultaneously. The resulting computations are then recombined, or synchronized, to form the result of the original larger computation.</p>
+<p>The number of tasks that a larger task can be broken into depends on the number of cores contained on a particular piece of hardware. Cores are the units that actually do the computation within a given processor, and CPUs typically have four, eight, or sixteen cores while GPUs have potentially thousands.</p>
+<p>So why deep learning uses them - <code>Neural networks are embarrassingly parallel</code>.
+Tasks that embarrassingly parallel are ones where it’s easy to see that the set of smaller tasks are independent with respect to each other. Many of the computations that we do with neural networks can be easily broken into smaller computations in such a way that the set of smaller computations do not depend on one another. One such example is a convolution.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Nvidia-Hardware-(GPU)-And-Software-(CUDA)">Nvidia Hardware (GPU) And Software (CUDA)<a class="anchor-link" href="#Nvidia-Hardware-(GPU)-And-Software-(CUDA)"> </a></h3><p>Nvidia is a technology company that designs GPUs, and they have created CUDA as a software platform that pairs with their GPU hardware making it easier for developers to build software that accelerates computations using the parallel processing power of Nvidia GPUs.
+Developers use CUDA by downloading the <code>CUDA toolkit</code>. With the toolkit comes specialized libraries like <code>cuDNN</code> - the CUDA Deep Neural Network library.</p>
+<p>With PyTorch, CUDA comes baked in from the start. There are no additional downloads required. All we need is to have a supported Nvidia GPU, and we can leverage CUDA using PyTorch. We don’t need to know how to use the CUDA API directly.</p>
+<p>After all, PyTorch is written in all of these: Python, C++, CUDA</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Suppose we have the following code:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The tensor object created in this way is on the CPU by default. As a result, any operations that we do using this tensor object will be carried out on the CPU.
+Now, to move the tensor onto the GPU, we just write:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This ability makes PyTorch very versatile because computations can be selectively carried out either on the CPU or on the GPU.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include note.html content='GPU Can Be Slower Than CPU. The answer is that a GPU is only faster for particular (specialized) tasks. For example, moving data from the CPU to the GPU is costly, so in this case, the overall performance might be slower if the computation task is a simple one.' %}Moving relatively small computational tasks to the GPU won’t speed us up very much and may indeed slow us down. Remember, the GPU works well for tasks that can be broken into many smaller tasks, and if a compute task is already small, we won’t have much to gain by moving the task to the GPU.
+For this reason, it’s often acceptable to simply use a CPU when just starting out, and as we tackle larger more complicated problems, begin using the GPU more heavily.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Section-2:-Introducing-Tensors">Section 2: Introducing Tensors<a class="anchor-link" href="#Section-2:-Introducing-Tensors"> </a></h2><p>This section we'll talk all about tensors.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tensors---Data-Structures-of-Deep-Learning">Tensors - Data Structures of Deep Learning<a class="anchor-link" href="#Tensors---Data-Structures-of-Deep-Learning"> </a></h3><p>A tensor is the primary data structure used by neural networks. The inputs, outputs, and transformations within neural networks are all represented using tensors, and as a result, neural network programming utilizes tensors heavily.</p>
+<p>The below concepts, that we met in math or computer science, are all refered to <code>tensor</code> in deep learning.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<table>
+<thead><tr>
+<th style="text-align:center">indexes required</th>
+<th style="text-align:center">math</th>
+<th>computer science</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">scalar</td>
+<td>number</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">vector</td>
+<td>array</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">matrix</td>
+<td>2d-array</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The relationship within each of these pairs is that both elements require the same number of indexes to refer to a specific element within the data structure.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># an array or a vector requires 1 index to access its element</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>4</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># an matrix or 2d-array requires 2 index to access its element</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>3</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When more than two indexes are required to access a specific element, we stop giving specific names to the structures, and we begin using more general language.</p>
+<p>In mathematics, we stop using words like scalar, vector, and matrix, and we start using the word <code>tensor</code> or <code>nd-tensor</code>. The n tells us the number of indexes required to access a specific element within the structure.</p>
+<p>In computer science, we stop using words like, number, array, 2d-array, and start using the word <code>multidimensional array</code> or <code>nd-array</code>. The n tells us the number of indexes required to access a specific element within the structure.</p>
+<p>The reason we say a tensor is a generalization is because we use the word tensor for all values of n like so:</p>
+<ul>
+<li>A scalar is a 0 dimensional tensor</li>
+<li>A vector is a 1 dimensional tensor</li>
+<li>A matrix is a 2 dimensional tensor</li>
+<li>A nd-array is an n dimensional tensor</li>
 </ul>
 
 </div>
@@ -40,10 +464,26 @@ layout: notebook
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Section-2:-Introducing-Tensors">Section 2: Introducing Tensors<a class="anchor-link" href="#Section-2:-Introducing-Tensors"> </a></h2><ul>
-<li>Tensors Explained - Data Structures of Deep Learning</li>
-<li>Rank, Axes, and Shape Explained - Tensors for Deep Learning</li>
-<li>CNN Tensor Shape Explained - CNNs and Feature Maps</li>
+<p>{% include note.html content='Tensors and nd-arrays are the same thing!' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Rank,-Axes,-and-Shape----fundamental-tensor-attributes-for-deep-learning">Rank, Axes, and Shape -  fundamental tensor attributes for deep learning<a class="anchor-link" href="#Rank,-Axes,-and-Shape----fundamental-tensor-attributes-for-deep-learning"> </a></h3><p>These concepts build on one another starting with rank, then axes, and building up to shape.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>rank</code> of a tensor refers to the number of dimensions present within the tensor. A rank-2 tensor means all of the following:</p>
+<ul>
+<li>a matrix</li>
+<li>a 2d-array</li>
+<li>a 2d-tensor
+{% include note.html content='A tensor&#8217;s rank tells us how many indexes are needed to refer to a specific element within the tensor.' %}</li>
 </ul>
 
 </div>
@@ -51,26 +491,2000 @@ layout: notebook
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Section-3:-Pytorch-Tensors">Section 3: Pytorch Tensors<a class="anchor-link" href="#Section-3:-Pytorch-Tensors"> </a></h2><ul>
-<li>PyTorch Tensors Explained - Neural Network Programming</li>
-<li>Creating PyTorch Tensors for Deep Learning - Best Options</li>
-</ul>
+<p>An <code>axis</code> of a tensor is a specific dimension of a tensor.<br>
+If we say that a tensor is a rank 2 tensor, we mean that the tensor has 2 dimensions, or equivalently, the tensor has two axes.</p>
+<p>The <code>length of each axis</code> tells us how many indexes are available along each axis.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span> <span class="o">=</span> <span class="p">[</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Each element along the first axis, is an array:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dd</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dd</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>([1, 2, 3], [4, 5, 6], [7, 8, 9])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Each element along the second axis, is a number:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">dd</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">dd</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(1, 4, 7)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include note.html content='with tensors, the elements of the last axis are always numbers. Every other axis will contain n-dimensional arrays.' %}</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Section-4:-Tensor-Operations">Section 4: Tensor Operations<a class="anchor-link" href="#Section-4:-Tensor-Operations"> </a></h2><ul>
-<li>Flatten, Reshape, and Squeeze Explained - Tensors for Deep Learning</li>
-<li>CNN Flatten Operation Visualized - Tensor Batch Processing</li>
-<li>Tensors for Deep Learning - Broadcasting and Element-wise Operations</li>
-<li>ArgMax and Reduction Ops - Tensors for Deep Learning</li>
+<p>The <code>shape</code> of a tensor gives us the length of each axis of the tensor. 
+{% include note.html content='The shape of a tensor is important because it encodes all of the relevant information about axes, rank, and therefore indexes. Additionally, one of the types of operations we must perform frequently when we are programming our neural networks is called <code>reshaping</code>.' %}</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="n">t</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([2, 3])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The shape of 2 x 3 tells us that each axis of this rank two tensor has a length of 3 which means that we have three indexes available along each axis.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include note.html content='size and shape of a tensor are the same thing.' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Section-3:-Pytorch-Tensors">Section 3: Pytorch Tensors<a class="anchor-link" href="#Section-3:-Pytorch-Tensors"> </a></h2><p>PyTorch tensors are the data structures we'll be using when programming neural networks in PyTorch.
+When programming neural networks, data preprocessing is often one of the first steps in the overall process, and one goal of data preprocessing is to transform the raw input data into tensor form.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="torch.Tensor-class-and-its-attributes">torch.Tensor class and its attributes<a class="anchor-link" href="#torch.Tensor-class-and-its-attributes"> </a></h3><p>PyTorch tensors are instances of the <code>torch.Tensor</code> Python class.<br>
+First, let’s look at a few tensor attributes. Every <code>torch.Tensor</code> has these attributes:</p>
+<ul>
+<li>torch.dtype: </li>
+<li>torch.device</li>
+<li>torch.layout</li>
 </ul>
 
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">layout</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.float32
+cpu
+torch.strided
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>dtype</code> specifies the type of the data that is contained within the tensor.
+{% include note.html content='- Each type has a CPU and GPU version' %}        - Tensor operations between tensors must happen between tensors with the same type of data.</p>
+
+<pre><code>    - Tensors contain uniform (of the same type) numerical data with one of these types: 
+</code></pre>
+<p><img src="/blog/images/copied_from_nb/data/pytorch_dtype.png" alt="pytorch datatype"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>device</code> specifies the device (<code>CPU</code> or <code>GPU</code>) where the tensor's data is allocated. This determines where tensor computations for the given tensor will be performed.<br>
+PyTorch supports the use of multiple devices, and they are specified using an index like so:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+<span class="n">device</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>device(type=&#39;cuda&#39;, index=0)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If we have a device like above, we can create a tensor on the device by passing the device to the tensor’s constructor. 
+{% include note.html content='tensor operations between tensors must happen between tensors that exists on the same device.' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>layout</code> specifies how the tensor is stored in memory. To learn more about stride check <a href="https://en.wikipedia.org/wiki/Stride_of_an_array">here</a>. For now, this is all we need to know.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Create-a-new-tensor-using-data">Create a new tensor using data<a class="anchor-link" href="#Create-a-new-tensor-using-data"> </a></h3><p>These are the primary ways of creating tensor objects (instances of the <code>torch.Tensor</code> class), with data (array-like) in PyTorch:</p>
+<ol>
+<li>torch.Tensor(data): is the constructor of the <code>torch.Tensor</code> class</li>
+<li>torch.tensor(data): is the <code>factory function</code> that constructs <code>torch.Tensor</code> objects. Factory functions are a software design pattern for creating objects. If you want to read more about it check [here]</li>
+<li>torch.as_tensor(data)</li>
+<li>torch.from_numpy(data)</li>
+</ol>
+<p>Let’s look at each of these. They all accept some form of data and give us an instance of the <code>torch.Tensor</code> class. Sometimes when there are multiple ways to achieve the same result, things can get confusing, so let’s break this down.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="n">o1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">o2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">o3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">o4</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">o1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">o2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">o3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">o4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>tensor([1., 2., 3.])
+tensor([1, 2, 3])
+tensor([1, 2, 3])
+tensor([1, 2, 3])
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">get_default_dtype</span><span class="p">())</span>
+<span class="n">o1</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">get_default_dtype</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.float32
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The table below compare 4 options and propose which one to use:</p>
+<table>
+<thead><tr>
+<th style="text-align:left">method</th>
+<th style="text-align:center">which one to use</th>
+<th style="text-align:center">dtype</th>
+<th style="text-align:center">data in memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">torch.Tensor(data)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">infer from torch default dtype, unable to pass a <code>dtype</code> to the constructor.</td>
+<td style="text-align:center">copy</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>torch.tensor(data)</strong></td>
+<td style="text-align:center">best option to go, better doc and more config options than <code>torch.Tensor</code></td>
+<td style="text-align:center">inferred from data or be explicitly set.</td>
+<td style="text-align:center">copy</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>torch.as_tensor(data)</em></td>
+<td style="text-align:center">to-go when we want to tune for performance, better than <code>torch.from_numpy</code> because it accepts a wide variety of array-like objects including other  Pytorch tensor.</td>
+<td style="text-align:center">inferred from data or be explicitly set.</td>
+<td style="text-align:center">share</td>
+</tr>
+<tr>
+<td style="text-align:left">torch.from_nummpy(data)</td>
+<td style="text-align:center">only accepts numpy.ndarray</td>
+<td style="text-align:center">inferred from data or be explicitly set.</td>
+<td style="text-align:center">share</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Data memory is shared means that the actual data in memory exists in a single place. As a result, any changes that occur in the underlying data will be reflected in both objects, the <code>torch.Tensor</code> and the <code>numpy.ndarray</code>.<br>
+Sharing data is more efficient and uses less memory than copying data because the data is not written to two locations in memory.
+However, there are something to keep in mind about memory sharing:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include note.html content='- Since <code>numpy.ndarray</code> objects are allocated on the CPU, the <code>as_tensor()</code> function must copy the data from the CPU to the GPU when a GPU is being used.' %}        - The memory sharing of <code>as_tensor()</code> doesn’t work with built-in Python data structures like lists.</p>
+
+<pre><code>    - The `as_tensor()` call requires developer knowledge of the sharing feature. This is necessary so we don’t inadvertently make an unwanted change in the underlying data without realizing the change impacts multiple objects.
+    - The `as_tensor()` performance improvement will be greater if there are a lot of back and forth operations between `numpy.ndarray` objects and tensor objects. However, if there is just a single load operation, there shouldn’t be much impact from a performance perspective.</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Create-a-new-tensor-without-data">Create a new tensor without data<a class="anchor-link" href="#Create-a-new-tensor-without-data"> </a></h3><p>Here are some other creation options that are available.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create identity matrix</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[1., 0.],
+        [0., 1.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create a tensor of zeros with the shape of specified shape argument</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[0., 0.],
+        [0., 0.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create a tensor of ones with the shape of specified shape argument</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[1., 1.],
+        [1., 1.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create a tensor of random values with the shape of specified shape argument</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[0.3088, 0.4226],
+        [0.8102, 0.9129]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is a small subset of the available creation functions that don’t require data. Check with the <a href="https://pytorch.org/docs/stable/index.html">PyTorch documentation</a> for the full list.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Section-4:-Tensor-Operations">Section 4: Tensor Operations<a class="anchor-link" href="#Section-4:-Tensor-Operations"> </a></h2><p>We have the following high-level categories of tensor operations:</p>
+<ul>
+<li>Reshaping operations: gave us the ability to position our elements along particular axes. </li>
+<li>Element-wise operations: allow us to perform operations on elements between two tensors.</li>
+<li>Reduction operations: allow us to perform operations on elements within a single tensor.</li>
+<li>Access operations</li>
+</ul>
+<p>There are a lot of individual operations out there, so much so that it can sometimes be intimidating when you're just beginning, but grouping similar operations into categories based on their likeness can help make learning about tensor operations more manageable.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Broadcasting-Tensors">Broadcasting Tensors<a class="anchor-link" href="#Broadcasting-Tensors"> </a></h3><p>To understand this concept, let's take a look at an example. Suppose we have the following tensors.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">t2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">t1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(torch.Size([2, 2]), torch.Size([2]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>What will be the result of this element-wise addition operation, t1 + t2 ?</p>
+<p>Even though these two tenors have differing shapes, the element-wise operation is possible, and broadcasting is what makes the operation possible. The lower rank tensor t2 will be transformed via broadcasting to match the shape of the higher rank tensor t1, and the element-wise operation will be performed as usual.</p>
+<p>we can check the broadcast transformation using the <code>broadcast_to()</code> numpy function.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">t1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[2., 4.],
+       [2., 4.]], dtype=float32)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[3., 5.],
+        [3., 5.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After broadcasting, the addition operation between these two tensors is a regular element-wise operation between tensors of the same shape.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tensor-reshape-operation">Tensor reshape operation<a class="anchor-link" href="#Tensor-reshape-operation"> </a></h3><p>Reshaping operations are perhaps the most important type of tensor operations because the shape of a tensor gives us something concrete we can use to shape an intuition for our tensors.
+{% include note.html content='Reshaping changes the shape but not the underlying data elements.' %}</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[1., 1., 1., 1.],
+        [2., 2., 2., 2.],
+        [3., 3., 3., 3.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Other ways to flatten a tensor</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">numel</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using the <code>reshape()</code> function, we can specify the <code>row x column</code> shape that we are seeking. Notice that the product of the shape's components has to be equal to the number of elements in the original tensor.</p>
+<p>Pytorch has another function called <code>view()</code> that does the same thing as <code>reshape</code> function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As neural network programmers, we have to do the same with our tensors, and usually shaping and reshaping our tensors is a frequent task.<br>
+Our networks operate on tensors, after all, and this is why understanding a tensor’s shape and the available reshaping operations are super important.</p>
+<p>The next way we can change the shape of our tensors is by squeezing and unsqueezing them.</p>
+<ul>
+<li>Squeezing a tensor removes the dimensions or axes that have a length of one.</li>
+<li>Unsqueezing a tensor adds a dimension with a length of one.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">])</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([1, 12])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">])</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([12])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">])</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([1, 1, 12])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let’s look at a common use case for reshaping a tensor - <code>flatten a tensor</code>.<br>
+A flatten operation on a tensor reshapes the tensor to have a shape that is equal to the number of elements contained in the tensor. This is the same thing as a 1d-array of elements.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>flatten operation = reshape operation + squeeze operation</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">flatten_ex</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">t</span>
+<span class="n">flatten_ex</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It is possible to flatten only specific parts of a tensor.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">t</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([1, 3, 4])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([1, 12])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A tensor flatten operation is a common operation inside convolutional neural networks. This is because convolutional layer outputs that are passed to fully connected layers must be flatted out before the fully connected layer will accept the input.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tensor-element-wise-operation">Tensor element-wise operation<a class="anchor-link" href="#Tensor-element-wise-operation"> </a></h3><p>An element-wise operation is an operation between two tensors that operates on corresponding elements within the respective tensors. Two tensors must have the same shape in order to perform element-wise operations on them.</p>
+<p>Some common element-wise operations</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+                   <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span>
+                   <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span> <span class="c1"># equivalent with t1.add(t2)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[10., 10.],
+        [10., 10.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span> <span class="o">+</span> <span class="mi">2</span> <span class="c1"># equivalent with t1.add(2)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[3., 4.],
+        [5., 6.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span> <span class="o">-</span> <span class="mi">2</span> <span class="c1"># equivalent with t1.sub(2)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[-1.,  0.],
+        [ 1.,  2.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span> <span class="o">*</span> <span class="mi">2</span> <span class="c1"># equivalent with t1.mul(2)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[2., 4.],
+        [6., 8.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span> <span class="o">/</span> <span class="mi">2</span> <span class="c1"># equivalent with t1.div(2)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[0.5000, 1.0000],
+        [1.5000, 2.0000]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Comparison Operation is element-wise</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[ True, False,  True],
+        [False,  True, False],
+        [ True, False,  True]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[False,  True, False],
+        [ True, False,  True],
+        [False,  True, False]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[False, False, False],
+        [False, False, False],
+        [False, False, False]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>With element-wise operations that are functions, it’s fine to assume that the function is applied to each element of the tensor.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[0., 1., 0.],
+        [2., 0., 2.],
+        [0., 3., 0.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[0.0000, 1.0000, 0.0000],
+        [1.4142, 0.0000, 1.4142],
+        [0.0000, 1.7321, 0.0000]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">neg</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[-0., -1., -0.],
+        [-2., -0., -2.],
+        [-0., -3., -0.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">neg</span><span class="p">()</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[0., 1., 0.],
+        [2., 0., 2.],
+        [0., 3., 0.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include note.html content='Element-wise = Component-wise = Point-wise' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tensor-reduction-operations">Tensor reduction operations<a class="anchor-link" href="#Tensor-reduction-operations"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A reduction operation on a tensor is an operation that reduces the number of elements contained within the tensor.
+Tensors give us the ability to manage our data. The tensor can be reduced to a single scalar value or reduced along an axis.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let’s look at common tensor reduction operations:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Reducing to a tensor with a single element</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">t</span><span class="o">.</span><span class="n">prod</span><span class="p">(),</span> <span class="n">t</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">t</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor(8.), tensor(0.), tensor(0.8889), tensor(1.1667))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Reducing tensors By Axes</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([2., 4., 2.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>Argmax</code> tensor reduction operation is very common in neural network.<br>
+This operation returns the index location of the maximum value inside a tensor.
+In practice, we often use the <code>argmax()</code> function on a network’s output prediction tensor, to determine which category has the highest prediction value.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.return_types.max(
+values=tensor([1., 2., 3.]),
+indices=tensor([1, 2, 1]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1, 2, 1])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tensor-access-operation">Tensor access operation<a class="anchor-link" href="#Tensor-access-operation"> </a></h3><p>This operation provides the ability to access data within the tensor.<br>
+Common tensor access operations are <code>item(), tolist(), numpy()</code></p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.8888888955116272</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[0.6666666865348816, 1.3333333730697632, 0.6666666865348816]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.6666667, 1.3333334, 0.6666667], dtype=float32)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References"> </a></h2><p>Some good sources:</p>

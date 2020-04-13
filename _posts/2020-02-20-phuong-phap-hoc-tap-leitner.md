@@ -1,6 +1,6 @@
 ---
 keywords: fastai
-description: Bài viết này mình xin giới thiệu về phương pháp học tập Leitner, có thể áp dụng để học mọi thứ.
+description: drafting
 title: Giới thiệu phương pháp học Leitner 
 toc: true 
 badges: true

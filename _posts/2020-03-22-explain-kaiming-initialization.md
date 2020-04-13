@@ -1,6 +1,6 @@
 ---
 keywords: fastai
-description: This notebook I will explain the Kaiming Initialization, both code and math. 
+description: drafting
 title: Explain Kaiming Initialization
 toc: true 
 badges: true
@@ -43,7 +43,7 @@ layout: notebook
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Firstly, we take a brief look on notation of a standard neural network. The image below shows notation of 4 layer neural network.
-<img src="/blog/images/copied_from_nb/my_icons/neuralnet_notation.png" alt=""></p>
+<img src="/blog/images/copied_from_nb/data/neuralnet_notation.png" alt=""></p>
 
 </div>
 </div>

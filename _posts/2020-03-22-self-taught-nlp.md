@@ -1,6 +1,6 @@
 ---
 keywords: fastai
-description: I will take fastai nlp course and cs224n from Standford later. 
+description: drafting
 title: This notebook tracks my progress in learning nlp 
 toc: true 
 badges: true
