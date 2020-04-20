@@ -966,6 +966,70 @@ However, there are something to keep in mind about memory sharing:</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to convert multiple arrays to tensor:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor([1, 2, 3]), tensor([3, 4, 5]), tensor([1]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Create-a-new-tensor-without-data">Create a new tensor without data<a class="anchor-link" href="#Create-a-new-tensor-without-data"> </a></h3><p>Here are some other creation options that are available.</p>
 
 </div>
@@ -1083,7 +1147,8 @@ However, there are something to keep in mind about memory sharing:</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create a tensor of random values with the shape of specified shape argument</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Returns a tensor filled with random numbers from a uniform distribution on the interval [0, 1)</span>
+<span class="c1"># The shape of the tensor is defined by the variable argument size.</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 
@@ -1101,6 +1166,42 @@ However, there are something to keep in mind about memory sharing:</p>
 <div class="output_text output_subarea output_execute_result">
 <pre>tensor([[0.3088, 0.4226],
         [0.8102, 0.9129]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Returns a tensor filled with random numbers from a normal distribution with mean 0 and variance 1 </span>
+<span class="c1"># (also called the standard normal distribution).</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[-1.1778, -1.0388, -0.1459],
+        [-0.1746,  0.5764, -1.1491]])</pre>
 </div>
 
 </div>
@@ -2500,20 +2601,21 @@ Common tensor access operations are <code>item(), tolist(), numpy()</code></p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References"> </a></h2><p>Some good sources:</p>
 <ul>
-<li>deeplizard : <a href="https://deeplizard.com/learn/video/v5cngxo4mIg">https://deeplizard.com/learn/video/v5cngxo4mIg</a></li>
-<li>effective pytorch - vahidk <a href="https://github.com/vahidk/EffectivePyTorch?fbclid=IwAR1MhsjnjccWy6dIVtibFOCZbWhLtAj5pSTobnkUDxw_gHgfEswnVzqrKQ0#torchscript">https://github.com/vahidk/EffectivePyTorch?fbclid=IwAR1MhsjnjccWy6dIVtibFOCZbWhLtAj5pSTobnkUDxw_gHgfEswnVzqrKQ0#torchscript</a>  </li>
-<li>recommend walk with pytorch: <a href="https://forums.fast.ai/t/getting-comfortable-with-pytorch-projects/28371">https://forums.fast.ai/t/getting-comfortable-with-pytorch-projects/28371</a></li>
-<li>official tutorial: <a href="https://pytorch.org/tutorials/">https://pytorch.org/tutorials/</a></li>
-<li>DL(with Pytorch): <a href="https://github.com/Atcold/pytorch-Deep-Learning">https://github.com/Atcold/pytorch-Deep-Learning</a></li>
-<li>Pytorch project template: <a href="https://github.com/moemen95/PyTorch-Project-Template">https://github.com/moemen95/PyTorch-Project-Template</a></li>
-<li>nlp turorial with pytorch : <a href="https://github.com/graykode/nlp-tutorial">https://github.com/graykode/nlp-tutorial</a></li>
-<li>UDACITY course <a href="https://www.udacity.com/course/deep-learning-pytorch--ud188">https://www.udacity.com/course/deep-learning-pytorch--ud188</a></li>
-<li>awesome pytorch list: <a href="https://github.com/bharathgs/Awesome-pytorch-list">https://github.com/bharathgs/Awesome-pytorch-list</a></li>
-<li>deep learning with pytorch <a href="https://pytorch.org/assets/deep-learning/Deep-Learning-with-PyTorch.pdf">https://pytorch.org/assets/deep-learning/Deep-Learning-with-PyTorch.pdf</a></li>
-<li>pytorch zero to all: <a href="https://github.com/hunkim/PyTorchZeroToAll">https://github.com/hunkim/PyTorchZeroToAll</a></li>
+<li><a href="https://github.com/hunkim/PyTorchZeroToAll">pytorch zero to all</a></li>
+<li><a href="https://deeplizard.com/learn/video/v5cngxo4mIg">deeplizard</a></li>
+<li><a href="https://github.com/vahidk/EffectivePyTorch?fbclid=IwAR1MhsjnjccWy6dIVtibFOCZbWhLtAj5pSTobnkUDxw_gHgfEswnVzqrKQ0#torchscript">effective pytorch</a></li>
+<li><a href="https://pytorch.org/tutorials/beginner/nn_tutorial.html">what is torch.nn really?</a></li>
+<li><a href="https://forums.fast.ai/t/getting-comfortable-with-pytorch-projects/28371">recommend walk with pytorch</a></li>
+<li><a href="https://pytorch.org/tutorials/">official tutorial</a></li>
+<li><a href="https://github.com/Atcold/pytorch-Deep-Learning">DL(with Pytorch)</a></li>
+<li><a href="https://github.com/moemen95/PyTorch-Project-Template">Pytorch project template</a></li>
+<li><a href="https://github.com/graykode/nlp-tutorial">nlp turorial with pytorch</a></li>
+<li><a href="https://www.udacity.com/course/deep-learning-pytorch--ud188">UDACITY course</a></li>
+<li><a href="https://github.com/bharathgs/Awesome-pytorch-list">awesome pytorch list</a></li>
+<li><a href="https://pytorch.org/assets/deep-learning/Deep-Learning-with-PyTorch.pdf">deep learning with pytorch</a></li>
 <li>others:<ul>
 <li><a href="https://medium.com/pytorch/get-started-with-pytorch-cloud-tpus-and-colab-a24757b8f7fc">https://medium.com/pytorch/get-started-with-pytorch-cloud-tpus-and-colab-a24757b8f7fc</a></li>
-<li>grokking book</li>
+<li>Grokking Algorithms: An illustrated guide for programmers and other curious people 1st Edition</li>
 </ul>
 </li>
 </ul>
