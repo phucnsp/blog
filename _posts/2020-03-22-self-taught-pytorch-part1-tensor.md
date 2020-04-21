@@ -1,6 +1,6 @@
 ---
 keywords: fastai
-description: This notebook covers the fundamental part of deep learning -tensor and overview of Pytorch as well.
+description: This notebook introduces fundamental pieces of neural network such as tensors, Pytorch tensor operation, GPU, CUDA.
 title: Pytorch part 1 - tensor and Pytorch tensor
 toc: true 
 badges: true
@@ -29,24 +29,21 @@ layout: notebook
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Section-1:-Introducing-Pytorch">Section 1: Introducing Pytorch<a class="anchor-link" href="#Section-1:-Introducing-Pytorch"> </a></h2><p>PyTorch is a <code>deep learning framework</code> and a <code>scientific computing package</code>.<br>
-The scientific computing aspect of PyTorch is primarily a result PyTorch’s tensor library and associated tensor operations.</p>
-<p>PyTorch tensors and their associated operations are very similar to numpy n-dimensional arrays. A tensor is actually an n-dimensional array. For example, PyTorch <code>torch.Tensor</code> objects that are created from numpy ndarray objects, share memory. This makes the transition between PyTorch and NumPy very cheap from a performance perspective.</p>
+<h2 id="Section-1:-Introducing-Pytorch,-CUDA-and-GPU">Section 1: Introducing Pytorch, CUDA and GPU<a class="anchor-link" href="#Section-1:-Introducing-Pytorch,-CUDA-and-GPU"> </a></h2><p>PyTorch is a <code>deep learning framework</code> and a <code>scientific computing package</code>.<br>
+The scientific computing aspect of PyTorch is primarily a result PyTorch’s tensor library and associated tensor operations. That means you can take advantage of Pytorch for many computing tasks, thanks to its supporting tensor operation, without touching deep learning modules.</p>
+<p><code>PyTorch tensors and their associated operations are very similar to numpy n-dimensional arrays.</code><br>
+{% include important.html content='A tensor is actually an n-dimensional array. ' %}
+Pytorch build its library around Object Oriented Programming(OOP) concept. With object oriented programming, we orient our program design and structure around <code>objects</code> (take a look at <code>Random topics</code> for more information). The tensor in Pytorch is presented by the object <code>torch.Tensor</code> which is created from numpy ndarray objects. Two objects <code>share memory</code>. This makes the transition between PyTorch and NumPy very cheap from a performance perspective.</p>
 <p>With PyTorch tensors, GPU support is built-in. It’s very easy with PyTorch to move tensors to and from a GPU if we have one installed on our system.
 Tensors are super important for deep learning and neural networks because they are the data structure that we ultimately use for building and training our neural networks.</p>
-<p>The initial release of PyTorch was in October of 2016, and before PyTorch was created, there was and still is, another framework called Torch which is also a machine learning framework but is based on the Lua programming language. The connection between PyTorch and this Lua version, called Torch, exists because many of the developers who maintain the Lua version are the individuals who created PyTorch.
-{% include note.html content='Facebook Created PyTorch' %}</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>These are the primary PyTorch components we’ll be learning about and using as we build neural networks in this series.</p>
+<p>Talking a bit about history.<br>
+The initial release of PyTorch was in October of 2016, and before PyTorch was created, there was and still is, another framework called Torch which is also a machine learning framework but is based on the Lua programming language. The connection between PyTorch and this Lua version, called Torch, exists because many of the developers who maintain the Lua version are the individuals who created PyTorch. And they have been working for Facebook since then till now.
+{% include note.html content='Facebook Created PyTorch' %}
+These are the primary PyTorch components we’ll be learning about and using as we build neural networks along the way.</p>
 <table>
 <thead><tr>
 <th style="text-align:left">Package</th>
-<th style="text-align:left">Description</th>
+<th style="text-align:left">Description &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
 </tr>
 </thead>
 <tbody>
@@ -64,7 +61,7 @@ Tensors are super important for deep learning and neural networks because they a
 </tr>
 <tr>
 <td style="text-align:left">torch.nn.functional</td>
-<td style="text-align:left">A functional interface that contains typical operations used for building neural networks like loss functions, activation functions, and convolution operations.</td>
+<td style="text-align:left">A functional interface that contains operations used for building neural net like loss, activation, layer operations...</td>
 </tr>
 <tr>
 <td style="text-align:left">torch.optim</td>
@@ -76,7 +73,7 @@ Tensors are super important for deep learning and neural networks because they a
 </tr>
 <tr>
 <td style="text-align:left">torchvision</td>
-<td style="text-align:left">A package that provides access to popular datasets, model architectures, and image transformations for computer vision.</td>
+<td style="text-align:left">A package that provides access to popular datasets, models, and image transformations for computer vision.</td>
 </tr>
 </tbody>
 </table>
@@ -86,20 +83,11 @@ Tensors are super important for deep learning and neural networks because they a
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Why-Use-PyTorch-For-Deep-Learning?">Why Use PyTorch For Deep Learning?<a class="anchor-link" href="#Why-Use-PyTorch-For-Deep-Learning?"> </a></h3><ul>
-<li>it is a thin framework, which makes it more likely that PyTorch will be capable of adapting to the rapidly evolving deep learning environment as things change over time.</li>
-<li>stays out of the way and this makes it so that we can focus on neural networks and less on the actual framework. When we build neural networks with PyTorch, we are super close to programming neural networks from scratch. When we write PyTorch code, we are just writing and extending standard Python classes, and when we debug PyTorch code, we are using the standard Python debugger.</li>
+<h3 id="Why-use-PyTorch-for-deep-learning?">Why use PyTorch for deep learning?<a class="anchor-link" href="#Why-use-PyTorch-for-deep-learning?"> </a></h3><ul>
+<li>PyTorch’s design is modern, Pythonic. When we build neural networks with PyTorch, we are super close to programming neural networks from scratch. When we write PyTorch code, we are just writing and extending standard Python classes, and when we debug PyTorch code, we are using the standard Python debugger. It’s written mostly in Python, and only drops into C++ and CUDA code for operations that are performance bottlenecks.</li>
+<li>It is a thin framework, which makes it more likely that PyTorch will be capable of adapting to the rapidly evolving deep learning environment as things change quickly over time.</li>
+<li>Stays out of the way and this makes it so that we can focus on neural networks and less on the actual framework.</li>
 </ul>
-<p>PyTorch's development is guided by the following list:</p>
-<ul>
-<li>Stay out of the way</li>
-<li>Cater to the impatient</li>
-<li>Promote linear code-flow</li>
-<li>Full interop with the Python ecosystem</li>
-<li>Be as fast as anything else</li>
-</ul>
-<p>PyTorch’s design is modern, Pythonic, and thin. The source code is easy to read for Python developers because it’s written mostly in Python, and only drops into C++ and CUDA code for operations that are performance bottlenecks.</p>
-<p>Overall, PyTorch is a great tool for deepening our understanding of deep learning and neural networks.</p>
 
 </div>
 </div>
@@ -236,22 +224,27 @@ torchvision               0.5.0                  py37_cpu    pytorch
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="CUDA---Why-Deep-Learning-Uses-GPUs">CUDA - Why Deep Learning Uses GPUs<a class="anchor-link" href="#CUDA---Why-Deep-Learning-Uses-GPUs"> </a></h3><p>To understand CUDA, we need to have a working knowledge of graphics processing units (GPUs). A GPU is a processor that is good at handling specialized computations. This is in contrast to a central processing unit (CPU), which is a processor that is good at handling general computations. CPUs are the processors that power most of the typical computations on our electronic devices.</p>
-<p>A GPU can be much faster at computing than a CPU. However, this is not always the case. The speed of a GPU relative to a CPU depends on the type of computation being performed. The type of computation most suitable for a GPU is a computation that can be done in parallel.</p>
-<p>Parallel computing is a type of computation where by a particular computation is broken into independent smaller computations that can be carried out simultaneously. The resulting computations are then recombined, or synchronized, to form the result of the original larger computation.</p>
-<p>The number of tasks that a larger task can be broken into depends on the number of cores contained on a particular piece of hardware. Cores are the units that actually do the computation within a given processor, and CPUs typically have four, eight, or sixteen cores while GPUs have potentially thousands.</p>
+<h3 id="Why-deep-learning-uses-GPUs">Why deep learning uses GPUs<a class="anchor-link" href="#Why-deep-learning-uses-GPUs"> </a></h3><p>To understand CUDA, we need to have a working knowledge of graphics processing units (GPUs). A GPU is a processor that is good at handling specialized computations. This is in contrast to a central processing unit (CPU), which is a processor that is good at handling general computations. CPUs are the processors that power most of the typical computations on our electronic devices.</p>
+<p>A GPU can be much faster at computing than a CPU. However, this is not always the case. The speed of a GPU relative to a CPU depends on the type of computation being performed. <code>The type of computation most suitable for a GPU is a computation that can be done in parallel.</code></p>
+<p>Parallel computing is a type of computation where by a particular computation is broken into independent smaller computations that can be carried out simultaneously. The resulting computations are then recombined, or synchronized, to form the result of the original larger computation. The number of tasks that a larger task can be broken into depends on the number of cores contained on a particular piece of hardware. Cores are the units that actually do the computation within a given processor, and CPUs typically have four, eight, or sixteen cores while GPUs have potentially thousands.</p>
 <p>So why deep learning uses them - <code>Neural networks are embarrassingly parallel</code>.
-Tasks that embarrassingly parallel are ones where it’s easy to see that the set of smaller tasks are independent with respect to each other. Many of the computations that we do with neural networks can be easily broken into smaller computations in such a way that the set of smaller computations do not depend on one another. One such example is a convolution.</p>
+Tasks that embarrassingly parallel are ones where it’s easy to see that the set of smaller tasks are independent with respect to each other. Many of the computations that we do with neural networks can be easily broken into smaller computations in such a way that the set of smaller computations do not depend on one another. One such example is a convolution.
+<img src="/blog/images/copied_from_nb/data/conv.gif" alt=""></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Nvidia-Hardware-(GPU)-And-Software-(CUDA)">Nvidia Hardware (GPU) And Software (CUDA)<a class="anchor-link" href="#Nvidia-Hardware-(GPU)-And-Software-(CUDA)"> </a></h3><p>Nvidia is a technology company that designs GPUs, and they have created CUDA as a software platform that pairs with their GPU hardware making it easier for developers to build software that accelerates computations using the parallel processing power of Nvidia GPUs.
-Developers use CUDA by downloading the <code>CUDA toolkit</code>. With the toolkit comes specialized libraries like <code>cuDNN</code> - the CUDA Deep Neural Network library.</p>
-<p>With PyTorch, CUDA comes baked in from the start. There are no additional downloads required. All we need is to have a supported Nvidia GPU, and we can leverage CUDA using PyTorch. We don’t need to know how to use the CUDA API directly.</p>
+<h3 id="GPU,-CUDA-and-Nvidia">GPU, CUDA and Nvidia<a class="anchor-link" href="#GPU,-CUDA-and-Nvidia"> </a></h3><p>Nvidia is a technology company that designs GPUs, and they have created <code>CUDA as a software platform</code> that pairs with their <code>GPU hardware</code> making it easier for developers to build software that accelerates computations using the parallel processing power of Nvidia GPUs.</p>
+<p><strong>GPU computing</strong><br>
+In the beginning, the main tasks that were accelerated using GPUs were computer graphics. That's why we have the name graphics processing unit. But <code>in recent years, many more varieties parallel tasks have emerged</code>. One such task as we have seen is <code>deep learning.</code>
+Deep learning along with many other scientific computing tasks that use parallel programming techniques are leading to a new type of programming model called <code>[GPGPU or general purpose GPU computing](https://arxiv.org/abs/1408.6923)</code>. GPGPU computing, more commonly just called GPU computing, is becoming more common to perform a wide variety of tasks on a GPU.</p>
+<p><strong>GPU computing stack</strong><br>
+GPU as the hardware on the bottom, CUDA as the software architecture on top of the GPU, and finally libraries like cuDNN on top of CUDA. Sitting on top of CUDA and cuDNN is PyTorch, which is the framework were we’ll be working that ultimately supports applications on top.
+Developers use CUDA by downloading the <code>CUDA toolkit</code> which comes with specialized libraries like <code>cuDNN</code> - the CUDA Deep Neural Network library. With PyTorch, CUDA comes baked in from the start. There are no additional downloads required. All we need is to have a supported Nvidia GPU, and we can leverage CUDA using PyTorch. We don’t need to know how to use the CUDA API directly.</p>
 <p>After all, PyTorch is written in all of these: Python, C++, CUDA</p>
+<p><img src="/blog/images/copied_from_nb/data/dl_stack.png" alt=""></p>
 
 </div>
 </div>
@@ -307,34 +300,21 @@ Now, to move the tensor onto the GPU, we just write:</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This ability makes PyTorch very versatile because computations can be selectively carried out either on the CPU or on the GPU.</p>
+<p>This ability makes PyTorch very flexible because computations can be selectively carried out either on the CPU or on the GPU.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include note.html content='GPU Can Be Slower Than CPU. The answer is that a GPU is only faster for particular (specialized) tasks. For example, moving data from the CPU to the GPU is costly, so in this case, the overall performance might be slower if the computation task is a simple one.' %}Moving relatively small computational tasks to the GPU won’t speed us up very much and may indeed slow us down. Remember, the GPU works well for tasks that can be broken into many smaller tasks, and if a compute task is already small, we won’t have much to gain by moving the task to the GPU.
-For this reason, it’s often acceptable to simply use a CPU when just starting out, and as we tackle larger more complicated problems, begin using the GPU more heavily.</p>
+<p>{% include note.html content='GPU Can Be Slower Than CPU. The answer is that a GPU is only faster for particular (specialized) tasks. For example, moving data from the CPU to the GPU is costly, so in this case, the overall performance might be slower if the computation task is a simple one. Moving relatively small computational tasks to the GPU won’t speed us up very much and may indeed slow us down. Remember, the GPU works well for tasks that can be broken into many smaller tasks, and if a compute task is already small, we won’t have much to gain by moving the task to the GPU.' %}For this reason, it’s often acceptable to simply use a CPU when just starting out, and as we tackle larger more complicated problems, begin using the GPU more heavily.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="GPGPU-Computing">GPGPU Computing<a class="anchor-link" href="#GPGPU-Computing"> </a></h3><p>In the beginning, the main tasks that were accelerated using GPUs were computer graphics. Hence the name graphics processing unit, but in recent years, many more varieties parallel tasks have emerged. One such task as we have seen is deep learning.</p>
-<p>Deep learning along with many other scientific computing tasks that use parallel programming techniques are leading to a new type of programming model called GPGPU or general purpose GPU computing.</p>
-<p>GPGPU computing is more commonly just called GPU computing or accelerated computing now that it's becoming more common to preform a wide variety of tasks on a GPU.
-GPU computing stack: GPU as the hardware on the bottom, CUDA as the software architecture on top of the GPU, and finally libraries like cuDNN on top of CUDA. Sitting on top of CUDA and cuDNN is PyTorch, which is the framework were we’ll be working that ultimately supports applications on top.</p>
-<p>This <a href="https://arxiv.org/abs/1408.6923">paper</a> takes a deep dive into GPU computing and CUDA, but it goes much deeper than we need. We will be working near the top of the stack here with PyTorch.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Section-2:-Introducing-Tensors">Section 2: Introducing Tensors<a class="anchor-link" href="#Section-2:-Introducing-Tensors"> </a></h2><p>This section we'll talk all about tensors.</p>
-
+<h2 id="Section-2:-Introducing-Tensors">Section 2: Introducing Tensors<a class="anchor-link" href="#Section-2:-Introducing-Tensors"> </a></h2>
 </div>
 </div>
 </div>
@@ -379,7 +359,7 @@ GPU computing stack: GPU as the hardware on the bottom, CUDA as the software arc
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The relationship within each of these pairs is that both elements require the same number of indexes to refer to a specific element within the data structure.</p>
+<p>The relationship within each of these pairs, for example <code>vector</code> and <code>array</code>, is that both elements require the same number of indexes to refer to a specific element within the data structure.</p>
 
 </div>
 </div>
@@ -460,9 +440,11 @@ GPU computing stack: GPU as the hardware on the bottom, CUDA as the software arc
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>When more than two indexes are required to access a specific element, we stop giving specific names to the structures, and we begin using more general language.</p>
-<p>In mathematics, we stop using words like scalar, vector, and matrix, and we start using the word <code>tensor</code> or <code>nd-tensor</code>. The n tells us the number of indexes required to access a specific element within the structure.</p>
-<p>In computer science, we stop using words like, number, array, 2d-array, and start using the word <code>multidimensional array</code> or <code>nd-array</code>. The n tells us the number of indexes required to access a specific element within the structure.</p>
-<p>The reason we say a tensor is a generalization is because we use the word tensor for all values of n like so:</p>
+<ul>
+<li>In mathematics, we stop using words like scalar, vector, and matrix, and we start using the word <code>tensor</code> or <code>nd-tensor</code>. The n tells us the number of indexes required to access a specific element within the structure.</li>
+<li>In computer science, we stop using words like, number, array, 2d-array, and start using the word <code>multidimensional array</code> or <code>nd-array</code>. The n tells us the number of indexes required to access a specific element within the structure.</li>
+</ul>
+<p>The reason we say a <code>tensor</code> is a generalization form is because we use the word tensor for all values of n like so:</p>
 <ul>
 <li>A scalar is a 0 dimensional tensor</li>
 <li>A vector is a 1 dimensional tensor</li>
@@ -482,29 +464,24 @@ GPU computing stack: GPU as the hardware on the bottom, CUDA as the software arc
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Rank,-Axes,-and-Shape----fundamental-tensor-attributes-for-deep-learning">Rank, Axes, and Shape -  fundamental tensor attributes for deep learning<a class="anchor-link" href="#Rank,-Axes,-and-Shape----fundamental-tensor-attributes-for-deep-learning"> </a></h3><p>These concepts build on one another starting with rank, then axes, and building up to shape.</p>
+<h3 id="Fundamental-tensor-attributes-for-deep-learning----Rank,-Axes,-and-Shape.">Fundamental tensor attributes for deep learning  - Rank, Axes, and Shape.<a class="anchor-link" href="#Fundamental-tensor-attributes-for-deep-learning----Rank,-Axes,-and-Shape."> </a></h3><p>These concepts build on one another starting with rank, then axes, and building up to shape.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>rank</code> of a tensor refers to the number of dimensions present within the tensor. A rank-2 tensor means all of the following:</p>
-<ul>
-<li>a matrix</li>
-<li>a 2d-array</li>
-<li>a 2d-tensor
-{% include note.html content='A tensor&#8217;s rank tells us how many indexes are needed to refer to a specific element within the tensor.' %}</li>
-</ul>
+<p>The <code>rank</code> of a tensor refers to <code>the number of dimensions</code> present within the tensor.<br>
+It also tells us how many indexes are needed to refer to a specific element within the tensor. A rank-2 tensor means all of the following: <code>a matrix</code>, <code>a 2d-array</code>, <code>a 2d-tensor</code>.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>An <code>axis</code> of a tensor is a specific dimension of a tensor.<br>
+<p>An <code>axis</code> of a tensor is <code>a specific dimension</code> of a tensor.<br>
 If we say that a tensor is a rank 2 tensor, we mean that the tensor has 2 dimensions, or equivalently, the tensor has two axes.</p>
-<p>The <code>length of each axis</code> tells us how many indexes are available along each axis.</p>
+<p>Let's get an example how to access elements of an axis.</p>
 
 </div>
 </div>
@@ -619,7 +596,7 @@ If we say that a tensor is a rank 2 tensor, we mean that the tensor has 2 dimens
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>shape</code> of a tensor gives us the length of each axis of the tensor. 
+<p>The <code>shape</code> of a tensor gives us the <code>length of each axis</code> of the tensor. 
 {% include note.html content='The shape of a tensor is important because it encodes all of the relevant information about axes, rank, and therefore indexes. Additionally, one of the types of operations we must perform frequently when we are programming our neural networks is called <code>reshaping</code>.' %}</p>
 
 </div>
@@ -664,13 +641,6 @@ If we say that a tensor is a rank 2 tensor, we mean that the tensor has 2 dimens
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The shape of 2 x 3 tells us that each axis of this rank two tensor has a length of 3 which means that we have three indexes available along each axis.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>{% include note.html content='size and shape of a tensor are the same thing.' %}</p>
 
 </div>
@@ -678,8 +648,9 @@ If we say that a tensor is a rank 2 tensor, we mean that the tensor has 2 dimens
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Section-3:-Pytorch-Tensors">Section 3: Pytorch Tensors<a class="anchor-link" href="#Section-3:-Pytorch-Tensors"> </a></h2><p>PyTorch tensors are the data structures we'll be using when programming neural networks in PyTorch.
-When programming neural networks, data preprocessing is often one of the first steps in the overall process, and one goal of data preprocessing is to transform the raw input data into tensor form.</p>
+<h2 id="Section-3:-Pytorch-Tensors">Section 3: Pytorch Tensors<a class="anchor-link" href="#Section-3:-Pytorch-Tensors"> </a></h2><p><code>PyTorch tensors are the data structures we'll be using when programming neural networks in PyTorch.</code></p>
+<p>The tensor in Pytorch is presented by the object <code>torch.Tensor</code> which is created from numpy ndarray objects. Two objects <code>share memory</code>. This makes the transition between PyTorch and NumPy very cheap from a performance perspective.</p>
+<p>When programming neural networks, data preprocessing is often one of the first steps in the overall process, and one goal of data preprocessing is to transform the raw input data into tensor form.</p>
 
 </div>
 </div>
@@ -687,11 +658,11 @@ When programming neural networks, data preprocessing is often one of the first s
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="torch.Tensor-class-and-its-attributes">torch.Tensor class and its attributes<a class="anchor-link" href="#torch.Tensor-class-and-its-attributes"> </a></h3><p>PyTorch tensors are instances of the <code>torch.Tensor</code> Python class.<br>
-First, let’s look at a few tensor attributes. Every <code>torch.Tensor</code> has these attributes:</p>
+First, let’s look at a few torch.Tensor's tensor attributes.</p>
 <ul>
-<li>torch.dtype: </li>
-<li>torch.device</li>
-<li>torch.layout</li>
+<li>tensor.dtype: </li>
+<li>tensor.device</li>
+<li>tensor.layout</li>
 </ul>
 
 </div>
@@ -705,9 +676,30 @@ First, let’s look at a few tensor attributes. Every <code>torch.Tensor</code> 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">layout</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>dtype</code> specifies the type of the data that is contained within the tensor.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">dtype</span>
 </pre></div>
 
     </div>
@@ -719,12 +711,12 @@ First, let’s look at a few tensor attributes. Every <code>torch.Tensor</code> 
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>torch.float32
-cpu
-torch.strided
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.float32</pre>
 </div>
+
 </div>
 
 </div>
@@ -735,10 +727,10 @@ torch.strided
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>dtype</code> specifies the type of the data that is contained within the tensor.
-{% include note.html content='- Each type has a CPU and GPU version' %}        - Tensor operations between tensors must happen between tensors with the same type of data.</p>
+<p>Table below shows all the tensor types that Pytorch supports. 
+{% include note.html content='- Each type has a CPU and GPU version' %}        - Tensors contain uniform (of the same type) numerical data</p>
 
-<pre><code>    - Tensors contain uniform (of the same type) numerical data with one of these types: 
+<pre><code>    - Tensor operations between tensors must happen between tensors with the same type of data.
 </code></pre>
 <p><img src="/blog/images/copied_from_nb/data/pytorch_dtype.png" alt="pytorch datatype"></p>
 
@@ -747,8 +739,47 @@ torch.strided
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>device</code> specifies the device (<code>CPU</code> or <code>GPU</code>) where the tensor's data is allocated. This determines where tensor computations for the given tensor will be performed.<br>
-PyTorch supports the use of multiple devices, and they are specified using an index like so:</p>
+<p>The <code>device</code> specifies the device (<code>CPU</code> or <code>GPU</code>) where the tensor's data is allocated. This determines where tensor computations for the given tensor will be performed.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">device</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>device(type=&#39;cpu&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>PyTorch supports the use of multiple devices, and they are specified using an index like so:</p>
 
 </div>
 </div>
@@ -795,9 +826,67 @@ PyTorch supports the use of multiple devices, and they are specified using an in
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>layout</code> specifies how the tensor is stored in memory. To learn more about stride check <a href="https://en.wikipedia.org/wiki/Stride_of_an_array">here</a>. For now, this is all we need to know.</p>
+<p>The <code>layout</code> specifies how the tensor is stored in memory.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">layout</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.strided</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To learn more about stride check <a href="https://en.wikipedia.org/wiki/Stride_of_an_array">here</a>.</p>
 
 </div>
 </div>
@@ -806,10 +895,10 @@ PyTorch supports the use of multiple devices, and they are specified using an in
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Create-a-new-tensor-using-data">Create a new tensor using data<a class="anchor-link" href="#Create-a-new-tensor-using-data"> </a></h3><p>These are the primary ways of creating tensor objects (instances of the <code>torch.Tensor</code> class), with data (array-like) in PyTorch:</p>
 <ol>
-<li>torch.Tensor(data): is the constructor of the <code>torch.Tensor</code> class</li>
-<li>torch.tensor(data): is the <code>factory function</code> that constructs <code>torch.Tensor</code> objects. Factory functions are a software design pattern for creating objects. If you want to read more about it check [here]</li>
-<li>torch.as_tensor(data)</li>
-<li>torch.from_numpy(data)</li>
+<li><strong>torch.Tensor(data)</strong> is the constructor of the <code>torch.Tensor</code> class</li>
+<li><strong>torch.tensor(data)</strong>: is the <code>factory function</code> that constructs <code>torch.Tensor</code> objects. </li>
+<li><strong>torch.as_tensor(data)</strong></li>
+<li><strong>torch.from_numpy(data)</strong></li>
 </ol>
 <p>Let’s look at each of these. They all accept some form of data and give us an instance of the <code>torch.Tensor</code> class. Sometimes when there are multiple ways to achieve the same result, things can get confusing, so let’s break this down.</p>
 
@@ -950,23 +1039,19 @@ tensor([1, 2, 3])
 <p>Data memory is shared means that the actual data in memory exists in a single place. As a result, any changes that occur in the underlying data will be reflected in both objects, the <code>torch.Tensor</code> and the <code>numpy.ndarray</code>.<br>
 Sharing data is more efficient and uses less memory than copying data because the data is not written to two locations in memory.
 However, there are something to keep in mind about memory sharing:</p>
+<ul>
+<li>Since <code>numpy.ndarray</code> objects are allocated on the CPU, the <code>as_tensor()</code> function must copy the data from the CPU to the GPU when a GPU is being used.</li>
+<li>The memory sharing of <code>as_tensor()</code> doesn’t work with built-in Python data structures like <code>list</code>.</li>
+<li>The <code>as_tensor()</code> call requires developer knowledge of the sharing feature. This is necessary so we don’t inadvertently make an unwanted change in the underlying data without realizing the change impacts multiple objects.</li>
+<li>The <code>as_tensor()</code> performance improvement will be greater if there are a lot of back and forth operations between <code>numpy.ndarray</code> objects and tensor objects. However, if there is just a single load operation, there shouldn’t be much impact from a performance perspective.</li>
+</ul>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include note.html content='- Since <code>numpy.ndarray</code> objects are allocated on the CPU, the <code>as_tensor()</code> function must copy the data from the CPU to the GPU when a GPU is being used.' %}        - The memory sharing of <code>as_tensor()</code> doesn’t work with built-in Python data structures like lists.</p>
-
-<pre><code>    - The `as_tensor()` call requires developer knowledge of the sharing feature. This is necessary so we don’t inadvertently make an unwanted change in the underlying data without realizing the change impacts multiple objects.
-    - The `as_tensor()` performance improvement will be greater if there are a lot of back and forth operations between `numpy.ndarray` objects and tensor objects. However, if there is just a single load operation, there shouldn’t be much impact from a performance perspective.</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In order to convert multiple arrays to tensor:</p>
+<p>Tips, In order to convert multiple arrays to tensor we can use <code>map</code></p>
 
 </div>
 </div>
@@ -986,23 +1071,7 @@ However, there are something to keep in mind about memory sharing:</p>
 <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
 
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span>
 </pre></div>
 
     </div>
@@ -1221,14 +1290,15 @@ However, there are something to keep in mind about memory sharing:</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Section-4:-Tensor-Operations">Section 4: Tensor Operations<a class="anchor-link" href="#Section-4:-Tensor-Operations"> </a></h2><p>We have the following high-level categories of tensor operations:</p>
+<h2 id="Section-4:-Pytorch-Tensor-Operations">Section 4: Pytorch Tensor Operations<a class="anchor-link" href="#Section-4:-Pytorch-Tensor-Operations"> </a></h2><p>We have the following high-level categories of tensor operations:</p>
 <ul>
-<li>Reshaping operations: gave us the ability to position our elements along particular axes. </li>
-<li>Element-wise operations: allow us to perform operations on elements between two tensors.</li>
-<li>Reduction operations: allow us to perform operations on elements within a single tensor.</li>
-<li>Access operations</li>
+<li><strong>Reshaping operations:</strong>  gave us the ability to position our elements along particular axes. </li>
+<li><strong>Element-wise operations:</strong>  allow us to perform operations on elements between two tensors.</li>
+<li><strong>Reduction operations:</strong>  allow us to perform operations on elements within a single tensor.</li>
+<li><strong>Access operations</strong> allow us to access to each numerical elements within a single tensor.</li>
 </ul>
 <p>There are a lot of individual operations out there, so much so that it can sometimes be intimidating when you're just beginning, but grouping similar operations into categories based on their likeness can help make learning about tensor operations more manageable.</p>
+<p>Before going to each category, firstly we will take a look on the concept of <code>broadcasting</code></p>
 
 </div>
 </div>
@@ -1253,6 +1323,7 @@ However, there are something to keep in mind about memory sharing:</p>
 <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
 <span class="n">t2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
 <span class="n">t1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
@@ -1282,6 +1353,46 @@ However, there are something to keep in mind about memory sharing:</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What will be the result of this element-wise addition operation, t1 + t2 ?</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[3., 5.],
+        [3., 5.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Even though these two tenors have differing shapes, the element-wise operation is possible, and broadcasting is what makes the operation possible. The lower rank tensor t2 will be transformed via broadcasting to match the shape of the higher rank tensor t1, and the element-wise operation will be performed as usual.</p>
 <p>we can check the broadcast transformation using the <code>broadcast_to()</code> numpy function.</p>
 
@@ -1372,6 +1483,14 @@ However, there are something to keep in mind about memory sharing:</p>
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using the <code>reshape()</code> function, we can specify the <code>row x column</code> shape that we are seeking. Notice that the product of the shape's components has to be equal to the number of elements in the original tensor.</p>
+<p>Pytorch has another function called <code>view()</code> that does the same thing as <code>reshape</code> function.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -1431,123 +1550,7 @@ However, there are something to keep in mind about memory sharing:</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Other ways to flatten a tensor</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">numel</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Using the <code>reshape()</code> function, we can specify the <code>row x column</code> shape that we are seeking. Notice that the product of the shape's components has to be equal to the number of elements in the original tensor.</p>
-<p>Pytorch has another function called <code>view()</code> that does the same thing as <code>reshape</code> function.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>As neural network programmers, we have to do the same with our tensors, and usually shaping and reshaping our tensors is a frequent task.<br>
-Our networks operate on tensors, after all, and this is why understanding a tensor’s shape and the available reshaping operations are super important.</p>
-<p>The next way we can change the shape of our tensors is by squeezing and unsqueezing them.</p>
+<p>One common reshape type operation is <code>squeeze</code>, <code>unsqueeze</code>. Those operations change the shape of our tensors is by squeezing and unsqueezing them.</p>
 <ul>
 <li>Squeezing a tensor removes the dimensions or axes that have a length of one.</li>
 <li>Unsqueezing a tensor adds a dimension with a length of one.</li>
@@ -1657,12 +1660,113 @@ Our networks operate on tensors, after all, and this is why understanding a tens
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let’s look at a common use case for reshaping a tensor - <code>flatten a tensor</code>.<br>
+<p>Another common reshape type operation is <code>flattening</code>.<br>
+A tensor flatten operation is a common operation inside convolutional neural networks. This is because convolutional layer outputs that are passed to fully connected layers must be flatted out before the fully connected layer will accept the input.<br>
 A flatten operation on a tensor reshapes the tensor to have a shape that is equal to the number of elements contained in the tensor. This is the same thing as a 1d-array of elements.</p>
+<p>These are some ways to flatten a tensor.</p>
 
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">numel</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -1698,51 +1802,7 @@ A flatten operation on a tensor reshapes the tensor to have a shape that is equa
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>flatten operation = reshape operation + squeeze operation</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">flatten_ex</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">t</span>
-<span class="n">flatten_ex</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>It is possible to flatten only specific parts of a tensor.</p>
+<p>In addition, it is possible to flatten only specific parts of a tensor.</p>
 
 </div>
 </div>
@@ -1820,11 +1880,49 @@ A flatten operation on a tensor reshapes the tensor to have a shape that is equa
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A tensor flatten operation is a common operation inside convolutional neural networks. This is because convolutional layer outputs that are passed to fully connected layers must be flatted out before the fully connected layer will accept the input.</p>
+<p>Take a deeper look inside the flatten operation, it is actually a composition of reshape and squeeze operation.<br>
+{% include note.html content='flatten operation = reshape operation + squeeze operation' %}</p>
 
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">flatten_ex</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">t</span>
+<span class="n">flatten_ex</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([1., 1., 1., 1., 2., 2., 2., 2., 3., 3., 3., 3.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Tensor-element-wise-operation">Tensor element-wise operation<a class="anchor-link" href="#Tensor-element-wise-operation"> </a></h3><p>An element-wise operation is an operation between two tensors that operates on corresponding elements within the respective tensors. Two tensors must have the same shape in order to perform element-wise operations on them.</p>
@@ -2025,7 +2123,7 @@ A flatten operation on a tensor reshapes the tensor to have a shape that is equa
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Comparison Operation is element-wise</p>
+<p><code>Comparison Operation is element-wise type operation</code></p>
 
 </div>
 </div>
@@ -2597,6 +2695,69 @@ Common tensor access operations are <code>item(), tolist(), numpy()</code></p>
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Random-topics">Random topics<a class="anchor-link" href="#Random-topics"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Object-Oriented-Programming-and-Why-Pytorch-select-it.">Object Oriented Programming and Why Pytorch select it.<a class="anchor-link" href="#Object-Oriented-Programming-and-Why-Pytorch-select-it."> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When we’re writing programs or building software, there are two key components, <code>code</code> and <code>data</code>. With object oriented programming, we orient our program design and structure around <code>objects</code>.<br>
+<code>Objects</code> are defined in code using <code>classes</code>. A class defines the object's specification or spec, which specifies what <code>data</code> and <code>code</code> each object of the class should have.<br>
+When we create an object of a class, we call the object an instance of the class, and all instances of a given class have two core components:</p>
+<ul>
+<li>Methods(code)</li>
+<li>Attributes(data)</li>
+</ul>
+<p>In a given program, many objects, a.k.a instances of a given class have the same available attributes and the same available methods. The difference between objects of the same class is the values contained within the object for each attribute. Each object has its own attribute values. These values determine the internal state of the object. The code and data of each object is said to be encapsulated within the object.</p>
+<p>Let’s build a simple class to demonstrate how classes encapsulate data and code:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Sample</span><span class="p">:</span> <span class="c1">#class declaration</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span> <span class="c1">#class constructor (code)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="c1">#attribute (data)</span>
+    
+    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span> <span class="c1">#method declaration (code)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="c1">#method implementation (code)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's switch gears now and look at how object oriented programming fits in with PyTorch.</p>
+<p>The primary component we'll need to build a neural network is a layer, and so, as we might expect, PyTorch's neural network library contains classes that aid us in constructing layers.
+As we know, deep neural networks are built using multiple layers. This is what makes the network deep. Each layer in a neural network has two primary components:</p>
+<ul>
+<li>A transformation (code)</li>
+<li>A collection of weights (data)</li>
+</ul>
+<p>Like many things in life, this fact makes layers great candidates to be represented as objects using Object Oriented Programming - OOP.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References"> </a></h2><p>Some good sources:</p>

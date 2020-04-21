@@ -1723,63 +1723,6 @@ Both of these options are valid</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Object-Oriented-Programming-and-Why-Pytorch-select-it.">Object Oriented Programming and Why Pytorch select it.<a class="anchor-link" href="#Object-Oriented-Programming-and-Why-Pytorch-select-it."> </a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>When we’re writing programs or building software, there are two key components, <code>code</code> and <code>data</code>. With object oriented programming, we orient our program design and structure around <code>objects</code>.<br>
-<code>Objects</code> are defined in code using <code>classes</code>. A class defines the object's specification or spec, which specifies what <code>data</code> and <code>code</code> each object of the class should have.<br>
-When we create an object of a class, we call the object an instance of the class, and all instances of a given class have two core components:</p>
-<ul>
-<li>Methods(code)</li>
-<li>Attributes(data)</li>
-</ul>
-<p>In a given program, many objects, a.k.a instances of a given class have the same available attributes and the same available methods. The difference between objects of the same class is the values contained within the object for each attribute. Each object has its own attribute values. These values determine the internal state of the object. The code and data of each object is said to be encapsulated within the object.</p>
-<p>Let’s build a simple class to demonstrate how classes encapsulate data and code:</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Sample</span><span class="p">:</span> <span class="c1">#class declaration</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span> <span class="c1">#class constructor (code)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="c1">#attribute (data)</span>
-    
-    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span> <span class="c1">#method declaration (code)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="c1">#method implementation (code)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's switch gears now and look at how object oriented programming fits in with PyTorch.</p>
-<p>The primary component we'll need to build a neural network is a layer, and so, as we might expect, PyTorch's neural network library contains classes that aid us in constructing layers.
-As we know, deep neural networks are built using multiple layers. This is what makes the network deep. Each layer in a neural network has two primary components:</p>
-<ul>
-<li>A transformation (code)</li>
-<li>A collection of weights (data)</li>
-</ul>
-<p>Like many things in life, this fact makes layers great candidates to be represented as objects using Object Oriented Programming - OOP.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="log-sum-exp-trick">log-sum-exp trick<a class="anchor-link" href="#log-sum-exp-trick"> </a></h3><p><a href="https://timvieira.github.io/blog/post/2014/02/11/exp-normalize-trick/">https://timvieira.github.io/blog/post/2014/02/11/exp-normalize-trick/</a><br>
 <a href="https://www.tensorflow.org/api_docs/python/tf/nn/log_softmax">https://www.tensorflow.org/api_docs/python/tf/nn/log_softmax</a><br>
 <a href="https://stackoverflow.com/questions/44081007/logsoftmax-stability">https://stackoverflow.com/questions/44081007/logsoftmax-stability</a></p>
