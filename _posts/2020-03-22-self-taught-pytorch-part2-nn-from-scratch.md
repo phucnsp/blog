@@ -1,11 +1,11 @@
 ---
 keywords: fastai
-description: This notebook will create and train model from scratch and then gradually refactor it by using built-in pytorch modules
+description: This notebook will create and train a very simple model from scratch and then gradually refactor it using built-in pytorch modules.
 title: Pytorch part 2 - neural net from scratch 
 toc: true 
 badges: true
 comments: true
-categories: [self-taught, tutorial]
+categories: [self-taught]
 image: images/pytorch_ava.png
 nb_path: _notebooks/2020-03-22-self-taught-pytorch-part2-nn-from-scratch.ipynb
 layout: notebook
@@ -31,71 +31,73 @@ layout: notebook
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In <a href="https://phucnsp.github.io/blog/self-taught/2020/03/22/self-taught-pytorch-part1-tensor.html">part 1</a> of this serie, we have gone through the basic elements of neural network. In this part we will start writing a program.</p>
 <p>Computer programs in general consist of two primary components, <code>code</code> and <code>data</code>. With traditional programming, the programmer’s job is to explicitly write the software or code to perform computations. But with deep learning and neural networks, this job explicitly belongs to the optimization algorithm. It will compile our data into code which is actually neural net's weights. The programmer’s job is to oversee and guide the learning process though training. We can think of this as an indirect way of writing software or code.</p>
-<p>In order to have an overview of <code>where we are</code>, we will briefly talk about fundamental stages of an machine learning/deep learning project.</p>
+<p>In reality, creating and trainning model is just one of the stages in a fullscale machine learning project. There are 4 fundamental stages that a machine learning project need to have:</p>
 <ol>
-<li>Project planning and project setup
-Gather team, define requirements, goals and allocate resources</li>
-<li>Data collection and labelling
-Define which data to collect and label them</li>
-<li><strong>Training and debugging: we are here</strong>
-Start implementing, debugging and improving model. This serie will focus on this stage using Pytorch framework. </li>
-<li>Deploying and testing
-Write tests to prevent regresison, roll out in production.</li>
+<li><strong>Project planning and project setup:</strong> gather team, define requirements, goals and allocate resources.</li>
+<li><strong>Data collection and labelling:</strong> define which data to collect and label them.</li>
+<li><strong>Training and debugging:</strong> start implementing, debugging and improving model. This notebook will focus on this stage where we will create and train a simple model using Pytorch framework. </li>
+<li><strong>Deploying and testing</strong> write tests to prevent regresison, roll out in production.
+{% include important.html content='it is worth to note that machine learning project does not fit well with either waterfall or agile workflow. It is somewhere in between them and the world is in progress to figure out a new workflow for it. However, it can be sure that this type of project needs to be highly iteractive and flexible. We will try to cover this topic more detail in later parts of this serie.' %}</li>
 </ol>
-<p>So now, let's get started!</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Pytorch provides the elegantly designed modules and classes to help you create and train neural networks.<br>
-Following are the most fundamental modules which we will repeatly work with along the way.</p>
+<p>So now we will go to the main topic today.<br>
+There are 3 steps that we need to iteractively tackle during the training and debugging stage:</p>
+<ul>
+<li><strong>data and data processing:</strong> data augmentation, data transformation, data cleaning, etc</li>
+<li><strong>create and train model</strong> guide the optimization algorithm toward the right direction.</li>
+<li><strong>debug and improve:</strong> analyse model's results to see where might need to improve.</li>
+</ul>
+<p>Debugging machine learning is always a hot topic and hard to digest, we will cover it in a separate notebook. Today we will talk about data and model, but not too fast. In order to fully understand exactly what and how things are doing, we will create and train a very basic neural network from scratch which initially only use the most basic Pytorch tensor functionality and gradually refactor it using Pytorch built-in modules.</p>
+<p>Remind the most fundamental Pytorch modules which we will repeatly work with along the way.</p>
 <table>
 <thead><tr>
-<th>Package</th>
-<th>Description</th>
+<th style="text-align:left">Package</th>
+<th style="text-align:left">Description &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>torch</td>
-<td>The top-level PyTorch package and tensor library.</td>
+<td style="text-align:left">torch</td>
+<td style="text-align:left">The top-level PyTorch package and tensor library.</td>
 </tr>
 <tr>
-<td>torch.nn</td>
-<td>A subpackage that contains modules and extensible classes for building neural networks.</td>
+<td style="text-align:left">torch.nn</td>
+<td style="text-align:left">A subpackage that contains modules and extensible classes for building neural networks.</td>
 </tr>
 <tr>
-<td>torch.nn.functional</td>
-<td>A functional interface that contains typical operations used for building neural networks like loss functions and convolutions.</td>
+<td style="text-align:left">torch.autograd</td>
+<td style="text-align:left">A subpackage that supports all the differentiable Tensor operations in PyTorch.</td>
 </tr>
 <tr>
-<td>torch.autograd</td>
-<td>handle the automatic differentiation of arbitrary scalar valued functions.</td>
+<td style="text-align:left">torch.nn.functional</td>
+<td style="text-align:left">A functional interface that contains operations used for building neural net like loss, activation, layer operations...</td>
 </tr>
 <tr>
-<td>torch.optim</td>
-<td>A subpackage that contains standard optimization operations like SGD and Adam.</td>
+<td style="text-align:left">torch.optim</td>
+<td style="text-align:left">A subpackage that contains standard optimization operations like SGD and Adam.</td>
 </tr>
 <tr>
-<td>torchvision</td>
-<td>A package that provides access to popular datasets, model architectures, and image transformations for computer vision.</td>
+<td style="text-align:left">torch.utils</td>
+<td style="text-align:left">A subpackage that contains utility classes like data sets and data loaders that make data preprocessing easier.</td>
 </tr>
 <tr>
-<td>torchvision.transforms</td>
-<td>An interface that contains common transforms for image processing.</td>
+<td style="text-align:left">torchvision</td>
+<td style="text-align:left">A package that provides access to popular datasets, models, and image transformations for computer vision.</td>
 </tr>
 </tbody>
 </table>
-<p>In order to fully understand exactly what ther are doing, we will create and train a very basic neural network from scratch which initially only use the most basic Pytorch tensor functionality and gradually refactor it with those Pytorch built-in modules.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Data-setup">Data setup<a class="anchor-link" href="#Data-setup"> </a></h2>
+<h2 id="Section-1:-data-and-data-processing">Section 1: data and data processing<a class="anchor-link" href="#Section-1:-data-and-data-processing"> </a></h2>
 </div>
 </div>
 </div>
@@ -172,7 +174,7 @@ Following are the most fundamental modules which we will repeatly work with alon
 <li>Transform: Put our data into tensor form.  </li>
 <li>Load: Put our data into an object to make it easily accessible.  </li>
 </ul>
-<p>The Fashion-MNIST source code can be accessed <a href="https://github.com/zalandoresearch/fashion-mnist">here</a>. We will use <code>pathlib</code> for dealing with paths and will download 4 parts - training set images, training set labels, test set images and test set labels - using <code>requests</code> library. Since this dataset has been stored using pickle, a python-specific format for serializing data, we need to unzip and deserialize it in order to read the content.</p>
+<p>The Fashion-MNIST source code can be accessed <a href="https://github.com/zalandoresearch/fashion-mnist">here</a>. We will use <code>pathlib</code> for dealing with paths and will download 4 parts - <code>training set images, training set labels, test set images and test set labels</code> - using <code>requests</code> library. Since this dataset has been stored using pickle, a python-specific format for serializing data, we need to unzip and deserialize it in order to read the content.</p>
 
 </div>
 </div>
@@ -258,7 +260,7 @@ Following are the most fundamental modules which we will repeatly work with alon
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include note.html content='I am using the work <code>valid</code> and <a href="/blog/images/copied_from_nb/test"><code>test</code></a> interchangeble but in reality they are different and will be covered in later part.' %}</p>
+<p>{% include note.html content='I am using the word <code>valid</code> and <code>test</code> interchanged but in reality they are different. ' %}</p>
 
 </div>
 </div>
@@ -454,7 +456,7 @@ Let's reshape and take a look at one.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we will transform data into tensor format.</p>
+<p>So we have finished the <code>extract</code> data step and now we will to to <code>transform</code> step. In the context of image, there are 2 basic transform steps are <code>convert to tensor</code> and <code>normalization</code>. <code>Normalization</code> is a standard step in image processing which helps faster convergence.</p>
 
 </div>
 </div>
@@ -480,13 +482,6 @@ Let's reshape and take a look at one.</p>
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>And normalize the image tensor. This is standard step in image processing which helps faster convergence.</p>
-
-</div>
-</div>
-</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -591,7 +586,7 @@ Let's reshape and take a look at one.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>{% include important.html content='we need to set dtype=torch.float32 in order to be able to make matrix multiplication later on with  linear layer&#8217;s weight matrix. Two tensor have to have the same datatype and device so as to do operations.' %}
-And finally, load data into an object to make it easily accessible. This task normally is handled by Pytorch <code>DataLoader</code> object but since we are building everything from scratch, let's use the traditional <code>for loop</code> to access batches of data.</p>
+And finally, <code>load</code> data into an object to make it easily accessible. This task normally is handled by Pytorch <code>DataLoader</code> object but since we are building everything from scratch, let's use the traditional <code>for loop</code> to access batches of data.</p>
 
 </div>
 </div>
@@ -625,20 +620,22 @@ And finally, load data into an object to make it easily accessible. This task no
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Create-and-training-simple-neural-net-from-scratch">Create and training simple neural net from scratch<a class="anchor-link" href="#Create-and-training-simple-neural-net-from-scratch"> </a></h2><p>For our 10-class classification problem, we will create a simple network which contains only a linear layer and a non-linear layer - softmax.</p>
+<h2 id="Section-2:-create-and-train-model-(from-scratch)">Section 2: create and train model (from scratch)<a class="anchor-link" href="#Section-2:-create-and-train-model-(from-scratch)"> </a></h2><p>For our 10-class classification problem, we will create a simple network which contains only a linear layer and a non-linear layer - softmax.</p>
 <p>In general, a layer contains 2 parts:</p>
 <ul>
 <li><code>data</code>: represents the state of that layer. In particular, they are weight and bias - learnable parameters which are updated/learned during training process. </li>
 <li><code>transformation</code>: the operation which transform layer's input to output using learnable parameters.</li>
 </ul>
-<p><code>Linear layers</code>'s data is <code>weight matrix tensor</code> and <code>bias tensor</code> while its transformation is the <code>matrix multiplication</code>. The weight matrix defines a linear function that maps a 1-dimentional tensor with 784 elements to a 1-dimensional tensor with 10 elements.</p>
-<p>Briefly remind the mathematical function of linear layer.<br>
-Given $A$, $x$, $b$, $y$ are <code>Weight matrix tensor</code>, <code>Input tensor</code>, <code>Bias tensor</code> and <code>Output tensor</code>, respectively. Mathematical notation of the linear transformation is:
-\begin{equation}
-y=A x+b
-\end{equation}</p>
-<p>We will initialize the weight matrix tensor following the recommendation from <a href="https://arxiv.org/abs/1502.01852">Xavier initialisation paper</a>. This paper tackled the problem with randomly initialized weight drawn from Gaussian distribution which caused hard convergence of deep network.
-{% include tip.html content='- we set <code>requires_grad</code> after initialization, since we don&#8217;t want that step included in the gradident. ' %}    - The trailing <code>_</code> in Pytorch signifies that the operation is performed in-place.</p>
+<p><code>Linear layers</code>'s data is <code>weight matrix tensor</code> and <code>bias tensor</code> while its transformation is the <code>matrix multiplication</code>. Weight matrix defines the linear function that maps a 1-dimentional tensor with 784 elements to a 1-dimensional tensor with 10 elements. 
+{% include note.html content='Briefly remind the mathematical function of linear layer. Given $A$, $x$, $b$, $y$ are <code>Weight matrix tensor</code>, <code>Input tensor</code>, <code>Bias tensor</code> and <code>Output tensor</code>, respectively. Mathematical notation of a linear transformation is: $y=Ax+b$' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The weight matrix tensor will be initialized following the recommendation from <a href="https://arxiv.org/abs/1502.01852">Xavier initialisation paper</a>. This paper tackled the problem with randomly initialized weight drawn from Gaussian distribution which caused hard convergence for deep network.
+{% include tip.html content='we set <code>requires_grad_</code> after initialization, since we don&#8217;t want that step included in the gradident. The trailing <code>_</code> in Pytorch signifies that the operation is performed in-place.' %}</p>
 
 </div>
 </div>
@@ -801,9 +798,8 @@ Now we have had a simple network and data setup. Let's try to predict a batch.</
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>What we did above is one <code>forward pass</code>, we load a batch of image add feed it through the network.<br>
-The result will not be better than a random prediction at this stage because we start with random weights.</p>
-<p>As we see in the <code>preds</code> tensor, it contains not only the tensor values but also a gradient function. As mentioned in part 1, pytorch use dynamic computational graph to track function operations that occur on tensors. These graph are then used to compute the derivatives.</p>
+<p>What we have done is one <code>forward pass</code>, we load a batch of image add feed it through the network. The result will not be better than a random prediction at this stage because we start with random weights.</p>
+<p>It can be seen in the <code>preds</code> tensor that it contains not only the tensor values but also a gradient function. As mentioned in part 1, pytorch use dynamic computational graph to track function operations that occur on tensors. These graph are then used to compute the derivatives.</p>
 
 </div>
 </div>
@@ -888,7 +884,8 @@ The result will not be better than a random prediction at this stage because we 
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Next, We will define a <code>metric</code>. During the training, reducing the <code>loss</code> is what our model tries to do but it is hard for us, as human, can intuitively understand how good the weights set are along the way. So we need a human-interpretable value which help us understand the training progress and it is the <code>metric</code>.</p>
+<p>Next, We will define a <code>metric</code>. During the training, reducing the <code>loss</code> is what our model tries to do but it is hard for us, as human, can intuitively understand how good the weights set are along the way. So we need a human-interpretable value which help us understand the training progress and it is the <code>metric</code>.<br>
+{% include important.html content='while training your model, there will be the case when your loss has stopped decreasing but your accuracy is still increasing. The recommendation here is to save both models, one at minimum loss and one at maximum accuracy. And you, yourself, need to make decision which one to choose. For me, it is always the maximum accuracy because the accuracy measurement is what we care about.' %}</p>
 
 </div>
 </div>
@@ -933,25 +930,26 @@ The result will not be better than a random prediction at this stage because we 
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We are now ready to begin the training process. The training process is an iterative process which including following steps:</p>
 <ol>
-<li><strong>Get batch from the training set</strong>.  <ul>
-<li>Since we have 60,000 samples in our training set, we will have 60,000 / 100 = 600 iterations. Something to notice, batch_size will directly impact to the number of times the weights updated. In our case, the weights will be updated 600 times by the end of each loop. So far, there is no rule-of-thump for selecting the value of batch size so we still need to do trial and error to figure out the best value.
-{% include important.html content='to be simple, I am not shuffling the training set at this stage. In reality, the training set should be shuffled to prevent correlation between batches and overfitting. If we keep feeding the network batch-by-batch in order, the network might remember this order and causes overfitting with this order. On the other hand, the validation loss will be identical whether we shuffle the validation set or not. Since shuffling takes extra time, it makes no sense to shuffle the validation data. ' %}    </li>
+<li><strong>Get a batch from the training set</strong>.  <ul>
+<li>Since we have 60,000 samples in our training set, we will have 938 iterations with batch_size 64. Something to notice, batch_size will directly impact to the number of times the weights updated. In our case, the weights will be updated 938 times by the end of each loop. So far, there is no rule-of-thump for selecting the value of batch size so we still need to do trial and error to figure out the best value.
+{% include important.html content='to be simple, I am not shuffling the training set at this stage. In reality, the training set should be shuffled to prevent correlation between batches and overfitting. If we keep feeding the network batch-by-batch in an exact order many times, the network might remember this order and causes overfitting with it. On the other hand, the validation loss will be identical whether we shuffle the validation set or not. Since shuffling takes extra time, it makes no sense to shuffle the validation data. ' %}    </li>
 </ul>
 </li>
 <li><p><strong>Pass batch to network.</strong></p>
 </li>
-<li><p><strong>Calculate the loss (difference between the predicted values and the true values).</strong></p>
+<li><p><strong>Calculate the loss value.</strong></p>
 </li>
 <li><p><strong>Calculate the gradient of the loss function w.r.t the network's weights.</strong></p>
 <ul>
-<li>Calculating the gradients is very easy using PyTorch. Since PyTorch has created a computation graph under the hood. As our tensor flowed forward through our network, all of the computations where added to the graph. The computation graph is then used by PyTorch to calculate the gradients of the loss function with respect to the network's weights.</li>
+<li>Calculating the gradients is very easy using PyTorch. Since PyTorch has created a computation graph under the hood. As our batch tensor steps forward through our network, all the computations are recorded in the computational graph. And this graph is then used by PyTorch to calculate the gradients of the loss function with respect to the network's weights.</li>
 </ul>
 </li>
-<li><p><strong>Update the weights using the gradients to reduce the loss.</strong></p>
+<li><p><strong>Update the weights.</strong></p>
 <ul>
 <li>The gradients calculated from step 4 are used by the optimizer to update the respective weights. </li>
 <li>We have disabled PyTorch gradient tracking at this step because we don't want these actions to be recorded for our next calculation of the gradient. There are many ways to disable this functionality, please check <code>Random topics</code> at the end of notebook for more information.</li>
-<li>After updating the weight, we need to zero out the gradients because the gradients will be calculated and added to the grad attributes of our network's parameters after calling loss.backward() at the next iteration.</li>
+<li>After updating the weight, we need to zero out the gradients because the gradients will be calculated and added to the grad attributes of our network's parameters after calling <code>loss.backward()</code> at the next iteration.<br>
+{% include note.html content='Zero out the gradient after updating parameters is not always the case, there are some special cases where we want to <code>accumulate gradient</code>. But you only have to deal with it at advance level. So take care^^.' %}</li>
 </ul>
 </li>
 <li><p><strong>Repeat steps 1-5 until one epoch is completed.</strong></p>
@@ -1052,7 +1050,7 @@ epoch 4, valid_loss 0.46733067717552185, accuracy 0.8356
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Refactor-neural-network-with-Pytorch-modules">Refactor neural network with Pytorch modules<a class="anchor-link" href="#Refactor-neural-network-with-Pytorch-modules"> </a></h2><p>We will gradually refactor our simple net with Pytorch built-in modules, so that it does the same thing as before but start taking advantage of Pytorch's modules to make it more concise, more understandable and/or flexible.<br>
+<h2 id="Section-3:-refactor-model-using-Pytorch-built-in-modules">Section 3: refactor model using Pytorch built-in modules<a class="anchor-link" href="#Section-3:-refactor-model-using-Pytorch-built-in-modules"> </a></h2><p>We will gradually refactor our <code>simplenet</code> with Pytorch built-in modules, so that it does the same thing as before but start taking advantage of Pytorch's modules to make it more concise, more understandable and/or flexible.<br>
 To make things more gradual and more understandable, the refactoring will be divided into 3 stages.</p>
 
 </div>
@@ -1085,11 +1083,11 @@ To make things more gradual and more understandable, the refactoring will be div
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
 
-<span class="c1"># old functions</span>
+<span class="c1"># old code</span>
 <span class="c1"># def log_softmax(x): return x - x.exp().sum(-1).log().unsqueeze(-1)</span>
 <span class="c1"># def simplenet(x): return log_softmax(x @ weights + bias)</span>
 
-<span class="c1"># new functions</span>
+<span class="c1"># refactor code</span>
 <span class="n">loss_function</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span>
 <span class="k">def</span> <span class="nf">simplenet</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span> <span class="o">@</span> <span class="n">weights</span> <span class="o">+</span> <span class="n">bias</span>
 </pre></div>
@@ -1105,8 +1103,14 @@ To make things more gradual and more understandable, the refactoring will be div
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Next we will refactor our <code>simplenet</code> using <code>torch.nn</code> module.</p>
 <p><code>torch.nn</code> is PyTorch’s neural network (nn) library which contains the primary components to construct network's layers. Within the <code>torch.nn</code> package, there is a class called <code>Module</code>, and it is the base class for all of neural network modules, including layers. All of the layers in PyTorch need to extend this base class in order to inherit all of PyTorch’s built-in functionality within the <code>nn.Module</code> class.<br>
-{% include note.html content='<code>nn.Module</code> (uppercase M) is a Pytorch specific concept, and is a class we&#8217;ll be using a lot. Do not confuse with the Python concept of a (lowercase m) <code>module</code>, which is a file of Python code that can be imported.' %}
-In order to create model using <code>nn.Module</code>, we have 3 essential steps:</p>
+{% include note.html content='<code>nn.Module</code> (uppercase M) is a Pytorch specific concept, and is a class we&#8217;ll be using a lot. Do not confuse with the Python concept of a (lowercase m) <code>module</code>, which is a file of Python code that can be imported.' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to create model using <code>nn.Module</code>, we have 3 essential steps:</p>
 <ol>
 <li>Create a neural network class that extends the <code>nn.Module</code> base class.</li>
 <li>Define the network's layers as class attributes in <code>__init__</code> method.<ul>
@@ -1116,7 +1120,7 @@ In order to create model using <code>nn.Module</code>, we have 3 essential steps
 <li>Define the network's transformation (operation) in <code>forward</code> method.<ul>
 <li>Every Pytorch <code>nn.Module</code> has a <code>forward()</code> method and so when we are building layers and networks, we must provide an implementation of the <code>forward()</code> method. The forward method is the actual transformation.</li>
 <li>The tensor input is passed forward though each layer transformation until the tensor reaches the output layer. The composition of all the individual layer forward passes defines the overall forward pass transformation for the network. The goal of the overall transformation is to transform or map the input to the correct prediction output class, and during the training process, the layer weights (data) are updated in such a way that cause the mapping to adjust to make the output closer to the correct prediction.</li>
-<li>When we implement the forward() method of our nn.Module subclass, we will typically use layers'attributes and functions from the <code>nn.functional</code> package. This package provides us with many neural network operations that we can use for building layers. In fact, many of the nn.Module layer classes use nn.functional functions to perform their operations.</li>
+<li>When we implement the <code>forward()</code> method of our <code>nn.Module</code> subclass, we will typically use layers'attributes and functions from the <code>nn.functional</code> package. This package provides us with many neural network operations that we can use for building layers. </li>
 </ul>
 </li>
 </ol>
@@ -1134,13 +1138,13 @@ In order to create model using <code>nn.Module</code>, we have 3 essential steps
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 
-<span class="c1"># old codes</span>
+<span class="c1"># old code</span>
 <span class="c1"># weights = torch.randn(784,10) / math.sqrt(784)</span>
 <span class="c1"># weights.requires_grad_()</span>
 <span class="c1"># bias    = torch.zeros(10, requires_grad=True)</span>
 <span class="c1"># def simplenet(x): return log_softmax(x @ weights + bias)</span>
 
-<span class="c1"># new code</span>
+<span class="c1"># refactor code</span>
 <span class="k">class</span> <span class="nc">SimpleNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -1162,7 +1166,7 @@ In order to create model using <code>nn.Module</code>, we have 3 essential steps
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>One thing to point out that Pytorch neural network modules are <code>callable Python objects</code>. It means we can call the <code>simplenet</code> as it was a function.<br>
+<p>One thing to point out that Pytorch neural network modules are <code>callable Python objects</code>. It means we can call the <code>SimplenNet</code>'s object as it was a function.<br>
 What makes this possible is that PyTorch module classes implement a special Python function called <code>__call__()</code>. which will be invoked anytime the object instance is called. After the object instance is called, the <code>__call__()</code> method is invoked under the hood, and the <code>__call__()</code> in turn invokes the <code>forward()</code> method. Instead of calling the <code>forward()</code> method directly, we call the object instance. This applies to all PyTorch neural network modules, namely, networks and layers.</p>
 
 </div>
@@ -1170,7 +1174,7 @@ What makes this possible is that PyTorch module classes implement a special Pyth
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In order to access the model parameters, we can use <code>parameters()</code> or <code>named_parameters()</code> method. Next we will refactor optimization algorithm using <code>nn.Module.parameters</code> and <code>nn.Module.zero_grad</code> method. In addition, we also bring training loop inside a function for easier reuse.</p>
+<p>In order to access the model parameters, we can use <code>parameters()</code> or <code>named_parameters()</code> method. Next we will refactor optimization algorithm using <code>nn.Module.parameters</code> and <code>nn.Module.zero_grad</code> method.</p>
 
 </div>
 </div>
@@ -1202,13 +1206,14 @@ What makes this possible is that PyTorch module classes implement a special Pyth
         <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
         <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span> 
             <span class="c1"># step 5. update the weights using SGD algorithm</span>
+            
             <span class="c1"># old code</span>
             <span class="c1"># weights -= lr * weights.grad</span>
             <span class="c1"># bias    -= lr * bias.grad</span>
             <span class="c1"># weights.grad.zero_()          </span>
             <span class="c1"># bias.grad.zero_()</span>
 
-            <span class="c1"># new code</span>
+            <span class="c1"># refactor code</span>
             <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">simplenet</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span> <span class="n">p</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span>
             <span class="n">simplenet</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
 
@@ -1279,7 +1284,7 @@ epoch 4, valid_loss 0.4690569020748138, accuracy 0.8355
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Pytorch <code>nn.Linear</code> class does all the things that we have done for linear layer, including intialize learnable parameters and define linear operation. 
-{% include note.html content='We used the abbreviation <code>fc</code> below because linear layers are also called fully connected layers or dense layer.    ' %}So <code>linear</code> = <code>dense</code> = <code>fully connected.</code></p>
+{% include note.html content='We used the abbreviation <code>fc</code> below because linear layers are also called fully connected layers or dense layer. Thus, <code>linear</code> = <code>dense</code> = <code>fully connected.</code>' %}</p>
 
 </div>
 </div>
@@ -1330,18 +1335,10 @@ epoch 4, valid_loss 0.4690569020748138, accuracy 0.8355
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include note.html content='we always call model.train() before training, and model.eval() before inference, because these are used by layers such as nn.BatchNorm2d and nn.Dropout to ensure appropriate behaviour for these different phases.' %}</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>Next is <code>Dataset</code> and <code>DataLoader</code>.</p>
 <p><code>torch.utils.data.Dataset</code> is an abstract class for representing a dataset. An abstract class is a Python class that has methods we must implement, in our case are <code>__getitem__</code> and <code>__len__</code>. In order to create a custom dataset, we need to subclass the <code>Dataset</code> class and override <code>__len__</code>, that provides the size of the dataset, and <code>__getitem__</code>, supporting integer indexing in range from 0 to len(self) exclusive. Upon doing this, our new subclass can then be passed to the a PyTorch DataLoader object.</p>
-<p>PyTorch’s <code>TensorDataset</code> is a Dataset wrapping tensors. By defining a length and way of indexing, this also gives us a way to iterate, index, and slice <code>along the first dimension of a tensor</code>. This will make it easier to access both the independent and dependent variables in the same line as we train.<br>
-{% include note.html content='we can douple batch size of valid set because we do not need to calculate gradient for it and it can handle larger batch size comparing to training set.' %}
-<code>torch.utils.data.DataLoader</code> is responsible for managing batches. It makes life easier to iterate over batches.
+<p>PyTorch’s <code>TensorDataset</code> is a Dataset wrapping tensors. By defining a length and way of indexing, this also gives us a way to iterate, index, and slice <code>along the first dimension of a tensor</code>. This will make it easier to access both the independent and dependent variables in the same line as we train.</p>
+<p><code>torch.utils.data.DataLoader</code> is responsible for managing batches. It makes life easier to iterate over batches.
 We can create a <code>DataLoader</code> from any <code>Dataset</code>.</p>
 
 </div>
@@ -1397,6 +1394,7 @@ We can create a <code>DataLoader</code> from any <code>Dataset</code>.</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And <code>torch.optim</code> package.<br>
 This module provides various optimization algorithms. Its API provides <code>step</code> and <code>zero_grad</code> method for weight updating and zero out gradient which will help us refactor our code further.</p>
+<p>Here is the training loop after applying all of those above steps.</p>
 
 </div>
 </div>
@@ -1461,8 +1459,15 @@ epoch 4, valid_loss 0.4616956412792206, accuracy 0.8371000289916992
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include note.html content='we always call <code>model.train()</code> before training, and <code>model.eval()</code> before inference, because these are used by layers such as <code>nn.BatchNorm2d</code> and <code>nn.Dropout</code> to ensure appropriate behaviour for these different phases.' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Done!<br>
-We have finished the whole processes. Thanks to Pytorch built-in modules, our training loop is now dramatically smaller and easier to understand.<br>
+We have finished refactor stage 2 thanks to Pytorch built-in modules. Our training loop is now dramatically smaller and easier to understand.<br>
 The refactor stage 3 does not introduce any new Pytorch modules. It is only an bonus step which help the code a bit cleaner and less code.</p>
 
 </div>
@@ -1476,7 +1481,7 @@ The refactor stage 3 does not introduce any new Pytorch modules. It is only an b
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>get_data</code> returns dataloaders for the training and validation sets.</p>
+<p><code>get_data</code> function returns dataloaders for the training set and validation set.</p>
 
 </div>
 </div>
@@ -1504,7 +1509,7 @@ The refactor stage 3 does not introduce any new Pytorch modules. It is only an b
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>get_model</code> returns instance of our model and the optimizer.</p>
+<p><code>get_model</code> function returns instance of our model and the optimizer.</p>
 
 </div>
 </div>
@@ -1531,8 +1536,8 @@ The refactor stage 3 does not introduce any new Pytorch modules. It is only an b
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Since we go through a similar process twice of calculating the loss for both the training set and the validation set, let’s make that into its own function, <code>loss_batch</code>, which computes the loss for one batch.<br>
-We pass an optimizer in for the training set, and use it to perform backprop. For the validation set, we don’t pass an optimizer, so the method doesn’t perform backprop.</p>
+<p><code>calc_loss_batch</code> function returns loss value of batch and number of samples in that batch. We create this function because we go through this process twice, calculating the loss for both the training set and the validation set.
+We pass an optimizer in for the training set, and use it to perform backprop. For the validation set, we don’t pass an optimizer, so the method doesn’t perform backprop. As a bonus, the accuracy is calculated if it is not None.</p>
 
 </div>
 </div>
@@ -1544,7 +1549,7 @@ We pass an optimizer in for the training set, and use it to perform backprop. Fo
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">loss_batch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calc_loss_batch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="n">ys</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1568,7 +1573,7 @@ We pass an optimizer in for the training set, and use it to perform backprop. Fo
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>fit</code> runs the necessary operations to train our model and compute the training and validation losses for each epoch.</p>
+<p><code>fit</code> function runs the necessary operations to train our model and compute the training loss, as well as validation losses and validation accuracy at each epoch.</p>
 
 </div>
 </div>
@@ -1648,15 +1653,15 @@ epoch 4, valid_loss 0.4786785946369171, accuracy 0.831
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Done!<br>
-Now we can use refactored functions to train a wide variety of models.<br>
-In part 3, we will use it to train a CNN (Convolutional Neural Network)</p>
+So we have gone through all 3 refactor stages and now we have a clean and flexible function for getting data, create and training model.<br>
+In part 3 of this serie, we will use those functions to train a Convolutional Neural Network (CNN).</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Random-topics">Random topics<a class="anchor-link" href="#Random-topics"> </a></h2>
+<h2 id="Section-4:-random-topics">Section 4: random topics<a class="anchor-link" href="#Section-4:-random-topics"> </a></h2>
 </div>
 </div>
 </div>
@@ -1717,22 +1722,6 @@ Both of these options are valid</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For more information, please check <a href="https://pytorch.org/docs/stable/notes/autograd.html">here</a></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="log-sum-exp-trick">log-sum-exp trick<a class="anchor-link" href="#log-sum-exp-trick"> </a></h3><p><a href="https://timvieira.github.io/blog/post/2014/02/11/exp-normalize-trick/">https://timvieira.github.io/blog/post/2014/02/11/exp-normalize-trick/</a><br>
-<a href="https://www.tensorflow.org/api_docs/python/tf/nn/log_softmax">https://www.tensorflow.org/api_docs/python/tf/nn/log_softmax</a><br>
-<a href="https://stackoverflow.com/questions/44081007/logsoftmax-stability">https://stackoverflow.com/questions/44081007/logsoftmax-stability</a></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>come back later!</p>
 
 </div>
 </div>
