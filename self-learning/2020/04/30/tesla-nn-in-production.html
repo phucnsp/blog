@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>How Tesla uses neural network at scale in production | Phuc Ng. Su</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="How Tesla uses neural network at scale in production" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This notebook summarizes the recent spectacular talk of Andrej Kaparthy showing how Tesla is using neural network at scale in production." />
+<meta property="og:description" content="This notebook summarizes the recent spectacular talk of Andrej Kaparthy showing how Tesla is using neural network at scale in production." />
+<link rel="canonical" href="https://phucnsp.github.io/blog/self-learning/2020/04/30/tesla-nn-in-production.html" />
+<meta property="og:url" content="https://phucnsp.github.io/blog/self-learning/2020/04/30/tesla-nn-in-production.html" />
+<meta property="og:site_name" content="Phuc Ng. Su" />
+<meta property="og:image" content="https://phucnsp.github.io/blog/images/selfdrivingcar.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-30T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"This notebook summarizes the recent spectacular talk of Andrej Kaparthy showing how Tesla is using neural network at scale in production.","@type":"BlogPosting","headline":"How Tesla uses neural network at scale in production","dateModified":"2020-04-30T00:00:00-05:00","datePublished":"2020-04-30T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/selfdrivingcar.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/self-learning/2020/04/30/tesla-nn-in-production.html"},"url":"https://phucnsp.github.io/blog/self-learning/2020/04/30/tesla-nn-in-production.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://phucnsp.github.io/blog/feed.xml" title="Phuc Ng. Su" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>How Tesla uses neural network at scale in production | Phuc Ng. Su</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="How Tesla uses neural network at scale in production" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This notebook summarizes the recent spectacular talk of Andrej Kaparthy showing how Tesla is using neural network at scale in production." />
+<meta property="og:description" content="This notebook summarizes the recent spectacular talk of Andrej Kaparthy showing how Tesla is using neural network at scale in production." />
+<link rel="canonical" href="https://phucnsp.github.io/blog/self-learning/2020/04/30/tesla-nn-in-production.html" />
+<meta property="og:url" content="https://phucnsp.github.io/blog/self-learning/2020/04/30/tesla-nn-in-production.html" />
+<meta property="og:site_name" content="Phuc Ng. Su" />
+<meta property="og:image" content="https://phucnsp.github.io/blog/images/selfdrivingcar.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-30T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"This notebook summarizes the recent spectacular talk of Andrej Kaparthy showing how Tesla is using neural network at scale in production.","@type":"BlogPosting","headline":"How Tesla uses neural network at scale in production","dateModified":"2020-04-30T00:00:00-05:00","datePublished":"2020-04-30T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/selfdrivingcar.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/self-learning/2020/04/30/tesla-nn-in-production.html"},"url":"https://phucnsp.github.io/blog/self-learning/2020/04/30/tesla-nn-in-production.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://phucnsp.github.io/blog/feed.xml" title="Phuc Ng. Su" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">Phuc Ng. Su</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">How Tesla uses neural network at scale in production</h1><p class="page-description">This notebook summarizes the recent spectacular talk of Andrej Kaparthy showing how Tesla is using neural network at scale in production.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-04-30T00:00:00-05:00" itemprop="datePublished">
+        Apr 30, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#self-learning">self-learning</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/phucnsp/blog/tree/master/_notebooks/2020-04-30-tesla-nn-in-production.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/phucnsp/blog/master?filepath=_notebooks%2F2020-04-30-tesla-nn-in-production.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/phucnsp/blog/blob/master/_notebooks/2020-04-30-tesla-nn-in-production.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Overview">Overview </a></li>
+<li class="toc-entry toc-h2"><a href="#HydraNet">HydraNet </a></li>
+<li class="toc-entry toc-h2"><a href="#Data-engine-and-operation-vacation">Data engine and operation vacation </a></li>
+<li class="toc-entry toc-h2"><a href="#Evaluation-metrics">Evaluation metrics </a></li>
+<li class="toc-entry toc-h2"><a href="#Modeling:-Bird-'s-Eye-View-networks">Modeling: Bird &#39;s Eye View networks </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-04-30-tesla-nn-in-production.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>At the <a href="http://scaledml.org/2020/">Scaled Machine Learning Conference</a> this year 2020, Andrej Kaparthy - Director of AI at Tesla - has given a <a href="https://www.youtube.com/watch?time_continue=1&amp;v=hx7BXih7zx8&amp;feature=emb_logo">spectacular talk</a> about how Tesla is applying AI into their system. There are so much information and distilled knowlege came out from this talk which made me can not resist to write this blog post. if you want to access to other talks from Scaled Machine Learning Conference, go <a href="https://info.matroid.com/scaledml-media-archive-preview">here</a>.
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>all the images used in this note are from the slide used in Andrej’s video.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Overview">
+<a class="anchor" href="#Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview<a class="anchor-link" href="#Overview"> </a>
+</h2>
+<p>The talk is about <code>AI for Full-Self Driving</code> where Andrej talked about how Tesla are improving the safety and convenience of driving, how they deploy deep learning into production and supports all the features of autopilot today, how the neural net is eating through the software stack and how they are putting vision and AI at the front and center of this effort.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Full self-driving is a non-trivial task which requires you to not only follow the driving law but also to satisfy  massive number of users. Tesla has built their cars to be like a real computer with eyes(cameras) on it. Beside the main functions of self-driving, they also have other great functionalities such as active safely (e.g auto detect pedestrians even when self-driving mode is off) and auto parking (auto search for the parking lot).</p>
+<p>Different with other companies where Lidar is used as car's eyes, Tesla is using <code>vision-based</code> approach with cameras. The advantage of this approach is its scalable where cameras can be easily installed in millions of car. 
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>Briefly describe about Lidar, it shoots out the laser, create point cloud map and print out high definition map.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/blog/images/copied_from_nb/data/tesla/visionapproach.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="HydraNet">
+<a class="anchor" href="#HydraNet" aria-hidden="true"><span class="octicon octicon-link"></span></a>HydraNet<a class="anchor-link" href="#HydraNet"> </a>
+</h2>
+<p>Using the images from cameras, Tesla AI team has built a very large network for detecting objects that their cars have to encounter on the street. This network has shared backbone and multiple heads, each of them is responsible for a number of tasks. As you can see in the image below, in order to make decision the car needs to detect a lot of objects around it such as lane lines, static objects, road signs, crosswalks, etc. And for each detecting task, there can be multiple subtasks come with it and if we list them out all, the number can be even thousand of tasks.</p>
+<p><img src="/blog/images/copied_from_nb/data/tesla/hydranet.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data-engine-and-operation-vacation">
+<a class="anchor" href="#Data-engine-and-operation-vacation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data engine and operation vacation<a class="anchor-link" href="#Data-engine-and-operation-vacation"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to boost the performance of <code>HydraNet</code>, Tesla needs a lot of data. So you have thousand of tasks to solve and each of them requires thousands of images. Wouldn't you need thousand of engineer to make it work?<br>
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>Tesla has around dozens of engineer! Small team but super elite.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to deal with such large amount of work with not so many engineers, Andrej has introduced the concept of <code>operation vacation</code> and <code>data engine</code>.</p>
+<p><code>Operation vacation</code> means the engineers might take vacation while the system still operate well. They have tried to develop as much automation machinery to support the development of new tasks and remove engineers from that loop. They have built infrastructure so that the labeling team, PMs can actually use that infrastructure to create new detectors whenever they have new tasks. For every new task, there will be a latency for it to actually work and they know exactly the process for getting a new task to work. It is fully automatic.</p>
+<p>Getting an example of new task detecting <code>caution lights</code>. Tesla has built a family of prototype infrastructure for different tasks. For example this <code>caution lights</code> is treated as landmark task and if it is a member of task family then all the infrastructure for it already in place so they just plug-and-play landmark prototype infrastructure and go through the <code>Data Engine</code>.</p>
+<p><img src="/blog/images/copied_from_nb/data/tesla/op_vac_dataengine.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>Data Engine</code> is the process by which they iteractively apply active learning to source additional examples in cases detector misbehaving.<br>
+Breaking down steps of applying data engine for the task detecting <code>caution lights</code>:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">-</span> <span class="n">Init</span> <span class="n">new</span> <span class="n">layer</span> <span class="n">of</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">CAUTION_LIGHT</span> <span class="p">(</span><span class="n">LANDMARK</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">Label</span> <span class="n">a</span> <span class="n">seed</span> <span class="nb">set</span> <span class="n">of</span> <span class="n">images</span>
+<span class="o">-</span> <span class="n">Develop</span> <span class="n">a</span> <span class="n">seed</span> <span class="nb">set</span> <span class="n">of</span> <span class="n">unit</span> <span class="n">tests</span>
+<span class="o">-</span> <span class="n">Train</span> <span class="n">network</span> <span class="n">head</span> <span class="n">on</span> <span class="n">current</span> <span class="n">data</span> 
+<span class="o">-</span> <span class="n">While</span> <span class="n">QA</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">sign</span> <span class="n">off</span><span class="p">:</span>
+    <span class="o">-</span> <span class="n">While</span> <span class="n">unit</span> <span class="n">tests</span> <span class="n">fail</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">Deploy</span> <span class="n">a</span> <span class="n">trigger</span><span class="p">(</span><span class="n">an</span> <span class="n">approximate</span> <span class="n">detector</span> <span class="n">trained</span> <span class="n">offline</span><span class="p">)</span> 
+          <span class="n">to</span> <span class="n">the</span> <span class="n">fleet</span><span class="p">(</span><span class="n">millions</span> <span class="n">of</span> <span class="n">Tesla</span> <span class="n">car</span> <span class="n">running</span> <span class="n">on</span> <span class="n">the</span> <span class="n">street</span><span class="p">)</span> 
+          <span class="ow">in</span> <span class="n">order</span> <span class="n">to</span> <span class="n">source</span> <span class="n">more</span> <span class="n">images</span> <span class="ow">in</span> <span class="n">failing</span> <span class="n">scenarios</span><span class="o">.</span> 
+        <span class="o">-</span> <span class="n">Label</span> <span class="n">the</span> <span class="n">resulting</span> <span class="n">images</span> <span class="ow">and</span> <span class="n">incorporate</span> <span class="n">them</span> <span class="n">into</span> <span class="n">the</span> <span class="n">training</span> <span class="nb">set</span><span class="o">.</span>
+        <span class="o">-</span> <span class="n">Retrain</span> <span class="n">network</span> <span class="n">on</span> <span class="n">data</span> 
+        <span class="o">-</span> <span class="n">Enrich</span><span class="o">/</span><span class="n">grow</span> <span class="nb">set</span> <span class="n">of</span> <span class="n">unit</span> <span class="n">tests</span>
+    <span class="o">-</span> <span class="n">Deploy</span> <span class="n">to</span> <span class="n">run</span> <span class="n">on</span> <span class="n">the</span> <span class="n">FSD</span> <span class="n">computer</span>
+    <span class="o">-</span> <span class="p">(</span><span class="n">Optional</span><span class="p">)</span> <span class="n">Deploy</span> <span class="n">to</span> <span class="n">the</span> <span class="n">fleet</span> <span class="ow">in</span> <span class="n">shadow</span> <span class="n">mode</span>
+    <span class="o">-</span> <span class="n">Collect</span> <span class="n">telemetry</span> <span class="ow">and</span> <span class="n">evaluate</span> <span class="n">the</span> <span class="n">performance</span> <span class="n">of</span> <span class="n">the</span> <span class="n">feature</span>
+<span class="o">-</span> <span class="n">Ship</span> <span class="n">feature</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>Data Engine helps to accumulate large dataset in the full tail distribution.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Evaluation-metrics">
+<a class="anchor" href="#Evaluation-metrics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Evaluation metrics<a class="anchor-link" href="#Evaluation-metrics"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the above part, we have seen the tremendous efforts that Andrej's team has been working on for growing their training set. But Tesla has also placed just as much work into massaging the test set as they do in the training set. They spent a lot of time, inspired by test-driven development, to build out very complicated test set. Their test set is treated like unit tests which has to cover all cases. This set is so important and it is the objective for the whole system improvement. Whether you are going in right or wrong direction, it all depends on the quality of the test set.</p>
+<p>A mechanism has been built for creating and massaging the test set. And this set is a growing collection thanks to the fleet running along the street and encounters different problems daily.</p>
+<p>Just reporting the loss function or the mean average precision on the test set is not enough for Tesla. Below is an example of test set for <code>stop sign detector</code> which is actually broken down into all these different issues like heavy rain/snow, heavily occluded, tilted stop signs and each of them is tracked separately and is pursued one-by-one with data engine to actually make them work.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><figure>
+  
+    <img class="docimage" src="/blog/images/copied_from_nb/data/tesla/eval_metric.png" alt="" style="max-width: 500px">
+    
+    
+</figure>
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Modeling:-Bird-'s-Eye-View-networks">
+<a class="anchor" href="#Modeling:-Bird-'s-Eye-View-networks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Modeling: Bird 's Eye View networks<a class="anchor-link" href="#Modeling:-Bird-'s-Eye-View-networks"> </a>
+</h2>
+<p>In this part, Andrej talked about how the neural network has to change in order to actually support full self-driving.</p>
+<p>The self driving system can not just work with raw predictions from 2d pixel space, it is needed to project them out to some kind of top-down view. A traditional approach is to create <code>occupancy tracker</code> where 2D images are projected into 3D and stitched up across cameras and then across time. This tracker will keep the temporal context  and create a small local map which helps the car winds its way thru the parking lot for example(see top left image below).<br>
+However, there are a lot of problems doing the stitching because these cameras are pointing in arbitrary directions and it is very hard to align them across cameras. Very difficult to develop.</p>
+<p><figure>
+  
+    <img class="docimage" src="/blog/images/copied_from_nb/data/tesla/occupance_tracking.png" alt="" style="max-width: 400px">
+    
+    
+</figure>
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So Tesla's AI team has decided to move from occupancy tracker (software 1.0 approach) to BEV Net (software 2.0 approach) and they see typically that works really well.</p>
+<p>Briefly remind about software 1.0 and software 2.0 that Andrej has many times mentioned in his previous talks. Software 1.0 is the traditional way of coding where developers directly write the code to create the software.
+Software 2.0 is the neural network-based approach where developers indirectly write the code. The optimization algorithm is the one compile data into the code. Software 2.0 is extremely useful when the problem is so messy and super hard to code. The trend is moving toward software 2.0 but each of them has their own pros and cons. The best way is still to combine them in a clever way.
+<img src="/blog/images/copied_from_nb/data/tesla/BEV.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As shown in the image above, images from cameras are fed to backbone and then going to a <code>Fusion layer</code> that stitches up the feature maps accross different view and also does the projection from image space to bird eye view. And then you have a <code>Temporal module</code> to actually smooth out these predictions. The <code>BEV Net</code> decoder actually create top-down space. That is how we can directly predict objects in top-down view from camera images.</p>
+<p>Most of the things that Andrej has described so far reply primarily on supervise learning where Tesla AI team has spent efforts to create and massage massive dataset. However, he have seen a lot of progress today in self-supervise learning so he wants to leverage some of that to speed up the process and the rate at which they learn from very little supervised data. So let's wait for Andrej's next talk with self-supervised models deployed in Tesla autopilot system.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="phucnsp/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/self-learning/2020/04/30/tesla-nn-in-production.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>This blog contains my personal view about everything either in work and life.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/phucnsp" title="phucnsp"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/Phuc_Nguyen_Su" title="Phuc_Nguyen_Su"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
