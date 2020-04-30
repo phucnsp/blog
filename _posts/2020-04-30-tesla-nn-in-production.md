@@ -30,7 +30,7 @@ layout: notebook
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>At the <a href="http://scaledml.org/2020/">Scaled Machine Learning Conference</a> this year 2020, Andrej Kaparthy - Director of AI at Tesla - has given a <a href="https://www.youtube.com/watch?time_continue=1&amp;v=hx7BXih7zx8&amp;feature=emb_logo">spectacular talk</a> about how Tesla is applying AI into their system. There are so much information and distilled knowlege came out from this talk which made me can not resist to write this blog post. if you want to access to other talks from Scaled Machine Learning Conference, go <a href="https://info.matroid.com/scaledml-media-archive-preview">here</a>.
+<p>At the <a href="http://scaledml.org/2020/">Scaled Machine Learning Conference</a> this year 2020, Andrej Kaparthy - Director of AI at Tesla - has given a <a href="https://www.youtube.com/watch?time_continue=1&amp;v=hx7BXih7zx8&amp;feature=emb_logo">spectacular talk</a> about how Tesla is applying AI into their system. There are so much information and distilled knowlege came out from this talk which made me can not resist to write this blog post. If you want to access to other talks from Scaled Machine Learning Conference, go <a href="https://info.matroid.com/scaledml-media-archive-preview">here</a>.
 {% include note.html content='all the images used in this note are from the slide used in Andrej&#8217;s video.' %}</p>
 
 </div>
@@ -61,7 +61,8 @@ layout: notebook
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="HydraNet">HydraNet<a class="anchor-link" href="#HydraNet"> </a></h2><p>Using the images from cameras, Tesla AI team has built a very large network for detecting objects that their cars have to encounter on the street. This network has shared backbone and multiple heads, each of them is responsible for a number of tasks. As you can see in the image below, in order to make decision the car needs to detect a lot of objects around it such as lane lines, static objects, road signs, crosswalks, etc. And for each detecting task, there can be multiple subtasks come with it and if we list them out all, the number can be even thousand of tasks.</p>
+<h2 id="HydraNet">HydraNet<a class="anchor-link" href="#HydraNet"> </a></h2><p>Using the images from cameras, Tesla AI team has built a very large network for detecting objects that their cars have to encounter on the street. As you can see the image on the left below, in order to make decision the car needs to detect a lot of objects around it such as lane lines, static objects, road signs, crosswalks, etc.
+Their huge object detection network, HydraNet, has shared backbone and multiple heads, each of them is responsible for a number of tasks.  And for each detecting task, there can be multiple subtasks come with it and if we list them out all, the number can be even thousand of tasks.</p>
 <p><img src="/blog/images/copied_from_nb/data/tesla/hydranet.png" alt=""></p>
 
 </div>
@@ -162,7 +163,7 @@ Breaking down steps of applying data engine for the task detecting <code>caution
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Modeling:-Bird-'s-Eye-View-networks">Modeling: Bird 's Eye View networks<a class="anchor-link" href="#Modeling:-Bird-'s-Eye-View-networks"> </a></h2><p>In this part, Andrej talked about how the neural network has to change in order to actually support full self-driving.</p>
+<h2 id="Modeling:-Bird's-Eye-View-networks">Modeling: Bird's Eye View networks<a class="anchor-link" href="#Modeling:-Bird's-Eye-View-networks"> </a></h2><p>In this part, Andrej talked about how the neural network has to change in order to actually support full self-driving.</p>
 <p>The self driving system can not just work with raw predictions from 2d pixel space, it is needed to project them out to some kind of top-down view. A traditional approach is to create <code>occupancy tracker</code> where 2D images are projected into 3D and stitched up across cameras and then across time. This tracker will keep the temporal context  and create a small local map which helps the car winds its way thru the parking lot for example(see top left image below).<br>
 However, there are a lot of problems doing the stitching because these cameras are pointing in arbitrary directions and it is very hard to align them across cameras. Very difficult to develop.</p>
 <p>{% include image.html height="400" max-width="400" file="/blog/images/copied_from_nb/data/tesla/occupance_tracking.png" %}</p>
