@@ -85,8 +85,8 @@ Their huge object detection network, HydraNet, has shared backbone and multiple 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In order to deal with such large amount of work with not so many engineers, Andrej has introduced the concept of <code>operation vacation</code> and <code>data engine</code>.</p>
-<p><code>Operation vacation</code> means the engineers might take vacation while the system still operate well. They have tried to develop as much automation machinery to support the development of new tasks and remove engineers from that loop. They have built infrastructure so that the labeling team, PMs can actually use that infrastructure to create new detectors whenever they have new tasks. For every new task, there will be a latency for it to actually work and they know exactly the process for getting a new task to work. It is fully automatic.</p>
-<p>Getting an example of new task detecting <code>caution lights</code>. Tesla has built a family of prototype infrastructure for different tasks. For example this <code>caution lights</code> is treated as landmark task and if it is a member of task family then all the infrastructure for it already in place so they just plug-and-play landmark prototype infrastructure and go through the <code>Data Engine</code>.</p>
+<p><code>Operation vacation</code> means the engineers might take vacation while the system still operate well. They have tried to develop as much automation machinery to support the development of new tasks and remove engineers from that loop. The infrastructure has been built so that the labeling team or PMs can actually create new detectors whenever they have new tasks. So the process, from starting point of a new detector to actually deploy it, might have a latency but fully automatic.</p>
+<p>Tesla has built infrastructures for classes of task in order to automate as much as possible. Getting an example of a new task detecting <code>caution lights</code> which might be categorized as a landmark task. If this task is a member of task family which Tesla has built infrastructure for, then the things is super easy. They just need to plug-and-play the prototype infrastructure of landmark task and go through the <code>Data Engine.</code></p>
 <p><img src="/blog/images/copied_from_nb/data/tesla/op_vac_dataengine.png" alt=""></p>
 
 </div>
@@ -94,8 +94,15 @@ Their huge object detection network, HydraNet, has shared backbone and multiple 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>Data Engine</code> is the process by which they iteractively apply active learning to source additional examples in cases detector misbehaving.<br>
-Breaking down steps of applying data engine for the task detecting <code>caution lights</code>:</p>
+<p><code>Data Engine</code> is the process by which they iteractively apply active learning to source additional examples in cases detector misbehaving. For example the task detecting <code>caution lights</code>, first they have to label a seed set of images in order to have a seed set of unit tests. The network head is then trained on current data and if it fails on the test set, they will spin on data engine to get more data and thus improve the accuracy. An approximate trigger will be trained offline and ship to the fleet(the Tesla's million car unit running on the street) in order to source more images in failing scenarios. These harvested images are then labeled and fed into  training set. The network is trained again, the test set is enriched as well. These processes are iteractive and they have seen the accuracy has gone like from 40% to 99%.<br>
+{% include note.html content='Data Engine helps to accumulate large dataset in the full tail distribution.' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Breaking down the steps of applying data engine for the task detecting <code>caution lights</code>:</p>
 
 </div>
 </div>
@@ -113,7 +120,7 @@ Breaking down steps of applying data engine for the task detecting <code>caution
 <span class="o">-</span> <span class="n">Train</span> <span class="n">network</span> <span class="n">head</span> <span class="n">on</span> <span class="n">current</span> <span class="n">data</span> 
 <span class="o">-</span> <span class="n">While</span> <span class="n">QA</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">sign</span> <span class="n">off</span><span class="p">:</span>
     <span class="o">-</span> <span class="n">While</span> <span class="n">unit</span> <span class="n">tests</span> <span class="n">fail</span><span class="p">:</span>
-        <span class="o">-</span> <span class="n">Deploy</span> <span class="n">a</span> <span class="n">trigger</span><span class="p">(</span><span class="n">an</span> <span class="n">approximate</span> <span class="n">detector</span> <span class="n">trained</span> <span class="n">offline</span><span class="p">)</span> 
+        <span class="o">-</span> <span class="n">Deploy</span> <span class="n">a</span> <span class="n">trigger</span><span class="p">(</span><span class="n">an</span> <span class="n">offline</span> <span class="n">trained</span> <span class="n">approximate</span> <span class="n">detector</span><span class="p">)</span> 
           <span class="n">to</span> <span class="n">the</span> <span class="n">fleet</span><span class="p">(</span><span class="n">millions</span> <span class="n">of</span> <span class="n">Tesla</span> <span class="n">car</span> <span class="n">running</span> <span class="n">on</span> <span class="n">the</span> <span class="n">street</span><span class="p">)</span> 
           <span class="ow">in</span> <span class="n">order</span> <span class="n">to</span> <span class="n">source</span> <span class="n">more</span> <span class="n">images</span> <span class="ow">in</span> <span class="n">failing</span> <span class="n">scenarios</span><span class="o">.</span> 
         <span class="o">-</span> <span class="n">Label</span> <span class="n">the</span> <span class="n">resulting</span> <span class="n">images</span> <span class="ow">and</span> <span class="n">incorporate</span> <span class="n">them</span> <span class="n">into</span> <span class="n">the</span> <span class="n">training</span> <span class="nb">set</span><span class="o">.</span>
@@ -132,13 +139,6 @@ Breaking down steps of applying data engine for the task detecting <code>caution
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include note.html content='Data Engine helps to accumulate large dataset in the full tail distribution.' %}</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Evaluation-metrics">Evaluation metrics<a class="anchor-link" href="#Evaluation-metrics"> </a></h2>
