@@ -5,7 +5,7 @@ title: How Tesla uses neural network at scale in production
 toc: true 
 badges: true
 comments: true
-categories: [self-learning]
+categories: [self-taught]
 image: images/selfdrivingcar.png
 hide: false
 nb_path: _notebooks/2020-04-30-tesla-nn-in-production.ipynb
@@ -46,7 +46,7 @@ layout: notebook
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Full self-driving is a non-trivial task which requires you to not only follow the driving law but also to satisfy  massive number of users. Tesla has built their cars to be like a real computer with eyes(cameras) on it. Beside the main functions of self-driving, they also have other great functionalities such as active safely (e.g auto detect pedestrians even when self-driving mode is off) and auto parking (auto search for the parking lot).</p>
-<p>Different with other companies where Lidar is used as car's eyes, Tesla is using <code>vision-based</code> approach with cameras. The advantage of this approach is its scalable where cameras can be easily installed in millions of car. 
+<p>Different with other companies where Lidar is used as car's eyes, Tesla is using <code>vision-based</code> approach with cameras. The advantage of this approach is its scalability where cameras can be easily installed in millions of car. 
 {% include note.html content='Briefly describe about Lidar, it shoots out the laser, create point cloud map and print out high definition map.' %}</p>
 
 </div>
