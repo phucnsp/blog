@@ -201,7 +201,7 @@ The course covers tremendous knowledge for understanding and effectively learnin
 In general, there are 2 types of networks/graphs:</p>
 <ul>
 <li>
-<code>Networks</code> are those that can be interpretated as examples of phenomena that appear in natural world, that's why it is also called <code>Natural Graphs</code>. A couple examples include  <ul>
+<strong>Networks</strong> are those that can be interpretated as examples of phenomena that appear in natural world, that's why it is also called <strong>Natural Graphs</strong>. A couple examples include  <ul>
 <li>The human social network(a collection of 7+ billion individuals)</li>
 <li>Internet communication systems(a collection of electronic devices)
 <img src="/blog/images/copied_from_nb/data/cs224w/nw_types.png" alt="">
@@ -209,7 +209,7 @@ In general, there are 2 types of networks/graphs:</p>
 </ul>
 </li>
 <li>
-<code>Information Graphs</code> are those that can be interpretated as a data structure useful which are created in a heuristic way for solving a specific prediction problem. In this case, we're more interested in relationships between entities so we can efficiently perform learning tasks. Some examples include  <ul>
+<strong>Information Graphs</strong> are those that can be interpretated as a data structure useful which are created in a heuristic way for solving a specific prediction problem. In this case, we're more interested in relationships between entities so we can efficiently perform learning tasks. Some examples include  <ul>
 <li>Information/knowledge (are organized and linked for a specific purpose,e.g google search engine)</li>
 <li>Scene graphs (how objects in a scene relate to one another)</li>
 <li>Similarity networks (in which similar points in a dataset are connected)<br>
@@ -218,13 +218,13 @@ In general, there are 2 types of networks/graphs:</p>
 </ul>
 </li>
 </ul>
-<p>While working with <code>Networks</code>, some of the main questions that we need to think about are <strong>How are these systems organized? what are their design properties?</strong> Behind many systems there is an intricate wiring diagram, a network, that defines the interactions between the components. We will never be able to model and predict these systems unless we understand the networks behind them. 
+<p>While working with <strong>Networks</strong>, some of the main questions that we need to think about are <strong>How are these systems organized? what are their design properties?</strong> Behind many systems there is an intricate wiring diagram, a network, that defines the interactions between the components. We will never be able to model and predict these systems unless we understand the networks behind them. 
 </p>
 <div class="flash">
     <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
     <strong>Note: </strong>Networks: Knowledge Discovery    
 </div>
-<p>In the other hand, working with <code>Graphs</code> leverages another questions <strong>How do we take advantage of relational structure for better prediction?</strong> Complex domains (knowledge, text, images, etc) have rich relational structure, which can be represented as a <code>relational graph</code> for numerous prediction tasks. By explicitly modeling relationships and applying machine learning into graph, we achieve better performance in many tasks.
+<p>In the other hand, working with <strong>Graphs</strong> leverages another questions <strong>How do we take advantage of relational structure for better prediction?</strong> Complex domains (knowledge, text, images, etc) have rich relational structure, which can be represented as a <code>relational graph</code> for numerous prediction tasks. By explicitly modeling relationships and applying machine learning into graph, we achieve better performance in many tasks.
 </p>
 <div class="flash">
     <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
