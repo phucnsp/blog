@@ -3,36 +3,36 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Network Preliminaries - part 1 | Phuc Ng. Su</title>
+<title>Machine Learning with Graph - Preliminaries part 1 | Phuc Ng. Su</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Network Preliminaries - part 1" />
+<meta property="og:title" content="Machine Learning with Graph - Preliminaries part 1" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This notebook covers introduction about graphs, its basic concepts and how to represent a graph. Primary source is from Standford CS224W course." />
 <meta property="og:description" content="This notebook covers introduction about graphs, its basic concepts and how to represent a graph. Primary source is from Standford CS224W course." />
-<link rel="canonical" href="https://phucnsp.github.io/blog/cs224w/2020/05/27/cs224w-premilinaries-part1.html" />
-<meta property="og:url" content="https://phucnsp.github.io/blog/cs224w/2020/05/27/cs224w-premilinaries-part1.html" />
+<link rel="canonical" href="https://phucnsp.github.io/blog/cs224w/2020/05/27/ML-graph-premilinary-part1.html" />
+<meta property="og:url" content="https://phucnsp.github.io/blog/cs224w/2020/05/27/ML-graph-premilinary-part1.html" />
 <meta property="og:site_name" content="Phuc Ng. Su" />
 <meta property="og:image" content="https://phucnsp.github.io/blog/images/graph.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-05-27T00:00:00-05:00" />
 <script type="application/ld+json">
-{"description":"This notebook covers introduction about graphs, its basic concepts and how to represent a graph. Primary source is from Standford CS224W course.","@type":"BlogPosting","headline":"Network Preliminaries - part 1","dateModified":"2020-05-27T00:00:00-05:00","datePublished":"2020-05-27T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/graph.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/cs224w/2020/05/27/cs224w-premilinaries-part1.html"},"url":"https://phucnsp.github.io/blog/cs224w/2020/05/27/cs224w-premilinaries-part1.html","@context":"https://schema.org"}</script>
+{"description":"This notebook covers introduction about graphs, its basic concepts and how to represent a graph. Primary source is from Standford CS224W course.","@type":"BlogPosting","headline":"Machine Learning with Graph - Preliminaries part 1","dateModified":"2020-05-27T00:00:00-05:00","datePublished":"2020-05-27T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/graph.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/cs224w/2020/05/27/ML-graph-premilinary-part1.html"},"url":"https://phucnsp.github.io/blog/cs224w/2020/05/27/ML-graph-premilinary-part1.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://phucnsp.github.io/blog/feed.xml" title="Phuc Ng. Su" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Network Preliminaries - part 1 | Phuc Ng. Su</title>
+<title>Machine Learning with Graph - Preliminaries part 1 | Phuc Ng. Su</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Network Preliminaries - part 1" />
+<meta property="og:title" content="Machine Learning with Graph - Preliminaries part 1" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This notebook covers introduction about graphs, its basic concepts and how to represent a graph. Primary source is from Standford CS224W course." />
 <meta property="og:description" content="This notebook covers introduction about graphs, its basic concepts and how to represent a graph. Primary source is from Standford CS224W course." />
-<link rel="canonical" href="https://phucnsp.github.io/blog/cs224w/2020/05/27/cs224w-premilinaries-part1.html" />
-<meta property="og:url" content="https://phucnsp.github.io/blog/cs224w/2020/05/27/cs224w-premilinaries-part1.html" />
+<link rel="canonical" href="https://phucnsp.github.io/blog/cs224w/2020/05/27/ML-graph-premilinary-part1.html" />
+<meta property="og:url" content="https://phucnsp.github.io/blog/cs224w/2020/05/27/ML-graph-premilinary-part1.html" />
 <meta property="og:site_name" content="Phuc Ng. Su" />
 <meta property="og:image" content="https://phucnsp.github.io/blog/images/graph.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-05-27T00:00:00-05:00" />
 <script type="application/ld+json">
-{"description":"This notebook covers introduction about graphs, its basic concepts and how to represent a graph. Primary source is from Standford CS224W course.","@type":"BlogPosting","headline":"Network Preliminaries - part 1","dateModified":"2020-05-27T00:00:00-05:00","datePublished":"2020-05-27T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/graph.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/cs224w/2020/05/27/cs224w-premilinaries-part1.html"},"url":"https://phucnsp.github.io/blog/cs224w/2020/05/27/cs224w-premilinaries-part1.html","@context":"https://schema.org"}</script>
+{"description":"This notebook covers introduction about graphs, its basic concepts and how to represent a graph. Primary source is from Standford CS224W course.","@type":"BlogPosting","headline":"Machine Learning with Graph - Preliminaries part 1","dateModified":"2020-05-27T00:00:00-05:00","datePublished":"2020-05-27T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/graph.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/cs224w/2020/05/27/ML-graph-premilinary-part1.html"},"url":"https://phucnsp.github.io/blog/cs224w/2020/05/27/ML-graph-premilinary-part1.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -103,7 +103,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Network Preliminaries - part 1</h1><p class="page-description">This notebook covers introduction about graphs, its basic concepts and how to represent a graph. Primary source is from Standford CS224W course.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-27T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Machine Learning with Graph - Preliminaries part 1</h1><p class="page-description">This notebook covers introduction about graphs, its basic concepts and how to represent a graph. Primary source is from Standford CS224W course.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-27T00:00:00-05:00" itemprop="datePublished">
         May 27, 2020
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -127,19 +127,19 @@ window.onload = wrap_img;
         <div class="pb-5 d-flex flex-wrap flex-justify-end">
           <div class="px-2">
 
-    <a href="https://github.com/phucnsp/blog/tree/master/_notebooks/2020-05-27-cs224w-premilinaries-part1.ipynb" role="button" target="_blank">
+    <a href="https://github.com/phucnsp/blog/tree/master/_notebooks/2020-05-27-ML-graph-premilinary-part1.ipynb" role="button" target="_blank">
 <img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
     </a>
 </div>
 
           <div class="px-2">
-    <a href="https://mybinder.org/v2/gh/phucnsp/blog/master?filepath=_notebooks%2F2020-05-27-cs224w-premilinaries-part1.ipynb" target="_blank">
+    <a href="https://mybinder.org/v2/gh/phucnsp/blog/master?filepath=_notebooks%2F2020-05-27-ML-graph-premilinary-part1.ipynb" target="_blank">
         <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
     </a>
 </div>
 
           <div class="px-2">
-    <a href="https://colab.research.google.com/github/phucnsp/blog/blob/master/_notebooks/2020-05-27-cs224w-premilinaries-part1.ipynb" target="_blank">
+    <a href="https://colab.research.google.com/github/phucnsp/blog/blob/master/_notebooks/2020-05-27-ML-graph-premilinary-part1.ipynb" target="_blank">
         <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
     </a>
 </div>
@@ -161,7 +161,7 @@ window.onload = wrap_img;
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
-# file to edit: _notebooks/2020-05-27-cs224w-premilinaries-part1.ipynb
+# file to edit: _notebooks/2020-05-27-ML-graph-premilinary-part1.ipynb
 -->
 
 <div class="container" id="notebook-container">
@@ -221,13 +221,13 @@ In general, there are 2 types of networks/graphs:</p>
 <p>While working with <strong>Networks</strong>, some of the main questions that we need to think about are <strong>How are these systems organized? what are their design properties?</strong> Behind many systems there is an intricate wiring diagram, a network, that defines the interactions between the components. We will never be able to model and predict these systems unless we understand the networks behind them. 
 </p>
 <div class="flash">
-    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
     <strong>Note: </strong>Networks: Knowledge Discovery    
 </div>
 <p>In the other hand, working with <strong>Graphs</strong> leverages another questions <strong>How do we take advantage of relational structure for better prediction?</strong> Complex domains (knowledge, text, images, etc) have rich relational structure, which can be represented as a <strong>relational graph</strong> for numerous prediction tasks. By explicitly modeling relationships and applying machine learning into graph, we achieve better performance in many tasks.
 </p>
 <div class="flash">
-    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
     <strong>Note: </strong>Graphs: Machine Learning
 </div>
 <p>Sometimes the distinction between network and graph is blurred and we will use them interchangeably in this blog series.</p>
@@ -242,7 +242,7 @@ In general, there are 2 types of networks/graphs:</p>
 <li>
 <strong>Similarity computation</strong>, where we measure the similarity of two nodes or networks.
 <div class="flash">
-    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
     <strong>Note: </strong>two popular graph analysis tools are SNAP and NetworkX  
 </div>
 </li>
@@ -289,11 +289,11 @@ A typical example application of graph in this field is to predict side effects 
 <li>Interactions: links, edges E  </li>
 <li>System: network, graph G(N,E)<br>
 <div class="flash">
-    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
     <strong>Note: </strong>Technically, a network often refers to real systems (the web, a social network, etc) while a graph often refers to the mathematical representation of a network (a web graph, social graph, etc). 
 </div>
 <div class="flash">
-    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
     <strong>Note: </strong>groups of technical terms - network, node, link vs. graph, vertex, edge. However, in most cases these terms are used interchangeably.  
 </div>
 </li>
@@ -346,7 +346,7 @@ A graph is called <strong>disconnected</strong> if it is made up by two or more 
 <p>We can further extend the connectivity concepts from undirected to directed graphs by defining <strong>strongly connected directed graph</strong>, <strong>weakly connected directed graph</strong>, <strong>strongly connected components.</strong>
 </p>
 <div class="flash">
-    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
     <strong>Note: </strong>strong connected components (SCCs) can be defined as strongly connected subgraphs of a bigger graph.
 </div>
 <img src="/blog/images/copied_from_nb/data/cs224w/con_directgraph.png" alt="">
@@ -401,7 +401,7 @@ A graph is called <strong>disconnected</strong> if it is made up by two or more 
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/blog/cs224w/2020/05/27/cs224w-premilinaries-part1.html" hidden></a>
+</script><a class="u-url" href="/blog/cs224w/2020/05/27/ML-graph-premilinary-part1.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
