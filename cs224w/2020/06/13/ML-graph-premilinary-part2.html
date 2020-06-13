@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Machine Learning with Graph - Preliminaries part 2 | Phuc Ng. Su</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Machine Learning with Graph - Preliminaries part 2" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This notebook covers network properties and some random graph models. Primary source is from Standford CS224W course." />
+<meta property="og:description" content="This notebook covers network properties and some random graph models. Primary source is from Standford CS224W course." />
+<link rel="canonical" href="https://phucnsp.github.io/blog/cs224w/2020/06/13/ML-graph-premilinary-part2.html" />
+<meta property="og:url" content="https://phucnsp.github.io/blog/cs224w/2020/06/13/ML-graph-premilinary-part2.html" />
+<meta property="og:site_name" content="Phuc Ng. Su" />
+<meta property="og:image" content="https://phucnsp.github.io/blog/images/graph.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-06-13T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"This notebook covers network properties and some random graph models. Primary source is from Standford CS224W course.","@type":"BlogPosting","headline":"Machine Learning with Graph - Preliminaries part 2","dateModified":"2020-06-13T00:00:00-05:00","datePublished":"2020-06-13T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/graph.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/cs224w/2020/06/13/ML-graph-premilinary-part2.html"},"url":"https://phucnsp.github.io/blog/cs224w/2020/06/13/ML-graph-premilinary-part2.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://phucnsp.github.io/blog/feed.xml" title="Phuc Ng. Su" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Machine Learning with Graph - Preliminaries part 2 | Phuc Ng. Su</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Machine Learning with Graph - Preliminaries part 2" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This notebook covers network properties and some random graph models. Primary source is from Standford CS224W course." />
+<meta property="og:description" content="This notebook covers network properties and some random graph models. Primary source is from Standford CS224W course." />
+<link rel="canonical" href="https://phucnsp.github.io/blog/cs224w/2020/06/13/ML-graph-premilinary-part2.html" />
+<meta property="og:url" content="https://phucnsp.github.io/blog/cs224w/2020/06/13/ML-graph-premilinary-part2.html" />
+<meta property="og:site_name" content="Phuc Ng. Su" />
+<meta property="og:image" content="https://phucnsp.github.io/blog/images/graph.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-06-13T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"This notebook covers network properties and some random graph models. Primary source is from Standford CS224W course.","@type":"BlogPosting","headline":"Machine Learning with Graph - Preliminaries part 2","dateModified":"2020-06-13T00:00:00-05:00","datePublished":"2020-06-13T00:00:00-05:00","image":"https://phucnsp.github.io/blog/images/graph.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://phucnsp.github.io/blog/cs224w/2020/06/13/ML-graph-premilinary-part2.html"},"url":"https://phucnsp.github.io/blog/cs224w/2020/06/13/ML-graph-premilinary-part2.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://phucnsp.github.io/blog/feed.xml" title="Phuc Ng. Su" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">Phuc Ng. Su</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Machine Learning with Graph - Preliminaries part 2</h1><p class="page-description">This notebook covers network properties and some random graph models. Primary source is from Standford CS224W course.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-06-13T00:00:00-05:00" itemprop="datePublished">
+        Jun 13, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      17 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#cs224w">cs224w</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/phucnsp/blog/tree/master/_notebooks/2020-06-13-ML-graph-premilinary-part2.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/phucnsp/blog/master?filepath=_notebooks%2F2020-06-13-ML-graph-premilinary-part2.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/phucnsp/blog/blob/master/_notebooks/2020-06-13-ML-graph-premilinary-part2.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Network-Properties:-How-to-Measure-a-Network">Network Properties: How to Measure a Network </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Degree-Distribution-$P(k)$">Degree Distribution $P(k)$ </a></li>
+<li class="toc-entry toc-h3"><a href="#Paths-in-a-Graph">Paths in a Graph </a></li>
+<li class="toc-entry toc-h3"><a href="#Clustering-Coefficient">Clustering Coefficient </a></li>
+<li class="toc-entry toc-h3"><a href="#Connectivity">Connectivity </a></li>
+<li class="toc-entry toc-h3"><a href="#Measure-Network-Properties-of-some-real-world-Networks">Measure Network Properties of some real-world Networks </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Erdos-Renyi-Random-Graph-Model">Erdos-Renyi Random Graph Model </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Degree-Distribution-of-$G_{np}$">Degree Distribution of $G_{np}$ </a></li>
+<li class="toc-entry toc-h3"><a href="#Clustering-Coefficient-of-$G_{np}$">Clustering Coefficient of $G_{np}$ </a></li>
+<li class="toc-entry toc-h3"><a href="#Path-Length-of-$G_{np}$">Path Length of $G_{np}$ </a></li>
+<li class="toc-entry toc-h3"><a href="#Connectivity-of-$G_{np}$">Connectivity of $G_{np}$ </a></li>
+<li class="toc-entry toc-h3"><a href="#Comparing-a-real-network-with-$G_{np}$">Comparing a real network with $G_{np}$ </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#The-Small-World-Model">The Small-World Model </a></li>
+<li class="toc-entry toc-h2"><a href="#Kronecker-Graph-Model">Kronecker Graph Model </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Kronecker-Product">Kronecker Product </a></li>
+<li class="toc-entry toc-h3"><a href="#Kronecker-Graphs">Kronecker Graphs </a></li>
+<li class="toc-entry toc-h3"><a href="#Stochastic-Kronecker-Graphs">Stochastic Kronecker Graphs </a></li>
+<li class="toc-entry toc-h3"><a href="#Fast-Generation-of-Stochastic-Kronecker-Graphs">Fast Generation of Stochastic Kronecker Graphs </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#References">References </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-06-13-ML-graph-premilinary-part2.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is my personal notes for <a href="http://web.stanford.edu/class/cs224w/">The Standford CS224W Course: Machine Learning with Graphs - Fall 2019</a> which I have been studying from its public resources for a couple of months. I will try to keep this blog series live update as my main source knowlege about graph.
+The course covers tremendous knowledge for understanding and effectively learning from large-scale network. In general, it is organized into 3 big sections:</p>
+<ul>
+<li>
+<code>preliminaries</code>: provides basic background about networks/graphs.</li>
+<li>
+<code>network methods</code>: methods and algorithms which help us dealing with graph data structure.</li>
+<li>
+<code>machine learning with networks</code>: showing how we are applying machine learning into this field.</li>
+</ul>
+<p>This notebook is part 2 of the preliminary section in which we will talk about network properties and some random graph models.</p>
+<p>Here is the link to other parts: <a href="https://phucnsp.github.io/blog/cs224w/2020/05/27/ML-graph-premilinary-part1.html">1</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Network-Properties:-How-to-Measure-a-Network">
+<a class="anchor" href="#Network-Properties:-How-to-Measure-a-Network" aria-hidden="true"><span class="octicon octicon-link"></span></a>Network Properties: How to Measure a Network<a class="anchor-link" href="#Network-Properties:-How-to-Measure-a-Network"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this section, we will take a look on four key network properties which can be used to characterize a graph. These properties are extremely useful when we want to compare our model and real-world networks to see whether it fits.</p>
+<ul>
+<li>Degree Distribution: $P(k)$</li>
+<li>Path Length: $h$</li>
+<li>Clustering Coefficient: $C$</li>
+<li>Connected Components: $s$  </li>
+</ul>
+<p>The definitions will be presented for undirected graphs, but can be easily extended to directed graphs.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Degree-Distribution-$P(k)$">
+<a class="anchor" href="#Degree-Distribution-%24P(k)%24" aria-hidden="true"><span class="octicon octicon-link"></span></a>Degree Distribution $P(k)$<a class="anchor-link" href="#Degree-Distribution-%24P(k)%24"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The degree distribution $P(k)$ measures the probability that a randomly chosen node has degree $k$.<br>
+The degree distribution of a graph $G$ can be summarized by a <strong>normalized histogram</strong>, where we normalize the histogram by the total number of nodes. We can compute the degree distribution of a graph by:
+\begin{equation}
+P(k)=\frac{N_k}{N}, N_{k}=\#nodes\_with\_degree\_k, N=\#nodes\_in\_graph
+\end{equation}</p>
+<p><img src="/blog/images/copied_from_nb/data/cs224w/degree_dist.png" alt=""><br>
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>To extend these definitions to a directed graph, we compute separately both in-degree and out-degree distribution.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Paths-in-a-Graph">
+<a class="anchor" href="#Paths-in-a-Graph" aria-hidden="true"><span class="octicon octicon-link"></span></a>Paths in a Graph<a class="anchor-link" href="#Paths-in-a-Graph"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A <strong>path</strong> is a sequence of nodes in which each node is linked to the next one:
+\begin{equation}
+P_{n}=\left\{i_{0}, i_{1}, i_{2}, \ldots, i_{n}\right\} \\
+\end{equation}
+such that $\left\{\left(i_{0}, i_{1}\right),\left(i_{1}, i_{2}\right),\left(i_{2}, i_{3}\right), \ldots,\left(i_{n-1}, i_{n}\right)\right\} \in E$
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>a path can intersect itself and pass through the same edge multiple times, e.g ACBDCDEG
+</div>
+The <strong>distance(shortest path, geodesic)</strong> between a pair of nodes is defined as the number of edges along the shortest path connecting the nodes. If two nodes are not connected, the distance is usually defined as infinite(or zero).<br>
+In a directed graph, paths need to follow the direction of the arrows. Thus, distance is not symmetric for directed graphs. For a graph with weighted edges, the distance is the minimum number of edge weight needed to traverse to get from one node to another.<br>
+The <strong>Diameter</strong> of a graph is the maximum(shortest path) distance between any pair of nodes in a graph.
+The <strong>average path length</strong> for a connected graph or a strongly connected directed graph is the average shortest path between all connected nodes. We compute the average path length as:
+\begin{equation}
+\hat{h}=\frac{1}{2E_{\max}} \sum_{i, j \neq i} h_{i j}
+\end{equation}
+where:<br>
+$E_{max}$ is the max number of edges or node pairs; that is, $E_{max}=\left(\begin{array}{c}N \\ 2\end{array}\right)=\frac{N(N-1)}{2}$.<br>
+$h_{ij}$ is the distance from node $i$ to node $j$.
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>we only compute the average path length over connected pairs of nodes, and thus ignore infinite length paths. In addition, the measure also applied to (strongly) connected components of a graph.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Clustering-Coefficient">
+<a class="anchor" href="#Clustering-Coefficient" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clustering Coefficient<a class="anchor-link" href="#Clustering-Coefficient"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The clustering coefficient (for undirected graph) measures what proportion of node $i$'s neighbors are connected. For node $i$ with degree $k_i$, we compute the clustering coeffient as 
+\begin{equation}
+C_i = \frac{2e_i}{k_i(k_i-1)}, C_{i} \in [0,1] 
+\end{equation}
+where:<br>
+$e_i$ is the number of edges between the neighbors of node $i$.</p>
+<p>$\frac{k_{i}(k_{i}-1)}{2}$ is the maximum number of edges between the $k_i$ neighbors
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>the clustering coefficient is undefined for nodes with degree 0 or 1.     
+</div>
+<p>We can also compute the average clustering coefficient as 
+\begin{equation}
+C = \frac{1}{N} \sum_{i}^{N} C_{i}.
+\end{equation}</p>
+<p>The average clustering coefficient allows us to see if edges appear more densely in parts of the network. In social networks, the average clustering coefficient tends to be very high indicating that, as we expect, friends of friends tend to know each other.</p>
+<p><img src="/blog/images/copied_from_nb/data/cs224w/cluster.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Connectivity">
+<a class="anchor" href="#Connectivity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Connectivity<a class="anchor-link" href="#Connectivity"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The connectivity of a graph measures the size of the largest connected component. The <strong>largest connected component</strong> is the largest set where any two vertices can be joined by a path.
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>Largest component = Giant component   
+</div>
+<p>To find connected components:</p>
+<ol>
+<li>Start from a random node and perform breadth first search (BFS). If you are not familiar wit BFS, see <a href="https://www.hackerearth.com/practice/algorithms/graphs/breadth-first-search/tutorial/">here.</a> </li>
+<li>Label the nodes that BFS visits</li>
+<li>If all the nodes are visited, the network is connected</li>
+<li>Otherwise find an unvisited node and repeat BFS</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Measure-Network-Properties-of-some-real-world-Networks">
+<a class="anchor" href="#Measure-Network-Properties-of-some-real-world-Networks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Measure Network Properties of some real-world Networks<a class="anchor-link" href="#Measure-Network-Properties-of-some-real-world-Networks"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we will take a look at a real-world network, the protein-protein interation network, and see how much the four key properties are.
+<img src="/blog/images/copied_from_nb/data/cs224w/nw_properties.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Some observations from this network are:</p>
+<ul>
+<li>The degree distribution is highly skewed, in a sense that majority of proteins have small degree and a few proteins have very high degree. On average, a node has around 3 neighbors.   </li>
+<li>The diameter of this graph is around 6, it means within 6 steps you can reach any node in the (connected) graph. Does it surprise you? empirically, even with other networks with million of nodes, the diameter is also somewhere lower than 10. This characteristic relates to the concept of depth in graph neural network which we will see later.   </li>
+<li>The average clustering is around 0.12, that means, on average, only around 10% of node's neightbors are connected one another.  </li>
+<li>Lastly, the largest component has over 80% nodes of the network.</li>
+</ul>
+<p><strong>So are these values "expected"? Are they "surprising"?</strong><br>
+So far we dont know, we need a model to see whether they are suprising or not. In the next part, we will go through some random graph models. Their power to model real-world networks is low but it helps us to have kind of baseline model to compare with other more powerful models. In addition, these random models are simple enough that we can calculate their properties by hand and see if a property can be easily obtained by random.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Erdos-Renyi-Random-Graph-Model">
+<a class="anchor" href="#Erdos-Renyi-Random-Graph-Model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Erdos-Renyi Random Graph Model<a class="anchor-link" href="#Erdos-Renyi-Random-Graph-Model"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Erdos-Renyi Random Graph Model is the simplest model of graphs. This simple model has proven networks properties and is a good baseline to compare real-world graph properties with.<br>
+This random graph model comes in two variants:</p>
+<ol>
+<li>$G_{np}$: undirected graph on $n$ nodes where each edge $(u,v)$ appears i.i.d with probability $p$.</li>
+<li>$G_{nm}$: undirected graph with $n$ nodes, and $m$ edges picked uniformly at random.  </li>
+</ol>
+<p>Note that both the $G_{np}$ and $G_{nm}$ graph are not uniquely determined, but rather the result of a random procedure. We can have many different realizations given the same $n$ and $p$</p>
+<p>Let's take a look on the key properties of this random graph model.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Degree-Distribution-of-$G_{np}$">
+<a class="anchor" href="#Degree-Distribution-of-%24G_%7Bnp%7D%24" aria-hidden="true"><span class="octicon octicon-link"></span></a>Degree Distribution of $G_{np}$<a class="anchor-link" href="#Degree-Distribution-of-%24G_%7Bnp%7D%24"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The degree distribution of $G_{np}$ is <a href="https://www.statisticshowto.com/probability-and-statistics/binomial-theorem/binomial-distribution-formula/">binomial</a>. Briefly remind, this distribution can be thought of as simply the probability of a SUCCESS or FAILURE outcome in an experiment that is repeated multiple times. It is a discrete analogue of a Gaussian and has a bell-shape. Binomial distribution has two variable: $n$ - number of times the experiment runs, $p$ - the probability of one specific outcome.</p>
+<p><img src="/blog/images/copied_from_nb/data/cs224w/randomgraph_degreedist.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Clustering-Coefficient-of-$G_{np}$">
+<a class="anchor" href="#Clustering-Coefficient-of-%24G_%7Bnp%7D%24" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clustering Coefficient of $G_{np}$<a class="anchor-link" href="#Clustering-Coefficient-of-%24G_%7Bnp%7D%24"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Recall that the clustering coefficient is computed as:</p>
+\begin{equation}
+C_{i}=2\frac{e_i}{k_{i}(k_{i}-1)}
+\end{equation}<p>where $e_i$ is the number of edges between $i$'s neighbors. Edges in $G_{np}$ appear i.i.d with probability $p$, so the expected $e_i$ for $G_{np}$ is:</p>
+\begin{equation}
+\mathbb{E}\left[e_{i}\right]=p \frac{k_{i}\left(k_{i}-1\right)}{2}
+\end{equation}<p></p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>This is because $\frac{k_i(k_i-1)}{2}$ is the number of distinct pairs of neighbors of node $i$ of degree $k_i$, and each pair is connected with probability $p$.  
+</div>
+<p>Thus, the <strong>expected clustering coefficient</strong> is</p>
+\begin{equation}
+\mathbb{E}\left[C_{i}\right]=\frac{p \cdot k_{i}\left(k_{i}-1\right)}{k_{i}\left(k_{i}-1\right)}=p=\frac{\bar{k}}{n-1} \approx \frac{\bar{k}}{n}
+\end{equation}<p>where $\bar{k}$ is the average degree. From this, we can see that the clustering coefficient of $G_{np}$ is very small because $\bar{k}$ is really small compare to number of nodes $n$. If we generate bigger and bigger graphs with fixed average degree $\bar{k}$, then $C$ decreases with graph size $n$.
+\begin{equation}
+\mathbb{E}\left[C_{i}\right] \rightarrow 0, n \rightarrow \infty
+\end{equation}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Path-Length-of-$G_{np}$">
+<a class="anchor" href="#Path-Length-of-%24G_%7Bnp%7D%24" aria-hidden="true"><span class="octicon octicon-link"></span></a>Path Length of $G_{np}$<a class="anchor-link" href="#Path-Length-of-%24G_%7Bnp%7D%24"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To discuss the path length of $G_{np}$, we first introduce the concept of <strong>expansion</strong>.<br>
+Graph $G(V, E)$ has expansion $\alpha$: if $\forall S \subset V$, the number of edges leaving $S \geq \alpha \cdot \min (|S|,|V \backslash S|)$ (for any subset of nodes, the number of edges leaving is greater than $\alpha$ * the length of subset). Expansion answers the question "if we pick a random set of nodes, how many edges are going to leave the set?". Expansion is a measure of robustness: to disconnect $l$ nodes, one must cut $\geq \alpha \cdot \ell $ edges.
+Equivalently, we can say a graph $G(V, E)$ has an expansion $\alpha$ such that:
+\begin{equation}
+\alpha=\min _{S \subset V} \frac{\# \text { edges leaving } S}{\min (|S|,|V \backslash S|)}
+\end{equation}</p>
+<p>An important fact about expansion is that in a graph with $n$ nodes with expansion $\alpha$, for all pairs of nodes, there is a pair of path length $O((\log n) / \alpha)$ connecting them. Intuition, we can think of it like if we start with a subset of node and for each step the number of nodes visited increase with a factor of $\alpha$. Thus, it will take $\log n$ of steps to visit all nodes.
+<img src="/blog/images/copied_from_nb/data/cs224w/randomgraph_expansion.png" alt=""><br>
+For the case of random graph $G_{np}$ and $\log n &gt; np &gt; c$, $c$ is a constant and $np$ is the average degree.
+\begin{equation}
+diam(G_{np}) = O(\frac{\log n}{\log (np)})
+\end{equation}
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>the reason we want to have average degree in between logn and a constant c is because we need a reasonable degree to have small diameter.       
+</div>
+<p>Thus, we can see that random graphs have good expansion so it takes as logarithmic number of steps for BFS to visit all nodes.<br>
+<strong>Key thing to note, the path length of $G_{np}$ is $O(\log n)$. From this result, we can see that $G_{np}$ can grow very large, but nodes will still remain a few hops apart.</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Connectivity-of-$G_{np}$">
+<a class="anchor" href="#Connectivity-of-%24G_%7Bnp%7D%24" aria-hidden="true"><span class="octicon octicon-link"></span></a>Connectivity of $G_{np}$<a class="anchor-link" href="#Connectivity-of-%24G_%7Bnp%7D%24"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The graphic below shows the evolution of a $G_{np}$ random graph as $p$ change. We can see that there is an emergency of a giant component when average degree higher than 1.</p>
+<ul>
+<li>if $k=1-\epsilon$, then all components are of size $\Omega(\log n)$. </li>
+<li>if $k=1+\epsilon$, there exists 1 component of size $\Omega(n)$, and all other componnents have size $\Omega(\log n)$. In other words, if $\bar{k}&gt;1$, we expect a single large component. In addition, in this case, each node has at least one edge in expectation.</li>
+</ul>
+<p>So as average degree $k&lt;1$, fraction of nodes in largest component does not change much but it will start to increase exponentially as $k&gt;1$. 
+<img src="/blog/images/copied_from_nb/data/cs224w/randomgraph_evolution.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Comparing-a-real-network-with-$G_{np}$">
+<a class="anchor" href="#Comparing-a-real-network-with-%24G_%7Bnp%7D%24" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comparing a real network with $G_{np}$<a class="anchor-link" href="#Comparing-a-real-network-with-%24G_%7Bnp%7D%24"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to see if our random model fits well with a real network, let's take a look on <strong>MSN Messenger</strong> network in 1 month of activify which has 180 million users and 1.3 billion edges.
+<img src="/blog/images/copied_from_nb/data/cs224w/randomgraph_msn.png" alt=""></p>
+<p>As we can see, giant connected component and average path length might fit between them but clustering coefficient and degree distribution do not. The problem with the random network model are:</p>
+<ul>
+<li>Degree distribution differs from that of real networks</li>
+<li>Giant component in most real networks does NOT emerge through a phase transition</li>
+<li>No local structure - clustering coefficient is too low. 
+Thus, we can conclude that real networks obviously are not random.</li>
+</ul>
+<p>Although the random network $G_{np}$ is WRONG to model real network but it is still useful because:</p>
+<ul>
+<li>It is the reference model for the rest of the class</li>
+<li>It will help us calculate many quantities, that can then be compared to the real data</li>
+<li>It will help us understand to what degree a particular property is the result of some random process.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Small-World-Model">
+<a class="anchor" href="#The-Small-World-Model" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Small-World Model<a class="anchor-link" href="#The-Small-World-Model"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This model is the improvement of random model in which it tackles the problem of constructing graph with low average path length and high clustering.<br>
+The Small-World model was first introduced in 1998 by Ducan J.Watts and Steven Strogatz. To create such model, we employ the following steps:</p>
+<ol>
+<li>Start with a low-dimensional regular lattice(ring) by connecting each node to $k$ neighbors on its right and $k$ neightbors on its left, with $k \geq 2$. So we have a lattice with high clustering coefficient.</li>
+<li>Rewire each edge with probability $p$ by moving its endpoint to a randomly chosen node. This step will add/remove edges to create shortcuts to join remote parts of the lattice. So we are introducing randomness (shortcut) into the lattice. The rewiring allows us to "interpolate" between a regular lattice and a random graph.<br>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>Clustering implies edge "locality". Randomness enables "shortcuts"
+</div>
+<img src="/blog/images/copied_from_nb/data/cs224w/small_world.png" alt="">  </li>
+</ol>
+<p>Then, we make the following observations:</p>
+<ul>
+<li>At $p=0$ where no rewiring has occured, this remains a grid network with high clustering, high diameter.</li>
+<li>For $0&lt;p&lt;1$ some edges have been rewired, but most of the structure remains. This implies both <em>locality</em> and <strong>shortcuts</strong>. This allows for both high clustering and low diameter.</li>
+<li>At $p=1$ where all edges have been randomly rewired, this is a Erdos-Renyi (ER) random graph with low clustering, low diameter.
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>Small world model are parameterized by the probability of rewiring $p \in[0,1]$
+</div>
+<img src="/blog/images/copied_from_nb/data/cs224w/small_world_chart.png" alt="">  </li>
+</ul>
+<p>From a social network perspective, the phenomenon of introducing shortcuts while keeping strong structure is intuitive. While most our friends are local, but we also have a few long distance friendships in different countries which is enough to collapse the diamter of the human social network, explaining the popular notion of <strong>Six Degrees of Separation".</strong><br>
+In summary, the small world model:</p>
+<ul>
+<li>provides insight on the interplay between clustering and the small-world.</li>
+<li>captures the structure of many realistic networks.</li>
+<li>accounts for the high clustering of real networks.</li>
+<li>but it does not lead to the correct degree distribution of real-world network.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Kronecker-Graph-Model">
+<a class="anchor" href="#Kronecker-Graph-Model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kronecker Graph Model<a class="anchor-link" href="#Kronecker-Graph-Model"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Models of graph generation have been studied extensively. Such models allow us to generate graphs for simulations and hypothesis testing when collecting the real graph is difficult, and also forces us to examine the network properties that generative models should obey to be considered realistic.<br>
+In formulating graph generation models, there are two important considerations:</p>
+<ul>
+<li>The ability to generate realistic networks.</li>
+<li>The mathematical tractability of the models, which allows for the rigorous analysis of network properties.</li>
+</ul>
+<p>The Kronecker Graph Model is a <strong>recursive graph generation model</strong> that combines both mathematical tractability and realistic static and temporal network properties. The intuition underlying the Kronecker Graph Model is <strong>self-similarity</strong>, where the whole has the same shape as one or more of its parts. 
+<img src="/blog/images/copied_from_nb/data/cs224w/kronecker_concept.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Kronecker-Product">
+<a class="anchor" href="#Kronecker-Product" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kronecker Product<a class="anchor-link" href="#Kronecker-Product"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <strong>Kronecker product $\otimes$</strong>, a non-standard matrix operation, is a way of generating self-similar matrics. For two arbitarily sized matrices $\mathbf{A} \in \mathbb{R}^{n \times m}$ and $\mathbf{B} \in \mathbb{R}^{k \times l}, \mathbf{A} \otimes \mathbf{B} \in \mathbb{R}^{n k \times m l}$, their Kronecker product is:
+\begin{equation}
+\mathbf{C}={\mathbf{A}} \otimes \mathbf{B} \doteq\left(\begin{array}{cccc}
+a_{1,1} \mathbf{B} &amp; a_{1,2} \mathbf{B} &amp; \dots &amp; a_{1, m} \mathbf{B} \\
+a_{2,1} \mathbf{B} &amp; a_{2,2} \mathbf{B} &amp; \dots &amp; a_{2, m} \mathbf{B} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+a_{n, 1} \mathbf{B} &amp; a_{n, 2} \mathbf{B} &amp; \dots &amp; a_{n, m} \mathbf{B}
+\end{array}\right)
+\end{equation}</p>
+<p>For example, we have that
+$$\begin{bmatrix} 1&amp;2\\3&amp;4 \end{bmatrix} \otimes \begin{bmatrix} 0&amp;5\\6&amp;7 \end{bmatrix} 
+= \begin{bmatrix} 1  \begin{bmatrix} 0&amp;5\\6&amp;7 \end{bmatrix}  &amp;2  \begin{bmatrix} 0&amp;5\\6&amp;7 \end{bmatrix}  \\3  \begin{bmatrix} 0&amp;5\\6&amp;7 \end{bmatrix}  &amp;4  \begin{bmatrix} 0&amp;5\\6&amp;7 \end{bmatrix}  \end{bmatrix}
+= \begin{bmatrix} 
+1 \times 0 &amp; 1 \times 5 &amp; 2 \times 0 &amp;  2 \times 5\\
+1 \times 6 &amp; 1 \times 7 &amp; 2 \times 6 &amp;  2 \times 7\\
+3 \times 0 &amp; 3 \times 5 &amp; 4 \times 0 &amp;  4 \times 5\\
+3 \times 6 &amp; 3 \times 7 &amp; 4 \times 6 &amp;  4 \times 7
+\end{bmatrix}
+= \begin{bmatrix} 
+0 &amp; 5 &amp; 0 &amp;  10\\
+6 &amp; 7 &amp; 12 &amp;  14\\
+0 &amp; 15 &amp; 0 &amp;  20\\
+18 &amp; 21 &amp; 24 &amp;  28
+\end{bmatrix}$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Kronecker-Graphs">
+<a class="anchor" href="#Kronecker-Graphs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kronecker Graphs<a class="anchor-link" href="#Kronecker-Graphs"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To use the Kronecker product in graph generation, we define the <strong>Kronecker product of two graphs</strong> as the Kronecker product of the adjacency matrices of the two graphs. 
+<strong>Kronecker graph</strong> is obtained by growing sequence of graphs by iterating the Kronecker product over the initiator matrix $K_1$ (an adjacency matrix of a graph):
+
+$$K_1^{[m]}=K_m = \underbrace{K_1 \otimes K_1 \otimes \dots K_1}_{\text{m times}}=  K_{m-1} \otimes K_1$$
+
+<img src="/blog/images/copied_from_nb/data/cs224w/kronecker_idea.png" alt=""></p>
+<p>Intuitively, the Kronecker power construction can be imagined as recursive growth of the communities within the graph, with nodes in the community recursively getting expanded into miniature copies of the community.</p>
+<p>One can easily use multiple initiator matrices $(K_{1}^{\prime}, K_{1}^{\prime \prime}, K_{1}^{\prime \prime \prime})$ (even of different sizes), which iteratively affects the structure of the larger graph.
+<img src="/blog/images/copied_from_nb/data/cs224w/kronecker_initiator.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Stochastic-Kronecker-Graphs">
+<a class="anchor" href="#Stochastic-Kronecker-Graphs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Stochastic Kronecker Graphs<a class="anchor-link" href="#Stochastic-Kronecker-Graphs"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Up to now, we have only considered $K_1$ initiator matrices with binary values $\{0,1\}$. However, such graphs generated from such initiator matrices have "staircase" effects in the degree distributions and individual values occur very frequently because of the discrete nature of $K_1$.<br>
+To negate this effect, stochasticity is introduced by relaxing the assumption that the entries in the initiator matrix can only take binary values. Instead entries in $\Theta_1$ can take values on the interval $[0, 1]$, and each represents the probability of that particular edge appearing. Then the matrix (and all the generated larger matrix products) represents the probability distribution over all possible graphs from that matrix.</p>
+<p>More concretely, for probability matrix $\Theta_1$, we compute the $k^{th}$ Kronecker power $\Theta_k$ as the large stochastic adjacency matrix. Each entry $p_{uv}$ in $\Theta_k$ then represents the probability of edge $(u, v)$ appearing.</p>
+<p><img src="/blog/images/copied_from_nb/data/cs224w/kronecker_stochastic.png" alt=""></p>
+<blockquote>
+<p>Notes:the probabilities do not have to sum up to 1 as each the probability of each edge appearing is independent from other edges.<br>
+To obtain an instance of a graph, we then sample from the distribution by sampling each edge with probability given by the corresponding entry in the stochastic adjacency matrix. The sampling can be thought of as the outcomes of flipping biased coins where the bias is parameterized from each entry in the matrix.</p>
+</blockquote>
+<p>However, this means that the time to naively generate an instance is quadratic in the size of the graph, $O(N^2)$! too slow.<br>
+Is there a faster way?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Fast-Generation-of-Stochastic-Kronecker-Graphs">
+<a class="anchor" href="#Fast-Generation-of-Stochastic-Kronecker-Graphs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fast Generation of Stochastic Kronecker Graphs<a class="anchor-link" href="#Fast-Generation-of-Stochastic-Kronecker-Graphs"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A fast heuristic procedure that takes time linear in the number of edges to generate a graph exists.<br>
+The general idea can be described as follows: for each edge, we recursively choose sub-regions of the large stochastic matrix with probability proportional to $p_{uv} \in \Theta_{1}$ until we descend to a single cell of the large stochastic matrix. We replace the edge there. For a Kronecker graph of $k^{th}$ power, $\Theta_k$, the descent will take $k$ steps.<br>
+For example, we consider the case where $\Theta_1$ is a $2 x 2$ matrix, such that
+\begin{equation}
+\Theta=\left[\begin{array}{ll}
+a &amp; b \\
+c &amp; d
+\end{array}\right]
+\end{equation}</p>
+<p>For graph $G$ with $n = 2^k$ nodes, we need to define how many edges we want to generate (we can reference of the ratio between number of nodes and number of edges). Then, the algorithm to generate each edge is shown below:
+<img src="/blog/images/copied_from_nb/data/cs224w/kronecker_generate.png" alt=""></p>
+<p>In practice, the stochastic Kronecker graph model is able to generate graphs that match the properties of real world networks well. To read more about the Kronecker Graph models, refer to <code>J Leskovec et al., Kronecker Graphs: An Approach to Modeling Networks (2010)</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">
+<a class="anchor" href="#References" aria-hidden="true"><span class="octicon octicon-link"></span></a>References<a class="anchor-link" href="#References"> </a>
+</h2>
+<ul>
+<li>main source: <a href="http://web.stanford.edu/class/cs224w/">Standford CS224W Machine Learning with Graphs</a>
+</li>
+<li>other sources<ul>
+<li>
+<a href="https://towardsdatascience.com/using-graph-convolutional-neural-networks-on-structured-documents-for-information-extraction-c1088dcd2b8f">Graph on structured documents blog post</a>  </li>
+<li><a href="https://towardsdatascience.com/graph-theory-and-deep-learning-know-hows-6556b0e9891b">Graph theory blog post</a></li>
+<li><a href="https://towardsdatascience.com/overview-of-deep-learning-on-graph-embeddings-4305c10ad4a4">Graph embedding blog post</a></li>
+<li><a href="https://towardsdatascience.com/graph-convolutional-networks-for-geometric-deep-learning-1faf17dee008">Graph convolution blog post</a></li>
+<li><a href="https://medium.com/@flawnsontong1/what-is-geometric-deep-learning-b2adb662d91d">Geometric deep learning blog post</a></li>
+<li>review papers about graphs: <a href="https://arxiv.org/pdf/1611.08097.pdf">1</a>, <a href="https://arxiv.org/pdf/1901.00596.pdf">2</a>
+</li>
+<li>Pytorch Geometric:<a href="https://pytorch-geometric.readthedocs.io/en/latest/notes/introduction.html">1</a>, <a href="https://towardsdatascience.com/hands-on-graph-neural-networks-with-pytorch-pytorch-geometric-359487e221a8">2</a> </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="phucnsp/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/cs224w/2020/06/13/ML-graph-premilinary-part2.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>This blog contains my personal view about everything either in work and life.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/phucnsp" title="phucnsp"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/Phuc_Nguyen_Su" title="Phuc_Nguyen_Su"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
