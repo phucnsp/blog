@@ -875,7 +875,9 @@ And finally, <code>load</code> data into an object to make it easily accessible.
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Thanks to Pytorch's ability to calculate gradients automatically, we can use any standard Python function (or callable object) as a model.<br>
 The log_softmax function is implemented using <code>log-sum-exp trick</code> for numerically stable. We will not go to detail this trick but you can go <a href="https://timvieira.github.io/blog/post/2014/02/11/exp-normalize-trick/">here</a> or <a href="https://www.tensorflow.org/api_docs/python/tf/nn/log_softmax">here</a> for details explanation. The formular for this trick is: 
-$$ log\_softmax(x) = x - logsumexp(x) $$</p>
+
+$$ log\_softmax(x) = x - logsumexp(x) $$
+</p>
 
 </div>
 </div>
