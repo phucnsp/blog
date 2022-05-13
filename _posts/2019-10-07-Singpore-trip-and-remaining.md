@@ -13,7 +13,7 @@ categories: [travel]
 Đợt tháng mười vừa rồi tôi có dịp đi dạo quanh anh hàng xóm Singapore. Cũng lâu rồi tôi mới có dịp đi ra khỏi Vietnam,
 tôi thích cái cảm giác được bay, được transit ở một sân bay nào đó, ngồi ngắm những người xa lạ rảo bước qua lại, cô đơn 
 nhưng thú vị. Singapore nổi tiếng bởi sự hiện đại, bởi những tòa nhà chọc trời, bởi Universal Studio...nhưng đối với tôi 
-thì những cái đó không có nhiều hứng thú vì tôi cũng đã đi nhiều thành phố trên thế . Tôi đi Singapore chơi đơn giản giới
+thì những cái đó không có nhiều hứng thú vì tôi cũng đã đi nhiều thành phố trên thế giới rồi. Tôi đi Singapore chơi đơn giản giới
 vì tôi muốn dẫn vợ đi nước ngoài cho biết và cũng vì tôi cần đi du lịch sau một khoảng thời gian rất rất lâu cắm đầu vô công việc. 
 
 Thật may thay, Singapore khác những nơi tôi từng qua và còn làm tôi mất mấy tiếng để ngồi viết cái note này. 
