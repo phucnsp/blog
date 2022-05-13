@@ -13,10 +13,8 @@ categories: [travel]
 Đợt tháng mười vừa rồi tôi có dịp đi dạo quanh anh hàng xóm Singapore. Cũng lâu rồi tôi mới có dịp đi ra khỏi Vietnam,
 tôi thích cái cảm giác được bay, được transit ở một sân bay nào đó, ngồi ngắm những người xa lạ rảo bước qua lại, cô đơn 
 nhưng thú vị. Singapore nổi tiếng bởi sự hiện đại, bởi những tòa nhà chọc trời, bởi Universal Studio...nhưng đối với tôi 
-thì những cái đó chả có ý nghĩa gì cả. Khi bạn đã từng ngồi cafe ở đại lộ danh vọng Hollywood, đã đi loanh quanh ở quảng 
-trường thời đại NewYork, đã xem biểu tình của người dân Syria trước nhà trắng Mỹ thì liệu những tòa nhà chọc trời ở Singapore 
-có gì để hấp dẫn. Tôi đi Singapore chơi đơn giản vì tôi muốn dẫn vợ đi nước ngoài cho biết và cũng vì tôi cần đi 
-du lịch sau một khoảng thời gian rất rất lâu cắm đầu vô công việc. 
+thì những cái đó không có nhiều hứng thú vì tôi cũng đã đi nhiều thành phố trên thế . Tôi đi Singapore chơi đơn giản giới
+vì tôi muốn dẫn vợ đi nước ngoài cho biết và cũng vì tôi cần đi du lịch sau một khoảng thời gian rất rất lâu cắm đầu vô công việc. 
 
 Thật may thay, Singapore khác những nơi tôi từng qua và còn làm tôi mất mấy tiếng để ngồi viết cái note này. 
 
@@ -45,7 +43,7 @@ nhà chọc trời chán phèo dần dần mất đi khi tôi lần lượt đi 
  chất xúc tác cho chuyến đi của tôi, tôi bắt đầu để ý hơn tới con người nơi đây, từng chi tiết nhỏ trên đường, cách họ 
  đào đường lên và lấp lại cẩn thận mà không để nhấp nhô, cách họ giữ gìn sạch sẽ không chỉ phía trước mà cả phía sau của 
   nhà hàng cho đến cách họ quy hoạch bố trí nhà cửa, bố trí mảng xanh khắp nơi...
- tôi đã cảm thấy thật khó khăn trong việc tìm ra chỗ để bĩu môi chê cười. Mọi thứ được hoàn thiện một cách tuyệt vời ở tầm
+ tôi đã cảm thấy thật khó khăn trong việc tìm ra chỗ để chê. Mọi thứ được hoàn thiện một cách tuyệt vời ở tầm
  quốc gia, Singapore có lẽ là ví dụ điển hình nhất cho khái niệm quản lý "tự do trong khuôn khổ", người dân có không gian 
  để thể hiện cái riêng nhưng phải trong khuôn khổ nhất định để giữ gìn cái chung. 
  
